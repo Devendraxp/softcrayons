@@ -14,7 +14,18 @@ const categories = [
 	{ id: "devops", name: "DevOps", count: 2 },
 ];
 
-const courses = [
+interface CourseData {
+	id: number;
+	title: string;
+	description: string;
+	category: string;
+	duration: string;
+	level: "Beginner" | "Intermediate" | "Advanced";
+	tags: string[];
+	image: string;
+}
+
+const courses: CourseData[] = [
 	{
 		id: 1,
 		title: "React Fundamentals",
