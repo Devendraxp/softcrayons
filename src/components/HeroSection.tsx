@@ -42,10 +42,12 @@ export function HeroSection() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-4 animate-fade-up" style={{ animationDelay: '0.3s' }}>
-              <Button className="group w-full sm:w-auto">
-                Start Learning
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
+              <Link href="/query">
+                <Button className="group w-full sm:w-auto">
+                  Start Learning
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
               <Link href="/courses">
                 <Button variant={"outline"} className="group w-full sm:w-auto">
                   <Play className="w-5 h-5" />

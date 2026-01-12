@@ -1,5 +1,6 @@
 import { Star, Quote } from 'lucide-react';
 import { Button } from './ui/button';
+import Link from 'next/link';
 
 const testimonials = [
   {
@@ -82,9 +83,11 @@ export function TestimonialsSection() {
         </div>
         
       </div>
-      <div className=''>
+      <div className="text-center mt-12">
+        <Link href="/reviews">
           <Button variant={'outline'}> View All Testimonials </Button>
-        </div>
+        </Link>
+      </div>
     </section>
   );
 }
