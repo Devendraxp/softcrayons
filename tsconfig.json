@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "src/app/api/admin/blogs/route.js", "src/app/api/admin/blogs/[id]/route.js"  ],
   "exclude": ["node_modules"]
 }
