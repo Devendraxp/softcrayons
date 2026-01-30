@@ -1,22 +1,29 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { admin, emailOTP, magicLink } from "better-auth/plugins";
-import { waitUntil } from "@vercel/functions";
 import { prisma } from "./prisma";
 import { sendEmail } from "./email";
 import { userExists } from "./userExist";
 
+const runInBackground = (promise: Promise<unknown>) => {
+    promise.catch((error) => {
+        console.error("Background task error:", error);
+    });
+};
+
 export const auth = betterAuth({
     database: prismaAdapter(prisma, {
-        provider: "sqlite",
+        provider: "postgresql",
     }),
+    secret: process.env.BETTER_AUTH_SECRET,
+    baseURL: process.env.BETTER_AUTH_URL || process.env.NEXT_PUBLIC_APP_URL,
     emailAndPassword: {
         enabled: true,
         requireEmailVerification: true,
     },
     emailVerification: {
         sendVerificationEmail: async ({ user, url }) => {
-            waitUntil(sendEmail({
+            runInBackground(sendEmail({
                 to: user.email,
                 subject: 'Verify your email address',
                 text: `Click the link to verify your email: ${url}`
@@ -60,7 +67,7 @@ export const auth = betterAuth({
                 if (type === "sign-in") {
                     const exists = await userExists(email);
                     if (exists) { 
-                        waitUntil(sendEmail({ 
+                        runInBackground(sendEmail({ 
                             to: email, 
                             subject: "Your sign-in OTP", 
                             text: `Your OTP for sign-in is: ${otp}` 
@@ -73,15 +80,14 @@ export const auth = betterAuth({
             sendMagicLink: async ({ email, url }) => {
                 const exists = await userExists(email);
                 if (exists) {
-                    waitUntil(sendEmail({
+                    runInBackground(sendEmail({
                         to: email,
                         subject: "Your magic sign-in link",
                         text: `Click the link to sign in: ${url}`
                     }));
                 }
             }
-        }),
-
+        })
     ],
     trustedOrigins: [
         process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
