@@ -16,7 +16,7 @@ export async function GET(request: NextRequest, { params }: Params) {
     }
 
     const { id } = await params;
-    const enquiry = await getEnterpriseEnquiryById(id);
+    const enquiry = await getEnterpriseEnquiryById(Number(id));
 
     if (!enquiry) {
       return NextResponse.json({
@@ -51,7 +51,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
     const { id } = await params;
     const body = await request.json();
 
-    const enquiry = await updateEnterpriseEnquiry(id, body);
+    const enquiry = await updateEnterpriseEnquiry(Number(id), body);
 
     return NextResponse.json({
       success: true,
@@ -77,7 +77,7 @@ export async function DELETE(request: NextRequest, { params }: Params) {
     }
 
     const { id } = await params;
-    await deleteEnterpriseEnquiry(id);
+    await deleteEnterpriseEnquiry(Number(id));
 
     return NextResponse.json({
       success: true,
