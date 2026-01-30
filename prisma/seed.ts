@@ -1,3 +1,4 @@
+
 import { prisma } from "@/lib/prisma";
 import { hash } from "bcryptjs";
 
@@ -19,7 +20,7 @@ async function main() {
     data: {
       id: "admin-001",
       name: "Admin User",
-      email: "admin@softcrayons.com",
+      email: "dnowtech@gmail.com",
       password: hashedPassword,
       role: "ADMIN",
       emailVerified: true,
@@ -32,6 +33,7 @@ async function main() {
   console.log("   Password: Admin@123");
   console.log("   Role:", admin.role);
 
+  // Create Account for Better Auth compatibility
   await prisma.account.create({
     data: {
       id: "account-admin-001",

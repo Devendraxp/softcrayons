@@ -1,9 +1,50 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { admin, emailOTP, magicLink } from "better-auth/plugins";
+import { createAccessControl } from "better-auth/plugins/access";
+import { 
+    defaultStatements, 
+    adminAc as defaultAdminAc 
+} from "better-auth/plugins/admin/access";
 import { prisma } from "./prisma";
 import { sendEmail } from "./email";
 import { userExists } from "./userExist";
+
+const ac = createAccessControl(defaultStatements);
+
+const ADMIN = ac.newRole({
+    ...defaultAdminAc.statements,
+});
+
+const STUDENT = ac.newRole({
+    user: [],
+    session: [],
+});
+
+const INSTRUCTOR = ac.newRole({
+    user: [],
+    session: [],
+});
+
+const COUNSELOR = ac.newRole({
+    user: [],
+    session: [],
+});
+
+const HR = ac.newRole({
+    user: [],
+    session: [],
+});
+
+const CONTENT_WRITER = ac.newRole({
+    user: [],
+    session: [],
+});
+
+const AGENT = ac.newRole({
+    user: [],
+    session: [],
+});
 
 export const auth = betterAuth({
     database: prismaAdapter(prisma, {
@@ -40,14 +81,6 @@ export const auth = betterAuth({
     },
     user: {
         additionalFields: {
-            role: {
-                type: "string",
-                required: false,
-                defaultValue: "STUDENT",
-                // Allow role to be read and returned in session
-                input: true,
-                returned: true,
-            },
             phone: {
                 type: "string",
                 required: false,
@@ -59,8 +92,16 @@ export const auth = betterAuth({
     plugins: [
         admin({
             defaultRole: "STUDENT",
-            adminRoles: ["ADMIN", "admin"],
-            adminUserIds: ["cmkuy34fj0000m9i0p9ooulpc"],
+            ac,
+            roles: {
+                ADMIN,
+                STUDENT,
+                INSTRUCTOR,
+                COUNSELOR,
+                HR,
+                CONTENT_WRITER,
+                AGENT,
+            },
         }),
         emailOTP({
             async sendVerificationOTP({ email, otp, type }) {

@@ -30,16 +30,12 @@ export async function GET(request: NextRequest) {
       query.filterOperator = 'eq';
     }
 
-    // Use better-auth admin API to list users
     const result = await auth.api.listUsers({
       headers: await headers(),
       query,
     });
 
     let users = result?.users || [];
-
-    // Filter by active status (isActive = !banned) - done client-side since better-auth
-    // doesn't support multiple filters in single query
     if (isActive !== null && isActive !== undefined) {
       const shouldBeActive = isActive === 'true';
       users = users.filter((user: any) => shouldBeActive ? !user.banned : user.banned);
