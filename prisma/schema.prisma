@@ -5,7 +5,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 model User {
@@ -21,6 +21,7 @@ model User {
   agentEnquiries    Enquiry[]        @relation("EnquiryAgent")
   blogs             Blog[]           @relation("BlogAuthor")
   facultyEnquiries  FacultyEnquiry[] @relation("FacultyEnquiryAssignedTo")
+  enterpriseEnquiries EnterpriseEnquiry[] @relation("EnterpriseEnquiryAssignedTo")
   emailVerified     Boolean          @default(false)
   image             String?
   sessions          Session[]
@@ -64,12 +65,9 @@ model Enquiry {
 
 enum EnquiryStatus {
   NEW
-  ASSIGNED
   CONTACTED
-  FOLLOW_UP
   ENROLLED
   DEAD
-  CLOSED
   ARCHIVED
 }
 
@@ -93,10 +91,31 @@ model FacultyEnquiry {
 enum FacultyEnquiryStatus {
   NEW
   CONTACTED
-  INTERVIEW_SCHEDULED
-  OFFERED
-  REJECTED
   HIRED
+  CLOSED
+  ARCHIVED
+}
+
+model EnterpriseEnquiry {
+  id          Int      @id @default(autoincrement())
+  companyName String
+  email       String
+  phone       String
+  duration    String?
+  message     String?
+  note        String?
+  remark      String?
+  status      EnterpriseEnquiryStatus @default(NEW)
+  assignedTo  User?    @relation("EnterpriseEnquiryAssignedTo", fields: [assignedToId], references: [id])
+  assignedToId String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum EnterpriseEnquiryStatus {
+  NEW
+  CONTACTED
+  COMPLETED
   CLOSED
   ARCHIVED
 }

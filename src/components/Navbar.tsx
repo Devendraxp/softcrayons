@@ -125,7 +125,12 @@ export function Navbar() {
 						</button>
 						<Link href="/query" passHref>
 							<Button variant="default" size="lg">
-								Join Now
+								Take Admission
+							</Button>
+						</Link>
+						<Link href="/sign-in" passHref>
+							<Button variant="outline" size="lg">
+								Log In
 							</Button>
 						</Link>
 					</div>

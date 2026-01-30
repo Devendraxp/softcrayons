@@ -62,7 +62,7 @@ const getAllCourses = async (filters: any): Promise<any[]> => {
 }
 
 const updateCourse = async (id: number, updateData: any): Promise<any> => {
-    const allowedFields = ['title', 'description', 'categoryId', 'slug', 'about', 'fees', 'discount', 'duration', 'difficulty', 'topics', 'bannerImage', 'thumbnailImage', 'metaTitle', 'metaDescription', 'metaKeywords', 'isPublished', 'isFeatured'];
+    const allowedFields = ['title', 'description', 'categoryId', 'slug', 'about', 'fees', 'discount', 'duration', 'difficulty', 'topics', 'bannerImage', 'thumbnailImage', 'metaTitle', 'metaDescription', 'metaKeywords', 'isPublic', 'isFeatured'];
     const dataToUpdate: any = {};
     for (const field of allowedFields) {
         if (updateData[field] !== undefined) {

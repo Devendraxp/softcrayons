@@ -2,135 +2,197 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Building2, Mail, Phone, Clock, FileText, Users, Target, Briefcase } from "lucide-react";
-
-const durations = [
-  "1 Week",
-  "2 Weeks",
-  "1 Month",
-  "2 Months",
-  "3 Months",
-  "6 Months",
-  "Custom Duration",
-];
+import { ArrowRight, Building2, Mail, Phone, Clock, Users, Award, Calendar, Loader2, CheckCircle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function EnterprisePage() {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [formData, setFormData] = useState({
-    instituteName: "",
-    contact: "",
+    companyName: "",
+    phone: "",
     email: "",
     duration: "",
-    additionalInfo: "",
+    message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
-    // Handle form submission
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/enterprise-enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          companyName: formData.companyName,
+          email: formData.email,
+          phone: formData.phone,
+          duration: formData.duration,
+          message: formData.message,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setIsSuccess(true);
+        toast({
+          title: "Enquiry Submitted!",
+          description: data.message,
+        });
+        setFormData({
+          companyName: "",
+          phone: "",
+          email: "",
+          duration: "",
+          message: "",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: data.error,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
+  if (isSuccess) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-primary/10 pt-20 relative overflow-hidden">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl" />
+        </div>
+        
+        <div className="container py-16 relative z-10">
+          <div className="max-w-xl mx-auto text-center">
+            <div className="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center mx-auto mb-6">
+              <CheckCircle className="w-10 h-10 text-green-500" />
+            </div>
+            <h1 className="text-3xl font-bold mb-4">
+              Request Received
+            </h1>
+            <p className="text-muted-foreground mb-8">
+              Thank you for reaching out.  
+              Our enterprise training team will contact you shortly with a customized proposal.
+            </p>
+            <Button onClick={() => setIsSuccess(false)}>
+              Submit Another Request
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-background pt-20">
-      <div className="container py-16">
+    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-primary/10 pt-20 relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl" />
+      </div>
+      
+      <div className="container py-16 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Left Side - Text Content */}
-          <div className="relative">
-            {/* Background Effects */}
-            <div className="absolute -top-20 -left-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
-            <div className="absolute -bottom-10 -right-10 w-56 h-56 bg-primary/5 rounded-full blur-2xl" />
+          <div>
+            <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-6">
+              Corporate - Enterprise - Team Training
+            </span>
 
-            <div className="relative z-10">
-              <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-6">
-                Enterprise Solutions
-              </span>
+            <h1 className="text-4xl sm:text-5xl font-black mb-6">
+              Upskill Your <span className="text-gradient">Team</span>
+              <br />
+              With Industry-Ready Training
+            </h1>
 
-              <h1 className="text-4xl sm:text-5xl font-black mb-6">
-                Corporate <span className="text-gradient">Training</span>
-                <br />
-                Programs
-              </h1>
+            <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+              Empower your employees with practical, project-based tech training.  
+              We design customized programs for startups, SMEs and enterprises
+              to improve productivity, technical depth and innovation culture.
+              <br /><br />
+              From beginner to advanced - we align training with your business goals.
+              <br /><br />
+              <strong>Online - Offline - Hybrid - Custom Curriculum</strong>
+            </p>
 
-              <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                Apni team ko industry-ready skills se equip karein. Customized training programs 
-                jo aapke organization ke specific needs ke according designed hain. College 
-                workshops se lekar corporate upskilling tak - hum sab cover karte hain.
-              </p>
+            <div className="space-y-4">
 
-              <div className="space-y-4">
-                <div className="flex items-center gap-4 text-muted-foreground">
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <Target className="w-5 h-5 text-primary" />
-                  </div>
-                  <span>Customized curriculum for your needs</span>
+              <div className="flex items-center gap-4 text-muted-foreground">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <Users className="w-5 h-5 text-primary" />
                 </div>
-                <div className="flex items-center gap-4 text-muted-foreground">
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <Users className="w-5 h-5 text-primary" />
-                  </div>
-                  <span>Trained 200+ companies successfully</span>
-                </div>
-                <div className="flex items-center gap-4 text-muted-foreground">
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <Briefcase className="w-5 h-5 text-primary" />
-                  </div>
-                  <span>On-site & remote training available</span>
-                </div>
+                <span>Train small teams to large departments</span>
               </div>
 
-              {/* Trust badges */}
-              <div className="mt-10 pt-8 border-t border-border">
-                <p className="text-sm text-muted-foreground mb-4">Trusted by leading organizations</p>
-                <div className="flex flex-wrap gap-6 opacity-60">
-                  <div className="text-lg font-bold">TCS</div>
-                  <div className="text-lg font-bold">Infosys</div>
-                  <div className="text-lg font-bold">Wipro</div>
-                  <div className="text-lg font-bold">HCL</div>
+              <div className="flex items-center gap-4 text-muted-foreground">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <Award className="w-5 h-5 text-primary" />
                 </div>
+                <span>Certified trainers with real industry experience</span>
               </div>
+
+              <div className="flex items-center gap-4 text-muted-foreground">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <Calendar className="w-5 h-5 text-primary" />
+                </div>
+                <span>Flexible schedules & dedicated support</span>
+              </div>
+
             </div>
           </div>
 
           {/* Right Side - Form */}
           <div className="relative">
-            <div className="bg-card border border-border rounded-3xl p-8 shadow-lg">
-              <h2 className="text-2xl font-bold mb-6">Request Enterprise Training</h2>
+            <div className="p-8">
+              <h2 className="text-2xl font-bold mb-2">
+                Request Corporate Training
+              </h2>
+
+              <p className="text-sm text-muted-foreground mb-6">
+                Tell us your requirement - we will design a custom training plan within 24 hours.
+              </p>
 
               <form onSubmit={handleSubmit} className="space-y-5">
-                {/* Institute Name */}
+                {/* Company Name */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">Institute / Company Name</label>
+                  <label className="block text-sm font-medium mb-2">
+                    Company / Organization Name
+                  </label>
                   <div className="relative">
                     <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                     <input
                       type="text"
                       placeholder="Enter organization name"
-                      value={formData.instituteName}
-                      onChange={(e) => setFormData({ ...formData, instituteName: e.target.value })}
-                      className="w-full pl-11 pr-4 py-3 rounded-xl bg-muted/50 border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+                      value={formData.companyName}
+                      onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+                      className="w-full pl-11 pr-4 py-3 rounded-xl bg-muted/30 border-0 border-b border-border/50 focus:border-primary focus:ring-0 outline-none transition-all"
                       required
-                    />
-                  </div>
-                </div>
-
-                {/* Contact */}
-                <div>
-                  <label className="block text-sm font-medium mb-2">Contact Number</label>
-                  <div className="relative">
-                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                    <input
-                      type="tel"
-                      placeholder="Enter contact number"
-                      value={formData.contact}
-                      onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
-                      className="w-full pl-11 pr-4 py-3 rounded-xl bg-muted/50 border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
-                      required
+                      disabled={isSubmitting}
                     />
                   </div>
                 </div>
 
                 {/* Email */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">Official Email Address</label>
+                  <label className="block text-sm font-medium mb-2">
+                    Official Email Address
+                  </label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                     <input
@@ -138,53 +200,85 @@ export default function EnterprisePage() {
                       placeholder="Enter official email"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full pl-11 pr-4 py-3 rounded-xl bg-muted/50 border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+                      className="w-full pl-11 pr-4 py-3 rounded-xl bg-muted/30 border-0 border-b border-border/50 focus:border-primary focus:ring-0 outline-none transition-all"
                       required
+                      disabled={isSubmitting}
+                    />
+                  </div>
+                </div>
+
+                {/* Contact */}
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Business Contact Number
+                  </label>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                    <input
+                      type="tel"
+                      placeholder="Enter contact number"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full pl-11 pr-4 py-3 rounded-xl bg-muted/30 border-0 border-b border-border/50 focus:border-primary focus:ring-0 outline-none transition-all"
+                      required
+                      disabled={isSubmitting}
                     />
                   </div>
                 </div>
 
                 {/* Duration */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">Training Duration</label>
+                  <label className="block text-sm font-medium mb-2">
+                    Preferred Training Duration
+                  </label>
                   <div className="relative">
                     <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                     <select
                       value={formData.duration}
                       onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
-                      className="w-full pl-11 pr-4 py-3 rounded-xl bg-muted/50 border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all appearance-none cursor-pointer"
-                      required
+                      className="w-full pl-11 pr-4 py-3 rounded-xl bg-muted/30 border-0 border-b border-border/50 focus:border-primary focus:ring-0 outline-none transition-all appearance-none cursor-pointer"
+                      disabled={isSubmitting}
                     >
                       <option value="">Select duration</option>
-                      {durations.map((duration) => (
-                        <option key={duration} value={duration}>
-                          {duration}
-                        </option>
-                      ))}
+                      <option value="1 Week">1 Week</option>
+                      <option value="2 Weeks">2 Weeks</option>
+                      <option value="1 Month">1 Month</option>
+                      <option value="2 Months">2 Months</option>
+                      <option value="3 Months">3 Months</option>
+                      <option value="6 Months">6 Months</option>
+                      <option value="Custom">Custom Duration</option>
                     </select>
                   </div>
                 </div>
 
-                {/* Additional Info */}
+                {/* Training Requirements */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">Additional Information</label>
+                  <label className="block text-sm font-medium mb-2">
+                    Training Requirement Details
+                  </label>
                   <textarea
-                    placeholder="Tell us about your training requirements, batch size, preferred technologies, etc..."
-                    value={formData.additionalInfo}
-                    onChange={(e) => setFormData({ ...formData, additionalInfo: e.target.value })}
+                    placeholder="Number of employees, tech stack, experience level, preferred mode (online/offline), goals..."
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     rows={4}
-                    className="w-full px-4 py-3 rounded-xl bg-muted/50 border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all resize-none"
+                    className="w-full px-4 py-3 rounded-xl bg-muted/30 border-0 border-b border-border/50 focus:border-primary focus:ring-0 outline-none transition-all resize-none"
+                    disabled={isSubmitting}
                   />
                 </div>
 
-                <Button type="submit" className="w-full group">
-                  Request Quote
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <Button type="submit" className="w-full group" disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                      Submitting...
+                    </>
+                  ) : (
+                    <>
+                      Request Training Proposal
+                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </>
+                  )}
                 </Button>
-
-                <p className="text-xs text-center text-muted-foreground">
-                  Our team will get back to you within 24-48 hours with a customized proposal.
-                </p>
               </form>
             </div>
           </div>

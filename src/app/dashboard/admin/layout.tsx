@@ -8,6 +8,7 @@ import {
   BarChart3,
   BookOpen,
   Briefcase,
+  Building2,
   HelpCircle,
   LayoutDashboard,
   MessageSquare,
@@ -18,6 +19,8 @@ import {
   Users,
   UserCog,
   UserCircle,
+  ClipboardList,
+  GraduationCap,
 } from "lucide-react";
 import { DashboardSidePanel, type DashboardNavItem, type DashboardUser } from "@/components/dashboard/SidePanel";
 import { useAuth } from "@/components/providers";
@@ -25,6 +28,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const navItems: DashboardNavItem[] = [
   { title: "Overview", href: "/dashboard/admin", icon: LayoutDashboard },
+  { title: "Enquiries", href: "/dashboard/admin/enquiries", icon: ClipboardList },
+  { title: "Faculty Enquiries", href: "/dashboard/admin/faculty-enquiries", icon: GraduationCap },
+  { title: "Enterprise Enquiries", href: "/dashboard/admin/enterprise-enquiries", icon: Building2 },
   { 
     title: "Blogs", 
     href: "/dashboard/admin/blogs", 

@@ -1,12 +1,9 @@
-
 import { prisma } from "@/lib/prisma";
 import { hash } from "bcryptjs";
 
 
 async function main() {
   console.log("🌱 Seeding database...");
-
-  // Check if admin already exists
   const existingAdmin = await prisma.user.findFirst({
     where: { role: "ADMIN" },
   });
@@ -16,7 +13,6 @@ async function main() {
     return;
   }
 
-  // Create admin user
   const hashedPassword = await hash("Admin@123", 12);
 
   const admin = await prisma.user.create({
@@ -36,7 +32,6 @@ async function main() {
   console.log("   Password: Admin@123");
   console.log("   Role:", admin.role);
 
-  // Create Account for Better Auth compatibility
   await prisma.account.create({
     data: {
       id: "account-admin-001",

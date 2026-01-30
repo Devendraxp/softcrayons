@@ -2,17 +2,19 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { type LucideIcon, ChevronDown, ChevronLeft, ChevronRight, Gauge, Moon, ShieldCheck, Sun } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { useState, useRef, useEffect } from "react";
+import { type LucideIcon, ChevronDown, ChevronLeft, ChevronRight, Gauge, LogOut, Moon, ShieldCheck, Sun, Circle } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { authClient } from "@/lib/auth-client";
 
 export type DashboardSubNavItem = {
   title: string;
   href: string;
+  icon?: LucideIcon;
 };
 
 export type DashboardNavItem = {
@@ -53,27 +55,87 @@ function NavItemWithSub({
   item,
   pathname,
   collapsed,
+  isExpanded,
+  onToggleExpand,
 }: {
   item: DashboardNavItem;
   pathname: string;
   collapsed: boolean;
+  isExpanded: boolean;
+  onToggleExpand: () => void;
 }) {
+  const [showPopover, setShowPopover] = useState(false);
+  const popoverRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
   const isActive = pathname === item.href || (item.href !== "/dashboard/admin" && pathname.startsWith(`${item.href}/`));
   const isSubActive = item.subItems?.some(
     (sub) => pathname === sub.href || pathname.startsWith(`${sub.href}/`)
   ) || false;
-  const [isExpanded, setIsExpanded] = useState(isActive || isSubActive);
+
+  // Handle click outside for collapsed popover
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        popoverRef.current &&
+        !popoverRef.current.contains(event.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
+        setShowPopover(false);
+      }
+    }
+    if (showPopover) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showPopover]);
+
+  // Close popover when collapsed mode changes
+  useEffect(() => {
+    if (!collapsed) {
+      setShowPopover(false);
+    }
+  }, [collapsed]);
+
+  const handleClick = () => {
+    if (collapsed) {
+      setShowPopover(!showPopover);
+    } else {
+      onToggleExpand();
+    }
+  };
+
+  // Check if a sub-item is active - exact match only to prevent multiple items highlighting
+  const checkSubItemActive = (subHref: string) => {
+    // Exact match
+    if (pathname === subHref) return true;
+    // Check if it's a sub-path but not matching any other subItem
+    if (pathname.startsWith(`${subHref}/`)) {
+      // Make sure no other subItem is a better match
+      const otherSubItems = item.subItems?.filter(s => s.href !== subHref) || [];
+      const hasCloserMatch = otherSubItems.some(
+        other => pathname === other.href || pathname.startsWith(`${other.href}/`)
+      );
+      return !hasCloserMatch;
+    }
+    return false;
+  };
 
   return (
-    <div>
+    <div className="relative">
       <button
+        ref={buttonRef}
         type="button"
-        onClick={() => setIsExpanded(!isExpanded)}
+        onClick={handleClick}
         className={cn(
           "group flex w-full items-center gap-3 rounded-lg px-2 py-2 text-sm font-medium transition-all duration-150",
           "text-muted-foreground hover:bg-muted hover:text-foreground",
-          collapsed && "justify-center",
-          (isActive || isSubActive) && "bg-primary/10 text-primary"
+          collapsed && "justify-center px-0 hover:bg-transparent",
+          (isActive || isSubActive) && !collapsed && "bg-primary/10 text-primary",
+          (isActive || isSubActive) && collapsed && "text-primary bg-transparent"
         )}
       >
         <div
@@ -89,24 +151,61 @@ function NavItemWithSub({
           <ChevronDown className={cn("h-4 w-4 transition-transform", isExpanded && "rotate-180")} />
         )}
       </button>
+      
+      {/* Expanded mode sub-items */}
       {isExpanded && !collapsed && item.subItems && (
         <div className="ml-10 mt-1 space-y-1 border-l border-border pl-3">
           {item.subItems.map((subItem) => {
-            const isSubItemActive = pathname === subItem.href || pathname.startsWith(`${subItem.href}/`);
+            const isSubItemActive = checkSubItemActive(subItem.href);
+            const SubIcon = subItem.icon || Circle;
             return (
               <Link
                 key={subItem.href}
                 href={subItem.href}
                 className={cn(
-                  "block rounded-md px-3 py-1.5 text-sm transition-colors",
+                  "flex items-center gap-2 rounded-md px-3 py-1.5 text-sm transition-colors",
                   "text-muted-foreground hover:bg-muted hover:text-foreground",
                   isSubItemActive && "bg-primary/10 text-primary font-medium"
                 )}
               >
+                <SubIcon className="h-3 w-3" />
                 {subItem.title}
               </Link>
             );
           })}
+        </div>
+      )}
+
+      {/* Collapsed mode popover */}
+      {collapsed && showPopover && item.subItems && (
+        <div
+          ref={popoverRef}
+          className="absolute left-full top-0 z-[100] ml-2 min-w-[180px] rounded-lg border border-border bg-card p-2 shadow-lg"
+        >
+          <div className="mb-2 px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+            {item.title}
+          </div>
+          <div className="space-y-1">
+            {item.subItems.map((subItem) => {
+              const isSubItemActive = checkSubItemActive(subItem.href);
+              const SubIcon = subItem.icon || Circle;
+              return (
+                <Link
+                  key={subItem.href}
+                  href={subItem.href}
+                  onClick={() => setShowPopover(false)}
+                  className={cn(
+                    "flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors",
+                    "text-muted-foreground hover:bg-muted hover:text-foreground",
+                    isSubItemActive && "bg-primary/10 text-primary font-medium"
+                  )}
+                >
+                  <SubIcon className="h-4 w-4" />
+                  {subItem.title}
+                </Link>
+              );
+            })}
+          </div>
         </div>
       )}
     </div>
@@ -115,11 +214,30 @@ function NavItemWithSub({
 
 export function DashboardSidePanel({ brand, navItems, user }: DashboardSidePanelProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
+  const [expandedItem, setExpandedItem] = useState<string | null>(() => {
+    // Initially expand the item that matches the current path
+    for (const item of navItems) {
+      if (item.subItems?.some(sub => pathname === sub.href || pathname.startsWith(`${sub.href}/`))) {
+        return item.title;
+      }
+    }
+    return null;
+  });
   const { theme, setTheme } = useTheme();
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
+  };
+
+  const handleLogout = async () => {
+    await authClient.signOut();
+    router.push("/sign-in");
+  };
+
+  const handleToggleExpand = (title: string) => {
+    setExpandedItem(prev => prev === title ? null : title);
   };
 
   return (
@@ -221,6 +339,8 @@ export function DashboardSidePanel({ brand, navItems, user }: DashboardSidePanel
                   item={item}
                   pathname={pathname}
                   collapsed={collapsed}
+                  isExpanded={expandedItem === item.title}
+                  onToggleExpand={() => handleToggleExpand(item.title)}
                 />
               );
             }
@@ -234,8 +354,9 @@ export function DashboardSidePanel({ brand, navItems, user }: DashboardSidePanel
                 className={cn(
                   "group flex items-center gap-3 rounded-lg px-2 py-2 text-sm font-medium transition-all duration-150",
                   "text-muted-foreground hover:bg-muted hover:text-foreground",
-                  collapsed && "justify-center",
-                  isActive && "bg-primary/10 text-primary"
+                  collapsed && "justify-center px-0 hover:bg-transparent",
+                  isActive && !collapsed && "bg-primary/10 text-primary",
+                  isActive && collapsed && "text-primary bg-transparent"
                 )}
               >
                 <div
@@ -260,15 +381,35 @@ export function DashboardSidePanel({ brand, navItems, user }: DashboardSidePanel
           })}
         </nav>
 
-        {/* Theme Toggle */}
+        {/* Logout Button */}
         <div className={cn("border-t border-border pt-3", collapsed && "flex justify-center")}>
+          <button
+            type="button"
+            onClick={handleLogout}
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-2 py-2 text-sm font-medium transition-all duration-150 w-full",
+              "text-muted-foreground hover:bg-destructive/10 hover:text-destructive",
+              collapsed && "w-auto justify-center px-0"
+            )}
+          >
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-muted/60 text-muted-foreground group-hover:bg-destructive/10 group-hover:text-destructive">
+              <LogOut className="h-4 w-4" />
+            </div>
+            <span className={cn("flex-1 truncate text-left transition-all duration-200", collapsed ? "w-0 opacity-0" : "w-auto opacity-100")}>
+              Logout
+            </span>
+          </button>
+        </div>
+
+        {/* Theme Toggle */}
+        <div className={cn(collapsed && "flex justify-center")}>
           <button
             type="button"
             onClick={toggleTheme}
             className={cn(
               "flex items-center gap-3 rounded-lg px-2 py-2 text-sm font-medium transition-all duration-150 w-full",
               "text-muted-foreground hover:bg-muted hover:text-foreground",
-              collapsed && "w-auto justify-center"
+              collapsed && "w-auto justify-center px-0"
             )}
           >
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-muted/60 text-muted-foreground">
