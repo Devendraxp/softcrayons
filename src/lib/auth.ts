@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { admin, emailOTP, magicLink } from "better-auth/plugins";
+import { waitUntil } from "@vercel/functions";
 import { prisma } from "./prisma";
 import { sendEmail } from "./email";
 import { userExists } from "./userExist";
@@ -15,11 +16,11 @@ export const auth = betterAuth({
     },
     emailVerification: {
         sendVerificationEmail: async ({ user, url }) => {
-            void sendEmail({
+            waitUntil(sendEmail({
                 to: user.email,
                 subject: 'Verify your email address',
                 text: `Click the link to verify your email: ${url}`
-            });
+            }));
         },
     },
     session: {
@@ -59,11 +60,11 @@ export const auth = betterAuth({
                 if (type === "sign-in") {
                     const exists = await userExists(email);
                     if (exists) { 
-                        void sendEmail({ 
+                        waitUntil(sendEmail({ 
                             to: email, 
                             subject: "Your sign-in OTP", 
                             text: `Your OTP for sign-in is: ${otp}` 
-                        });
+                        }));
                     }
                 }
             }, 
@@ -72,11 +73,11 @@ export const auth = betterAuth({
             sendMagicLink: async ({ email, url }) => {
                 const exists = await userExists(email);
                 if (exists) {
-                    void sendEmail({
+                    waitUntil(sendEmail({
                         to: email,
                         subject: "Your magic sign-in link",
                         text: `Click the link to sign in: ${url}`
-                    });
+                    }));
                 }
             }
         }),
