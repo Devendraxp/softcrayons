@@ -62,9 +62,6 @@ export function WhyChooseUs() {
 			<div className="container">
 				{/* Header */}
 				<div className="text-center max-w-2xl mx-auto mb-16">
-					<span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
-						Why Choose Us
-					</span>
 					<h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
 						Built for Your{' '}
 						<span className="text-gradient">Success</span>

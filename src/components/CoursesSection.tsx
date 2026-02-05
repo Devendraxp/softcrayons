@@ -1,95 +1,53 @@
 "use client";
-import { ArrowRight, ArrowLeft, Clock, BarChart, TrendingUp } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Clock, BarChart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { SectionLoader } from '@/components/ui/loader';
 
-const courses = [
-    {
-        title: 'Full Stack Web Development',
-        description:
-            'Master React, Node.js, and MongoDB to build production-ready applications from scratch.',
-        tags: ['React', 'Node.js', 'MongoDB'],
-        duration: '16 weeks',
-        level: 'Beginner',
-        featured: true,
-        isTrending: true,
-        image:
-            'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&auto=format&fit=crop&q=80',
-    },
-    {
-        title: 'Python & Machine Learning',
-        description:
-            'Learn Python fundamentals and dive deep into machine learning algorithms and frameworks.',
-        tags: ['Python', 'TensorFlow', 'NumPy'],
-        duration: '12 weeks',
-        level: 'Intermediate',
-        featured: false,
-        isTrending: false,
-        image:
-            'https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=600&auto=format&fit=crop&q=80',
-    },
-    {
-        title: 'DevOps & Cloud Engineering',
-        description:
-            'Deploy, scale, and manage applications on AWS with modern DevOps practices.',
-        tags: ['AWS', 'Docker', 'Kubernetes'],
-        duration: '10 weeks',
-        level: 'Advanced',
-        featured: false,
-        isTrending: true,
-        image:
-            'https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?w=600&auto=format&fit=crop&q=80',
-    },
-    {
-        title: 'Mobile App Development',
-        description:
-            'Build cross-platform mobile applications with React Native for iOS and Android.',
-        tags: ['React Native', 'TypeScript', 'Firebase'],
-        duration: '14 weeks',
-        level: 'Intermediate',
-        featured: false,
-        isTrending: false,
-        image:
-            'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&auto=format&fit=crop&q=80',
-    },
-    {
-        title: 'Backend Engineering',
-        description:
-            'Deep dive into system design, databases, and building scalable backend systems.',
-        tags: ['System Design', 'PostgreSQL', 'Redis'],
-        duration: '12 weeks',
-        level: 'Advanced',
-        featured: false,
-        isTrending: false,
-        image:
-            'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80',
-    },
-    {
-        title: 'Frontend Mastery',
-        description:
-            'Advanced React patterns, performance optimization, and modern CSS techniques.',
-        tags: ['React', 'Next.js', 'Tailwind'],
-        duration: '10 weeks',
-        level: 'Intermediate',
-        featured: false,
-        isTrending: false,
-        image:
-            'https://images.unsplash.com/photo-1547658719-da2b51169166?w=600&auto=format&fit=crop&q=80',
-    },
-];
+interface Course {
+    id: number;
+    title: string;
+    slug: string;
+    description: string | null;
+    thumbnailImage: string | null;
+    duration: string | null;
+    difficulty: string;
+    fees: number | null;
+    discount: number | null;
+    isFeatured: boolean;
+    category: {
+        id: number;
+        title: string;
+        slug: string;
+    };
+}
 
 export function CoursesSection() {
+    const [courses, setCourses] = useState<Course[]>([]);
+    const [loading, setLoading] = useState(true);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-    // Get trending course (first one with isTrending: true)
-    const trendingCourse = courses.find((course) => course.isTrending);
+    useEffect(() => {
+        const fetchCourses = async () => {
+            try {
+                // Fetch only featured courses
+                const response = await fetch('/api/courses?limit=12&featured=true');
+                const data = await response.json();
+                if (data.success) {
+                    setCourses(data.data);
+                }
+            } catch (error) {
+                console.error('Failed to fetch courses:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchCourses();
+    }, []);
 
-    // Filter out trending course from carousel
-    const carouselCourses = courses.filter((course) => course !== trendingCourse);
-
-    const totalSlides = Math.ceil(carouselCourses.length / 3);
+    const totalSlides = Math.ceil(courses.length / 3) || 1;
 
     const nextSlide = useCallback(() => {
         setCurrentIndex((prev) => (prev + 1) % totalSlides);
@@ -99,25 +57,53 @@ export function CoursesSection() {
         setCurrentIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
     };
 
-    // Auto-slide functionality
+    const getLevelColor = (level: string) => {
+        switch (level) {
+            case 'BEGINNER':
+                return 'bg-green-500/20 text-green-600 dark:text-green-400 border border-green-500/30';
+            case 'INTERMEDIATE':
+                return 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 border border-yellow-500/30';
+            case 'ADVANCED':
+                return 'bg-red-500/20 text-red-600 dark:text-red-400 border border-red-500/30';
+            default:
+                return 'bg-primary/20 text-primary border border-primary/30';
+        }
+    };
+
+    const formatDifficulty = (difficulty: string) => {
+        return difficulty.charAt(0) + difficulty.slice(1).toLowerCase();
+    };
+
+    // Auto-slide functionality - must be before any conditional returns
     useEffect(() => {
-        if (!isAutoPlaying) return;
+        if (!isAutoPlaying || totalSlides <= 1) return;
 
         const interval = setInterval(() => {
             nextSlide();
         }, 4000);
 
         return () => clearInterval(interval);
-    }, [isAutoPlaying, nextSlide]);
+    }, [isAutoPlaying, nextSlide, totalSlides]);
+
+    if (loading) {
+        return (
+            <section id="courses" className="py-24">
+                <div className="container">
+                    <SectionLoader text="courses" />
+                </div>
+            </section>
+        );
+    }
+
+    if (courses.length === 0) {
+        return null;
+    }
 
     return (
         <section id="courses" className="py-24">
             <div className="container">
                 {/* Header */}
                 <div className="text-center max-w-2xl mx-auto mb-16">
-                    <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
-                        Our Courses
-                    </span>
                     <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
                         Industry-Ready <span className="text-gradient">Curriculum</span>
                     </h2>
@@ -127,74 +113,8 @@ export function CoursesSection() {
                     </p>
                 </div>
 
-                {/* Trending Course */}
-                {trendingCourse && (
-                    <div className="mb-16">
-                        <div className="flex items-center gap-2 mb-6">
-                            <TrendingUp className="w-5 h-5 text-primary" />
-                            <span className="text-lg font-bold text-primary">Trending</span>
-                        </div>
-                        <div className="relative overflow-hidden rounded-3xl bg-card border border-border">
-                            <div className="grid md:grid-cols-2 gap-0">
-                                {/* Image Side */}
-                                <div className="relative h-64 md:h-auto overflow-hidden">
-                                    <img
-                                        src={trendingCourse.image}
-                                        alt={trendingCourse.title}
-                                        className="w-full h-full object-cover"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent to-background/80 md:block hidden" />
-                                    <div className="absolute top-4 left-4 px-3 py-1 bg-gradient-orange text-primary-foreground text-xs font-bold rounded-full flex items-center gap-1">
-                                        <TrendingUp className="w-3 h-3" />
-                                        Trending Now
-                                    </div>
-                                </div>
-
-                                {/* Content Side */}
-                                <div className="p-8 flex flex-col justify-center">
-                                    <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
-                                        <span className="flex items-center gap-1.5">
-                                            <Clock className="w-4 h-4" />
-                                            {trendingCourse.duration}
-                                        </span>
-                                        <span className="flex items-center gap-1.5">
-                                            <BarChart className="w-4 h-4" />
-                                            {trendingCourse.level}
-                                        </span>
-                                    </div>
-
-                                    <h3 className="text-2xl md:text-3xl font-bold mb-4">
-                                        {trendingCourse.title}
-                                    </h3>
-
-                                    <p className="text-muted-foreground mb-6">
-                                        {trendingCourse.description}
-                                    </p>
-
-                                    <div className="flex flex-wrap gap-2 mb-6">
-                                        {trendingCourse.tags.map((tag) => (
-                                            <span
-                                                key={tag}
-                                                className="px-3 py-1 rounded-md bg-primary/10 text-primary text-xs font-mono font-medium"
-                                            >
-                                                {tag}
-                                            </span>
-                                        ))}
-                                    </div>
-
-                                    <Link href="/courses/1">
-                                        <Button className="w-fit group/btn">
-                                            Explore Course
-                                        <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                                    </Button>
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
                 {/* Carousel Section */}
+                {courses.length > 0 && (
                 <div
                     className="relative"
                     onMouseEnter={() => setIsAutoPlaying(false)}
@@ -212,66 +132,45 @@ export function CoursesSection() {
                                     key={slideIndex}
                                     className="w-full flex-shrink-0 grid sm:grid-cols-2 lg:grid-cols-3 gap-6 px-1"
                                 >
-                                    {carouselCourses
+                                    {courses
                                         .slice(slideIndex * 3, slideIndex * 3 + 3)
                                         .map((course) => (
                                             <div
-                                                key={course.title}
-                                                className="bg-card border border-border rounded-2xl overflow-hidden"
+                                                key={course.id}
+                                                className="bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-300 hover:shadow-lg flex flex-col h-full"
                                             >
-                                                {/* Course Image */}
-                                                <div className="relative h-48 overflow-hidden">
+                                                {/* Course Image - No overlay */}
+                                                <div className="relative h-56 sm:h-64 overflow-hidden flex-shrink-0">
                                                     <img
-                                                        src={course.image}
+                                                        src={course.thumbnailImage || 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&auto=format&fit=crop&q=80'}
                                                         alt={course.title}
                                                         className="w-full h-full object-cover"
                                                     />
-                                                    <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent" />
-                                                    {course.featured && (
-                                                        <div className="absolute top-3 right-3 px-3 py-1 bg-gradient-orange text-primary-foreground text-xs font-bold rounded-full">
-                                                            Most Popular
-                                                        </div>
-                                                    )}
                                                 </div>
 
                                                 {/* Course Content */}
-                                                <div className="p-6">
-                                                    <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
-                                                        <span className="flex items-center gap-1.5">
+                                                <div className="p-6 flex flex-col flex-grow">
+                                                    {/* Duration and Difficulty on same line */}
+                                                    <div className="flex items-center justify-between text-sm mb-3">
+                                                        <span className="flex items-center gap-1.5 text-muted-foreground">
                                                             <Clock className="w-4 h-4" />
-                                                            {course.duration}
+                                                            {course.duration || 'Self-paced'}
                                                         </span>
-                                                        <span className="flex items-center gap-1.5">
-                                                            <BarChart className="w-4 h-4" />
-                                                            {course.level}
+                                                        <span className={`flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-full ${getLevelColor(course.difficulty)}`}>
+                                                            <BarChart className="w-3 h-3" />
+                                                            {formatDifficulty(course.difficulty)}
                                                         </span>
                                                     </div>
 
-                                                    <h3 className="text-xl font-bold mb-3">
+                                                    <h3 className="text-xl font-bold mb-3 line-clamp-2">
                                                         {course.title}
                                                     </h3>
 
-                                                    <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
+                                                    <p className="text-muted-foreground text-sm mb-4 line-clamp-2 flex-grow">
                                                         {course.description}
                                                     </p>
 
-                                                    <div className="flex flex-wrap gap-2 mb-5">
-                                                        {course.tags.slice(0, 2).map((tag) => (
-                                                            <span
-                                                                key={tag}
-                                                                className="px-2 py-1 rounded-md bg-muted text-xs font-mono font-medium"
-                                                            >
-                                                                {tag}
-                                                            </span>
-                                                        ))}
-                                                        {course.tags.length > 2 && (
-                                                            <span className="px-2 py-1 rounded-md bg-muted text-xs font-mono font-medium">
-                                                                +{course.tags.length - 2}
-                                                            </span>
-                                                        )}
-                                                    </div>
-
-                                                    <Link href="/courses/1">
+                                                    <Link href={`/courses/${course.slug}`}>
                                                         <Button variant="outline" className="w-full group/btn">
                                                         View Course
                                                         <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
@@ -286,6 +185,7 @@ export function CoursesSection() {
                     </div>
 
                     {/* Carousel Controls */}
+                    {totalSlides > 1 && (
                     <div className="flex items-center justify-center gap-4 mt-10">
                         <Button
                             variant="outline"
@@ -320,7 +220,9 @@ export function CoursesSection() {
                             <ArrowRight className="w-5 h-5" />
                         </Button>
                     </div>
+                    )}
                 </div>
+                )}
 
                 {/* View All Button */}
                 <div className="text-center mt-12">

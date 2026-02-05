@@ -363,10 +363,30 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
           if (result.info && typeof result.info === "object" && "secure_url" in result.info) {
             handleImageUpload(result.info.secure_url as string);
           }
+          // Reset body styles to restore scrolling
+          document.body.style.overflow = "";
+          document.body.style.pointerEvents = "";
+        }}
+        onClose={() => {
+          // Ensure proper cleanup when widget closes
+          setTimeout(() => {
+            document.body.style.overflow = "";
+            document.body.style.pointerEvents = "";
+          }, 100);
+        }}
+        onError={() => {
+          // Handle error and cleanup
+          document.body.style.overflow = "";
+          document.body.style.pointerEvents = "";
         }}
       >
         {({ open }) => (
-          <ToolbarButton onClick={() => open()} title="Insert Image">
+          <ToolbarButton 
+            onClick={() => {
+              open();
+            }} 
+            title="Insert Image"
+          >
             <ImagePlus className="h-4 w-4" />
           </ToolbarButton>
         )}

@@ -12,6 +12,7 @@ interface Course {
     level: "Beginner" | "Intermediate" | "Advanced";
     tags: string[];
     image: string;
+    slug?: string;
 }
 
 interface CourseCardProps {
@@ -19,57 +20,52 @@ interface CourseCardProps {
 }
 
 const levelColors = {
-    Beginner: "bg-green-500/10 text-green-600 dark:text-green-400",
-    Intermediate: "bg-yellow-500/10 text-yellow-600 dark:text-yellow-400",
-    Advanced: "bg-red-500/10 text-red-600 dark:text-red-400",
+    Beginner: "bg-green-500/20 text-green-600 dark:text-green-400 border border-green-500/30",
+    Intermediate: "bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 border border-yellow-500/30",
+    Advanced: "bg-red-500/20 text-red-600 dark:text-red-400 border border-red-500/30",
 };
 
 export function CourseCard({ course }: CourseCardProps) {
     return (
-        <div className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/30 hover:shadow-xl transition-all duration-300">
-            {/* Course Image */}
-            <div className="relative h-44 overflow-hidden">
+        <div className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/30 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+            {/* Course Image - No overlay */}
+            <div className="relative h-56 sm:h-64 overflow-hidden flex-shrink-0">
                 <img
                     src={course.image}
                     alt={course.title}
                     className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
-                <div
-                    className={`absolute top-3 right-3 px-3 py-1 text-xs font-bold rounded-full ${levelColors[course.level]}`}
-                >
-                    {course.level}
-                </div>
             </div>
 
             {/* Course Content */}
-            <div className="p-5">
+            <div className="p-5 flex flex-col flex-grow">
                 {/* Category Badge */}
-                <span className="inline-block px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full mb-3">
+                <span className="inline-block px-3 py-1 text-xs font-medium bg-secondary text-white rounded-full mb-3 w-fit">
                     {course.categoryName}
                 </span>
 
-                <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors">
+                <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors line-clamp-2">
                     {course.title}
                 </h3>
 
-                <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
+                <p className="text-muted-foreground text-sm mb-4 line-clamp-2 flex-grow">
                     {course.description}
                 </p>
 
-                {/* Meta Info */}
-                <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
-                    <span className="flex items-center gap-1.5">
+                {/* Meta Info - Duration and Level on same line */}
+                <div className="flex items-center justify-between text-sm mb-4">
+                    <span className="flex items-center gap-1.5 text-muted-foreground">
                         <Clock className="w-4 h-4" />
                         {course.duration}
                     </span>
-                    <span className="flex items-center gap-1.5">
-                        <BarChart className="w-4 h-4" />
+                    <span className={`flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-full ${levelColors[course.level]}`}>
+                        <BarChart className="w-3 h-3" />
                         {course.level}
                     </span>
                 </div>
 
                 {/* Tags */}
+                {course.tags.length > 0 && (
                 <div className="flex flex-wrap gap-2 mb-5">
                     {course.tags.slice(0, 2).map((tag) => (
                         <span
@@ -85,8 +81,9 @@ export function CourseCard({ course }: CourseCardProps) {
                         </span>
                     )}
                 </div>
+                )}
 
-                <Link href={`/courses/${course.id}`}>
+                <Link href={`/courses/${course.slug || course.id}`}>
                     <Button variant="outline" className="w-full group/btn">
                         View Details
                         <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />

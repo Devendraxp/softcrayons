@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 interface BlogCardProps {
     blog: {
         id: number;
+        slug?: string;
         title: string;
         description: string;
         image: string;
@@ -22,54 +23,33 @@ interface BlogCardProps {
 
 export function BlogCard({ blog }: BlogCardProps) {
     return (
-        <Link href={`/blogs/${blog.id}`}>
+        <Link href={`/blogs/${blog.slug || blog.id}`}>
             <article className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 h-full flex flex-col">
                 {/* Image */}
-                <div className="relative h-48 overflow-hidden">
+                <div className="relative h-52 overflow-hidden">
                     <Image
                         src={blog.image}
                         alt={blog.title}
                         fill
                         className="object-cover"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    
-                    {/* Category Badge */}
-                    <div className="absolute bottom-3 left-3">
-                        <Badge
-                            variant="secondary"
-                            className="bg-background/90 text-foreground backdrop-blur-sm border border-border"
-                        >
-                            {blog.categoryName}
-                        </Badge>
-                    </div>
-
-                    {/* Read Time */}
-                    <div className="absolute bottom-3 right-3">
-                        <span className="text-xs text-white/90 bg-black/40 backdrop-blur-sm px-2 py-1 rounded-full flex items-center gap-1">
-                            <Clock className="w-3 h-3" />
-                            {blog.readTime}
-                        </span>
-                    </div>
                 </div>
 
                 {/* Content */}
                 <div className="p-5 flex flex-col flex-1">
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-2 mb-3">
-                        {blog.tags.slice(0, 2).map((tag) => (
-                            <span
-                                key={tag}
-                                className="text-xs px-2 py-1 rounded-md bg-primary/10 text-primary font-medium"
-                            >
-                                {tag}
-                            </span>
-                        ))}
-                        {blog.tags.length > 2 && (
-                            <span className="text-xs px-2 py-1 rounded-md bg-muted text-muted-foreground font-medium">
-                                +{blog.tags.length - 2}
-                            </span>
-                        )}
+                    {/* Category & Read Time */}
+                    <div className="flex items-center justify-between mb-3">
+                        <Badge
+                            variant="secondary"
+                            className="bg-secondary text-white border-0 text-xs"
+                        >
+                            {blog.categoryName}
+                        </Badge>
+                        <span className="text-xs text-muted-foreground flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            {blog.readTime}
+                        </span>
                     </div>
 
                     {/* Title */}

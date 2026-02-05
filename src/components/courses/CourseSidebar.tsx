@@ -55,25 +55,6 @@ export function CourseSidebar({
                         ))}
                     </ul>
                 </div>
-
-                {/* Quick Stats */}
-                <div className="bg-card border border-border rounded-2xl p-5 mt-4">
-                    <h3 className="font-bold mb-4">Quick Stats</h3>
-                    <div className="space-y-3">
-                        <div className="flex justify-between text-sm">
-                            <span className="text-muted-foreground">Total Courses</span>
-                            <span className="font-semibold">10+</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                            <span className="text-muted-foreground">Students Enrolled</span>
-                            <span className="font-semibold">5,000+</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                            <span className="text-muted-foreground">Avg. Completion</span>
-                            <span className="font-semibold">92%</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </aside>
     );

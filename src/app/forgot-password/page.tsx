@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,9 +15,9 @@ import {
   Lock,
   Shield,
 } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
 
 export default function ForgotPasswordPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -28,25 +27,19 @@ export default function ForgotPasswordPage() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/auth/forgot-password", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
+      const { error } = await authClient.requestPasswordReset({
+        email,
+        redirectTo: "/reset-password",
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        toast.error(data.error || "Failed to send OTP. Please try again.");
+      if (error) {
+        toast.error(error.message || "Failed to send reset link. Please try again.");
         setIsLoading(false);
         return;
       }
 
       setIsSuccess(true);
-      sessionStorage.setItem("resetEmail", email);
-      toast.success("OTP sent to your email!");
+      toast.success("Password reset link sent to your email!");
     } catch {
       toast.error("An unexpected error occurred. Please try again.");
     } finally {
@@ -80,20 +73,13 @@ export default function ForgotPasswordPage() {
               <div>
                 <h1 className="text-3xl font-black mb-3">Check Your Email</h1>
                 <p className="text-muted-foreground">
-                  We&apos;ve sent a 6-digit OTP to <strong className="text-foreground">{email}</strong>
+                  We&apos;ve sent a password reset link to <strong className="text-foreground">{email}</strong>
                 </p>
               </div>
               <p className="text-sm text-muted-foreground">
-                The OTP will expire in 10 minutes. Didn&apos;t receive it? Check your spam folder.
+                The link will expire in 1 hour. Didn&apos;t receive it? Check your spam folder.
               </p>
               <div className="space-y-3 pt-4">
-                <Button
-                  onClick={() => router.push("/verify-otp")}
-                  className="w-full bg-gradient-orange hover:opacity-90 transition-opacity"
-                >
-                  <KeyRound className="mr-2 h-4 w-4" />
-                  Enter OTP
-                </Button>
                 <button
                   type="button"
                   onClick={() => {
@@ -168,10 +154,10 @@ export default function ForgotPasswordPage() {
           {/* Header */}
           <div className="text-center mb-8 animate-fade-up">
             <h1 className="text-3xl sm:text-4xl font-black mb-3">
-              Forgot your <span className="text-gradient">password</span>?
+              Forgot <span className="text-gradient">password?</span>
             </h1>
             <p className="text-muted-foreground">
-              Enter your email and we&apos;ll send you an OTP to reset it
+              Enter your email and we&apos;ll send you a reset link
             </p>
           </div>
 
@@ -179,13 +165,13 @@ export default function ForgotPasswordPage() {
           <div className="animate-fade-up" style={{ animationDelay: "0.1s" }}>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
+                <Label htmlFor="email">Email</Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="email"
                     type="email"
-                    placeholder="Enter your email"
+                    placeholder="your@email.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="pl-9 bg-background/50 backdrop-blur-sm"
@@ -194,6 +180,7 @@ export default function ForgotPasswordPage() {
                   />
                 </div>
               </div>
+
               <Button
                 type="submit"
                 className="w-full bg-gradient-orange hover:opacity-90 transition-opacity"
@@ -202,22 +189,23 @@ export default function ForgotPasswordPage() {
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Sending OTP...
+                    Sending Reset Link...
                   </>
                 ) : (
-                  "Send OTP"
+                  "Send Reset Link"
                 )}
               </Button>
-              <div className="text-center pt-2">
-                <Link
-                  href="/sign-in"
-                  className="flex items-center justify-center text-sm text-primary hover:underline"
-                >
-                  <ArrowLeft className="mr-2 h-4 w-4" />
-                  Back to Sign In
-                </Link>
-              </div>
             </form>
+
+            <div className="mt-6 text-center">
+              <Link
+                href="/sign-in"
+                className="text-sm text-muted-foreground hover:text-primary inline-flex items-center gap-2"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Back to Sign In
+              </Link>
+            </div>
           </div>
         </div>
       </div>

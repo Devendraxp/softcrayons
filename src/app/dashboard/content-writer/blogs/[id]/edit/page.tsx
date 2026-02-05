@@ -602,12 +602,29 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
                             result.info.secure_url as string
                           );
                         }
+                        // Reset body styles to restore scrolling
+                        document.body.style.overflow = "";
+                        document.body.style.pointerEvents = "";
+                      }}
+                      onClose={() => {
+                        setTimeout(() => {
+                          document.body.style.overflow = "";
+                          document.body.style.pointerEvents = "";
+                        }, 100);
+                      }}
+                      onError={() => {
+                        document.body.style.overflow = "";
+                        document.body.style.pointerEvents = "";
                       }}
                     >
                       {({ open }) => (
                         <button
                           type="button"
-                          onClick={() => open()}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            open();
+                          }}
                           className="flex aspect-video w-full flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-muted-foreground/25 text-muted-foreground transition-colors hover:border-muted-foreground/50"
                         >
                           <ImagePlus className="h-8 w-8" />
@@ -657,12 +674,29 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
                             result.info.secure_url as string
                           );
                         }
+                        // Reset body styles to restore scrolling
+                        document.body.style.overflow = "";
+                        document.body.style.pointerEvents = "";
+                      }}
+                      onClose={() => {
+                        setTimeout(() => {
+                          document.body.style.overflow = "";
+                          document.body.style.pointerEvents = "";
+                        }, 100);
+                      }}
+                      onError={() => {
+                        document.body.style.overflow = "";
+                        document.body.style.pointerEvents = "";
                       }}
                     >
                       {({ open }) => (
                         <button
                           type="button"
-                          onClick={() => open()}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            open();
+                          }}
                           className="flex aspect-square w-full max-w-[200px] mx-auto flex-col items-center justify-center gap-1 rounded-lg border-2 border-dashed border-muted-foreground/25 text-muted-foreground transition-colors hover:border-muted-foreground/50"
                         >
                           <ImagePlus className="h-6 w-6" />

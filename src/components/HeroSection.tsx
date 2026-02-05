@@ -30,14 +30,14 @@ export function HeroSection() {
 
             {/* Main Headline */}
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-black leading-tight mb-6 animate-fade-up" style={{ animationDelay: '0.1s' }}>
-              Hum Padhate Nahin
-              <br />
-              <span className="text-gradient">Sikhate Hain</span>
+              Learn Skills That  
+              <br /> Actually Get You
+              <span className="text-gradient"> Hired !</span>
             </h1>
 
             {/* Subheadline */}
             <p className="text-lg sm:text-xl text-muted-foreground max-w-xl mb-10 animate-fade-up" style={{ animationDelay: '0.2s' }}>
-              Ji Haan, Hum sirf syntax nahi, practical skills sikhate hain, real world projects banwate hai jo aapko industry ready banayein.
+              At SoftCrayons, education goes far beyond textbooks and theory. We focus on practical learning that equips you with real, job-ready skills.
             </p>
 
             {/* CTA Buttons */}
@@ -60,7 +60,7 @@ export function HeroSection() {
             <div className="mt-12 animate-fade-up" style={{ animationDelay: '0.4s' }}>
               <p className="text-sm text-muted-foreground mb-4">Technologies you'll master</p>
               <div className="flex flex-wrap justify-center lg:justify-start gap-3">
-                {['React', 'Node.js', 'TypeScript', 'Python', 'MongoDB', 'AWS'].map((tech) => (
+                {['Java', 'GenAI Development', 'CAD Softwares', 'Graphics Design', 'Cloud', 'AWS'].map((tech) => (
                   <span
                     key={tech}
                     className="px-4 py-2 rounded-lg bg-muted/50 border border-border text-sm font-mono font-medium hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 cursor-default"
@@ -78,7 +78,7 @@ export function HeroSection() {
               {/* Glow effect behind image */}
               <div className="absolute inset-0 bg-primary/20 rounded-3xl blur-3xl scale-90" />
               <img
-                src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&auto=format&fit=crop&q=80"
+                src="https://media.istockphoto.com/id/1297371522/photo/portrait-of-business-man-and-woman.jpg?s=612x612&w=0&k=20&c=Y_NTpQtbMgx2yTSkQYHlgGoVN_yEityE7fFM355efJs="
                 alt="Developer coding on laptop"
                 className="relative z-10 w-full h-auto rounded-3xl shadow-2xl border border-border/50"
               />

@@ -15,7 +15,6 @@ export function CTASection() {
         <div className="max-w-4xl mx-auto text-center">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8">
-            <Sparkles className="w-4 h-4 text-primary" />
             <span className="text-sm font-medium text-primary">Limited Seats Available</span>
           </div>
 
@@ -44,7 +43,7 @@ export function CTASection() {
 
           {/* Trust Elements */}
           <p className="mt-8 text-sm text-muted-foreground">
-            ✓ 7-day free trial &nbsp;&nbsp; ✓ No credit card required &nbsp;&nbsp; ✓ Cancel anytime
+            ✓ Free trial &nbsp;&nbsp; ✓ Free consultation &nbsp;&nbsp;  ✓ 100% satisfaction guarantee
           </p>
         </div>
       </div>

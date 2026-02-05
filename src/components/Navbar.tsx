@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { Menu, X, Sun, Moon, Code2, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,6 +15,7 @@ const navLinks = [
 	{ name: "Placements", href: "/placements" },
 	{ name: "Blogs", href: "/blogs" },
 	{ name: "Reviews", href: "/reviews" },
+	{ name: "FAQs", href: "/faqs" },
 	{ name: "About Us", href: "/about-us" },
 	{ name: "Faculties", href: "/faculties" },
 	{ name: "Enterprise Hiring", href: "/enterprise" },
@@ -27,9 +29,15 @@ export function Navbar() {
 	const [isMoreOpen, setIsMoreOpen] = useState(false);
 	const { theme, setTheme } = useTheme();
 	const dropdownRef = useRef<HTMLDivElement>(null);
+	const pathname = usePathname();
 
 	const visibleLinks = navLinks.slice(0, 6);
 	const moreLinks = navLinks.slice(6);
+
+	const isActive = (href: string) => {
+		if (href === "/") return pathname === "/";
+		return pathname.startsWith(href);
+	};
 
 	const toggleTheme = () => {
 		setTheme(theme === "dark" ? "light" : "dark");
@@ -74,7 +82,12 @@ export function Navbar() {
 							<Link
 								key={link.name}
 								href={link.href}
-								className="text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium text-sm"
+								className={cn(
+									"transition-colors duration-200 font-medium text-sm",
+									isActive(link.href)
+										? "text-primary font-semibold"
+										: "text-muted-foreground hover:text-foreground"
+								)}
 							>
 								{link.name}
 							</Link>
@@ -98,7 +111,12 @@ export function Navbar() {
 													key={link.name}
 													href={link.href}
 													onClick={() => setIsMoreOpen(false)}
-													className="block px-4 py-2 text-sm text-popover-foreground hover:bg-accent hover:text-accent-foreground rounded-sm"
+													className={cn(
+														"block px-4 py-2 text-sm rounded-sm",
+														isActive(link.href)
+															? "text-primary bg-primary/10 font-semibold"
+															: "text-popover-foreground hover:bg-accent hover:text-accent-foreground"
+													)}
 												>
 													{link.name}
 												</Link>
@@ -172,7 +190,12 @@ export function Navbar() {
 							key={link.name}
 							href={link.href}
 							onClick={() => setIsOpen(false)}
-							className="block px-4 py-3 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors font-medium"
+							className={cn(
+								"block px-4 py-3 rounded-lg transition-colors font-medium",
+								isActive(link.href)
+									? "bg-primary/10 text-primary font-semibold"
+									: "hover:bg-muted text-muted-foreground hover:text-foreground"
+							)}
 						>
 							{link.name}
 						</Link>

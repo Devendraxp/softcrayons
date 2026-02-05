@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 interface FeaturedBlogCardProps {
     blog: {
         id: number;
+        slug?: string;
         title: string;
         description: string;
         image: string;
@@ -24,7 +25,7 @@ interface FeaturedBlogCardProps {
 export function FeaturedBlogCard({ blog, variant = "default" }: FeaturedBlogCardProps) {
     if (variant === "hero") {
         return (
-            <Link href={`/blogs/${blog.id}`} className="block h-full">
+            <Link href={`/blogs/${blog.slug || blog.id}`} className="block h-full">
                 <article className="group relative bg-card border border-border rounded-3xl overflow-hidden hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 h-full min-h-[480px]">
                     {/* Background Image */}
                     <div className="absolute inset-0">
@@ -33,15 +34,14 @@ export function FeaturedBlogCard({ blog, variant = "default" }: FeaturedBlogCard
                             alt={blog.title}
                             fill
                             className="object-cover"
+                            priority
+                            sizes="(max-width: 768px) 100vw, 50vw"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                     </div>
 
                     {/* Featured Badge */}
                     <div className="absolute top-4 left-4 z-10 flex gap-2">
-                        <Badge className="bg-gradient-to-r from-orange-500 to-red-500 text-white border-0 px-4 py-1.5">
-                             Editor&apos;s Pick
-                        </Badge>
                     </div>
 
 
@@ -86,21 +86,18 @@ export function FeaturedBlogCard({ blog, variant = "default" }: FeaturedBlogCard
 
     if (variant === "horizontal") {
         return (
-            <Link href={`/blogs/${blog.id}`}>
+            <Link href={`/blogs/${blog.slug || blog.id}`}>
                 <article className="group flex flex-col sm:flex-row bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 h-full">
                     {/* Image */}
-                    <div className="relative w-full sm:w-48 md:w-56 h-48 sm:h-auto shrink-0 overflow-hidden">
+                    <div className="relative w-full sm:w-66 md:w-84 h-48 sm:h-auto shrink-0 overflow-hidden">
                         <Image
                             src={blog.image}
                             alt={blog.title}
                             fill
                             className="object-cover"
+                            sizes="(max-width: 640px) 100vw, 256px"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/20 sm:bg-gradient-to-t sm:from-black/40 sm:to-transparent" />
-                        <div className="absolute top-3 left-3 sm:bottom-3 sm:top-auto">
-                            <Badge className="bg-gradient-to-r from-orange-500 to-red-500 text-white border-0 text-xs">
-                                Featured
-                            </Badge>
+                        <div className="absolute top-3 left-3">
                         </div>
                     </div>
 
@@ -139,7 +136,7 @@ export function FeaturedBlogCard({ blog, variant = "default" }: FeaturedBlogCard
 
     // Default variant
     return (
-        <Link href={`/blogs/${blog.id}`}>
+        <Link href={`/blogs/${blog.slug || blog.id}`}>
             <article className="group relative bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 h-full">
                 {/* Featured Badge */}
                 <div className="absolute top-3 right-3 z-10">
@@ -149,26 +146,26 @@ export function FeaturedBlogCard({ blog, variant = "default" }: FeaturedBlogCard
                 </div>
 
                 {/* Image */}
-                <div className="relative h-52 overflow-hidden">
+                <div className="relative h-56 overflow-hidden">
                     <Image
                         src={blog.image}
                         alt={blog.title}
                         fill
                         className="object-cover"
+                        sizes="(max-width: 640px) 100vw, 384px"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                    <div className="absolute bottom-3 left-3">
-                        <Badge
-                            variant="secondary"
-                            className="bg-background/90 text-foreground backdrop-blur-sm border border-border"
-                        >
-                            {blog.categoryName}
-                        </Badge>
-                    </div>
                 </div>
 
                 {/* Content */}
                 <div className="p-5">
+                    {/* Category */}
+                    <Badge
+                        variant="secondary"
+                        className="bg-muted text-muted-foreground border-0 mb-3 text-xs"
+                    >
+                        {blog.categoryName}
+                    </Badge>
+
                     {/* Tags */}
                     <div className="flex flex-wrap gap-2 mb-3">
                         {blog.tags.slice(0, 3).map((tag) => (

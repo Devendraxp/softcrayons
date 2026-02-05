@@ -1,45 +1,65 @@
+"use client";
+
 import { Star, Quote } from 'lucide-react';
 import { Button } from './ui/button';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import { SectionLoader } from '@/components/ui/loader';
 
-const testimonials = [
-  {
-    name: 'Priya Sharma',
-    role: 'Software Engineer at Google',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face',
-    content: 'The mentorship here changed my career trajectory. I went from struggling with basics to landing my dream job at Google in just 8 months.',
-    rating: 5,
-  },
-  {
-    name: 'Rahul Verma',
-    role: 'Full Stack Developer at Stripe',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
-    content: 'The project-based learning approach is incredible. Every concept I learned, I immediately applied. My portfolio spoke louder than any resume.',
-    rating: 5,
-  },
-  {
-    name: 'Ananya Patel',
-    role: 'DevOps Engineer at AWS',
-    image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
-    content: 'The community support is unmatched. From code reviews to mock interviews, everyone here genuinely wants to see you succeed.',
-    rating: 5,
-  },
-];
+interface Testimonial {
+  id: number;
+  studentName: string;
+  avatar: string | null;
+  rating: number;
+  feedback: string;
+  isFeatured: boolean;
+}
 
 export function TestimonialsSection() {
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        const response = await fetch('/api/reviews?limit=3&featured=true');
+        const data = await response.json();
+        if (data.success) {
+          setTestimonials(data.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch testimonials:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTestimonials();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="py-24">
+        <div className="container">
+          <SectionLoader text="testimonials" />
+        </div>
+      </section>
+    );
+  }
+
+  if (testimonials.length === 0) {
+    return null;
+  }
+
   return (
     <section className="py-24">
       <div className="container">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
-            Testimonials
-          </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
             Success <span className="text-gradient">Stories</span>
           </h2>
           <p className="text-muted-foreground text-lg">
-            Hear from our alumni who transformed their careers with CodeCraft.
+            Hear from our alumni who transformed their careers with SoftCrayons.
           </p>
         </div>
 
@@ -47,7 +67,7 @@ export function TestimonialsSection() {
         <div className="grid md:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
             <div
-              key={testimonial.name}
+              key={testimonial.id}
               className="group relative bg-card border border-border rounded-2xl p-8 hover:border-primary/30 transition-all duration-300 animate-fade-up"
               style={{ animationDelay: `${index * 0.15}s` }}
             >
@@ -63,19 +83,19 @@ export function TestimonialsSection() {
 
               {/* Content */}
               <p className="text-foreground/90 mb-8 leading-relaxed">
-                "{testimonial.content}"
+                "{testimonial.feedback}"
               </p>
 
               {/* Author */}
               <div className="flex items-center gap-4">
                 <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
+                  src={testimonial.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.studentName)}&background=random`}
+                  alt={testimonial.studentName}
                   className="w-12 h-12 rounded-full object-cover ring-2 ring-primary/20"
                 />
                 <div>
-                  <div className="font-semibold">{testimonial.name}</div>
-                  <div className="text-sm text-muted-foreground">{testimonial.role}</div>
+                  <div className="font-semibold">{testimonial.studentName}</div>
+                  <div className="text-sm text-muted-foreground">SoftCrayons Alumni</div>
                 </div>
               </div>
             </div>

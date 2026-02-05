@@ -97,8 +97,7 @@ export default function AboutUsPage() {
                     <div className="container mx-auto px-4">
                         <div className="max-w-4xl mx-auto text-center">
                             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground mb-6 tracking-tight">
-                                Hamne Bahut Logo Ko Sikhaya Hai, Ab{" "}
-                                <span className="text-gradient">Aapki Baari</span>
+                                <span className="text-gradient">Your Success Story </span> Starts Here
                             </h1>
                             <p className="text-lg md:text-xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed">
                                 SoftCrayons is a leading IT training institute dedicated to transforming

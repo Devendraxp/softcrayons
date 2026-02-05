@@ -214,6 +214,277 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Marquee Animations */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-100% - var(--gap))); }
+}
+
+@keyframes marquee-reverse {
+  from { transform: translateX(calc(-100% - var(--gap))); }
+  to { transform: translateX(0); }
+}
+
+@keyframes marquee-vertical {
+  from { transform: translateY(0); }
+  to { transform: translateY(calc(-100% - var(--gap))); }
+}
+
+@keyframes marquee-vertical-reverse {
+  from { transform: translateY(calc(-100% - var(--gap))); }
+  to { transform: translateY(0); }
+}
+
+.animate-marquee {
+  animation: marquee linear infinite;
+}
+
+.animate-marquee-reverse {
+  animation: marquee-reverse linear infinite;
+}
+
+.animate-marquee-vertical {
+  animation: marquee-vertical linear infinite;
+}
+
+.animate-marquee-vertical-reverse {
+  animation: marquee-vertical-reverse linear infinite;
+}
+
+/* ===== Course Content Styles ===== */
+.course-content {
+  @apply text-foreground;
+}
+
+.course-content h1 {
+  font-size: 2rem !important;
+  line-height: 1.2 !important;
+  font-weight: 700 !important;
+  margin-top: 1.5rem !important;
+  margin-bottom: 1rem !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+.course-content h2 {
+  font-size: 1.5rem !important;
+  line-height: 1.3 !important;
+  font-weight: 700 !important;
+  margin-top: 1.5rem !important;
+  margin-bottom: 0.75rem !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+.course-content h3 {
+  font-size: 1.25rem !important;
+  line-height: 1.4 !important;
+  font-weight: 600 !important;
+  margin-top: 1.25rem !important;
+  margin-bottom: 0.5rem !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+.course-content h4 {
+  font-size: 1.125rem !important;
+  line-height: 1.4 !important;
+  font-weight: 600 !important;
+  margin-top: 1rem !important;
+  margin-bottom: 0.5rem !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+.course-content p {
+  margin-bottom: 1rem;
+  line-height: 1.75;
+  color: hsl(var(--muted-foreground));
+}
+
+.course-content strong {
+  font-weight: 600;
+  color: hsl(var(--foreground));
+}
+
+/* Links - Primary color with underline */
+.course-content a {
+  color: hsl(var(--primary)) !important;
+  text-decoration: underline !important;
+  text-underline-offset: 4px !important;
+  font-weight: 500 !important;
+  transition: opacity 0.2s ease !important;
+}
+
+.course-content a:hover {
+  opacity: 0.8 !important;
+}
+
+/* Unordered Lists - Styled bullets */
+.course-content ul {
+  list-style: none !important;
+  padding-left: 0 !important;
+  margin: 1rem 0 !important;
+}
+
+.course-content ul li {
+  position: relative;
+  padding-left: 1.75rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+  color: hsl(var(--muted-foreground));
+}
+
+.course-content ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  width: 8px;
+  height: 8px;
+  background-color: hsl(var(--primary));
+  border-radius: 50%;
+}
+
+/* Ordered Lists */
+.course-content ol {
+  list-style: none !important;
+  padding-left: 0 !important;
+  margin: 1rem 0 !important;
+  counter-reset: list-counter;
+}
+
+.course-content ol li {
+  position: relative;
+  padding-left: 2.25rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+  color: hsl(var(--muted-foreground));
+  counter-increment: list-counter;
+}
+
+.course-content ol li::before {
+  content: counter(list-counter);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: hsl(var(--primary) / 0.1);
+  color: hsl(var(--primary));
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Nested lists */
+.course-content ul ul,
+.course-content ol ul,
+.course-content ul ol,
+.course-content ol ol {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0 !important;
+}
+
+.course-content li p {
+  margin-bottom: 0.25rem;
+}
+
+/* Blockquote */
+.course-content blockquote {
+  border-left: 4px solid hsl(var(--primary)) !important;
+  padding-left: 1.25rem !important;
+  margin: 1.5rem 0 !important;
+  font-style: italic !important;
+  color: hsl(var(--muted-foreground)) !important;
+  background-color: hsl(var(--muted) / 0.3);
+  padding: 1rem 1.25rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.course-content blockquote p {
+  margin-bottom: 0;
+}
+
+/* Highlight */
+.course-content mark {
+  background-color: hsl(var(--primary) / 0.2);
+  color: hsl(var(--foreground));
+  padding: 0.125rem 0.25rem !important;
+  border-radius: 0.25rem !important;
+}
+
+/* Horizontal rule */
+.course-content hr {
+  border: none;
+  border-top: 1px solid hsl(var(--border)) !important;
+  margin: 2rem 0 !important;
+}
+
+/* Images */
+.course-content img {
+  max-width: 100% !important;
+  height: auto !important;
+  border-radius: 0.75rem !important;
+  margin: 1.5rem auto !important;
+  display: block !important;
+}
+
+/* Code blocks */
+.course-content pre {
+  background-color: #18181b !important;
+  color: #f4f4f5 !important;
+  padding: 1rem !important;
+  border-radius: 0.75rem !important;
+  overflow-x: auto !important;
+  margin: 1.5rem 0 !important;
+  font-family: 'JetBrains Mono', ui-monospace, monospace !important;
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+}
+
+.course-content pre code {
+  background: transparent !important;
+  padding: 0 !important;
+  color: inherit !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+}
+
+/* Inline code */
+.course-content code:not(pre code) {
+  background-color: hsl(var(--muted)) !important;
+  color: hsl(var(--primary)) !important;
+  padding: 0.2rem 0.4rem !important;
+  border-radius: 0.25rem !important;
+  font-family: 'JetBrains Mono', ui-monospace, monospace !important;
+  font-size: 0.875em !important;
+  font-weight: 500 !important;
+}
+
+/* Tables */
+.course-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+.course-content th,
+.course-content td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.course-content th {
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--muted) / 0.5);
+}
+
+.course-content td {
+  color: hsl(var(--muted-foreground));
+}
+
 /* ===== TipTap Editor Styles ===== */
 .tiptap {
   @apply min-h-[350px] outline-none;

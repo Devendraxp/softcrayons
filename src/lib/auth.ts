@@ -7,7 +7,7 @@ import {
     adminAc as defaultAdminAc 
 } from "better-auth/plugins/admin/access";
 import { prisma } from "./prisma";
-import { sendEmail } from "./email";
+import { sendEmail, getPasswordResetEmailTemplate } from "./email";
 import { userExists } from "./userExist";
 
 const ac = createAccessControl(defaultStatements);
@@ -55,6 +55,24 @@ export const auth = betterAuth({
     emailAndPassword: {
         enabled: true,
         requireEmailVerification: true,
+        sendResetPassword: async ({ user, url, token }, request) => {
+            console.log("[Auth] Sending password reset email to:", user.email);
+            // Don't await to prevent timing attacks
+            const emailTemplate = getPasswordResetEmailTemplate(url);
+            void sendEmail({
+                to: user.email,
+                subject: emailTemplate.subject,
+                html: emailTemplate.html,
+                text: emailTemplate.text,
+            }).then(() => {
+                console.log("[Auth] Password reset email sent successfully");
+            }).catch((err) => {
+                console.error("[Auth] Failed to send password reset email:", err);
+            });
+        },
+        onPasswordReset: async ({ user }, request) => {
+            console.log(`[Auth] Password for user ${user.email} has been reset.`);
+        },
     },
     emailVerification: {
         sendVerificationEmail: async ({ user, url }) => {

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,29 +16,37 @@ import {
   KeyRound,
   Shield,
   Mail,
+  AlertCircle,
 } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
 
-export default function ResetPasswordPage() {
-  const router = useRouter();
+function ResetPasswordContent() {
+  const searchParams = useSearchParams();
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [resetToken, setResetToken] = useState("");
-  const [email, setEmail] = useState("");
+  const [token, setToken] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const storedToken = sessionStorage.getItem("resetToken");
-    const storedEmail = sessionStorage.getItem("resetEmail");
-    if (!storedToken || !storedEmail) {
-      router.push("/forgot-password");
+    const tokenParam = searchParams.get("token");
+    const errorParam = searchParams.get("error");
+
+    if (errorParam === "INVALID_TOKEN") {
+      setError("The reset link is invalid or has expired. Please request a new one.");
       return;
     }
-    setResetToken(storedToken);
-    setEmail(storedEmail);
-  }, [router]);
+
+    if (!tokenParam) {
+      setError("No reset token found. Please request a new password reset link.");
+      return;
+    }
+
+    setToken(tokenParam);
+  }, [searchParams]);
 
   const validatePassword = (password: string) => {
     if (password.length < 8) {
@@ -59,6 +67,11 @@ export default function ResetPasswordPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!token) {
+      toast.error("Invalid reset token. Please request a new reset link.");
+      return;
+    }
+
     const passwordError = validatePassword(newPassword);
     if (passwordError) {
       toast.error(passwordError);
@@ -73,28 +86,16 @@ export default function ResetPasswordPage() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/auth/reset-password", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          resetToken,
-          newPassword,
-        }),
+      const { error } = await authClient.resetPassword({
+        newPassword,
+        token,
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        toast.error(data.error || "Failed to reset password. Please try again.");
+      if (error) {
+        toast.error(error.message || "Failed to reset password. Please try again.");
         setIsLoading(false);
         return;
       }
-
-      sessionStorage.removeItem("resetToken");
-      sessionStorage.removeItem("resetEmail");
 
       setIsSuccess(true);
       toast.success("Password reset successfully!");
@@ -104,6 +105,51 @@ export default function ResetPasswordPage() {
     }
   };
 
+  // Error state - invalid or expired token
+  if (error) {
+    return (
+      <div className="min-h-screen relative overflow-hidden bg-background">
+        {/* Background Effects */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-1/4 -left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse-slow" />
+          <div
+            className="absolute bottom-1/4 -right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse-slow"
+            style={{ animationDelay: "2s" }}
+          />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-primary/5 to-transparent rounded-full" />
+        </div>
+
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.3)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.3)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_40%,transparent_100%)]" />
+
+        {/* Main Content */}
+        <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
+          <div className="w-full max-w-md">
+            <div className="text-center space-y-6 animate-fade-up">
+              <div className="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center mx-auto">
+                <AlertCircle className="w-8 h-8 text-red-500" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-black mb-3">Invalid Reset Link</h1>
+                <p className="text-muted-foreground">
+                  {error}
+                </p>
+              </div>
+              <div className="pt-4">
+                <Link href="/forgot-password">
+                  <Button className="w-full bg-gradient-orange hover:opacity-90 transition-opacity">
+                    Request New Reset Link
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Success state
   if (isSuccess) {
     return (
       <div className="min-h-screen relative overflow-hidden bg-background">
@@ -293,5 +339,17 @@ export default function ResetPasswordPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    }>
+      <ResetPasswordContent />
+    </Suspense>
   );
 }

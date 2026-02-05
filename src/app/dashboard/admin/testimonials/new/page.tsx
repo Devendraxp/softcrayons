@@ -235,12 +235,29 @@ export default function NewTestimonialPage() {
                         ) {
                           handleImageUpload(result.info.secure_url as string);
                         }
+                        // Reset body styles to restore scrolling
+                        document.body.style.overflow = "";
+                        document.body.style.pointerEvents = "";
+                      }}
+                      onClose={() => {
+                        setTimeout(() => {
+                          document.body.style.overflow = "";
+                          document.body.style.pointerEvents = "";
+                        }, 100);
+                      }}
+                      onError={() => {
+                        document.body.style.overflow = "";
+                        document.body.style.pointerEvents = "";
                       }}
                     >
                       {({ open }) => (
                         <button
                           type="button"
-                          onClick={() => open()}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            open();
+                          }}
                           className="flex h-32 w-32 flex-col items-center justify-center gap-2 rounded-full border-2 border-dashed border-muted-foreground/25 text-muted-foreground transition-colors hover:border-muted-foreground/50"
                         >
                           <ImagePlus className="h-8 w-8" />

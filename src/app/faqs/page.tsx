@@ -1,59 +1,102 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import {
     Accordion,
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
-import { MessageCircle, BookOpen, Clock, Award, Code, GraduationCap } from "lucide-react";
+import { MessageCircle, BookOpen, Clock, Award, HelpCircle, Loader2 } from "lucide-react";
+import Link from "next/link";
 
-// Updated FAQ Data Structure (Array of objects with flatten structure)
-const faqs = [
-    {
-        question: "What courses does SoftCrayons offer?",
-        answer: "We offer a wide range of IT courses including Full Stack Development (Java, Python, MERN), Data Science, Cloud Computing (AWS, Azure), DevOps, Digital Marketing, and more. All our courses are designed to meet current industry standards.",
-        category: "Courses & Training"
-    },
-    {
-        question: "Do you provide placement assistance?",
-        answer: "Yes, we provide 100% placement assistance. We have a dedicated placement cell that helps students with resume building, interview preparation, and connecting with our partner companies for job opportunities.",
-        category: "Courses & Training"
-    },
-    {
-        question: "Are the certifications recognized?",
-        answer: "Absolutely. Our certifications are ISO certified and widely recognized in the industry. We also help prepare you for global certifications from vendors like Oracle, Microsoft, and AWS.",
-        category: "Courses & Training"
-    },
-    {
-        question: "What is the fee structure for the courses?",
-        answer: "The fee varies depending on the course and duration. We offer competitive pricing and flexible installment options. Please contact our counselors or visit our center for detailed fee structures.",
-        category: "Admission & Fees"
-    },
-    {
-        question: "Can I take a demo class before joining?",
-        answer: "Yes, we offer free demo classes for all our courses. This allows you to interact with our trainers and understand our teaching methodology before making a commitment.",
-        category: "Admission & Fees"
-    },
-    {
-        question: "Do you offer online classes?",
-        answer: "Yes, we offer both classroom and online training options. Our online classes are live and interactive, ensuring you get the same quality of education as our offline students.",
-        category: "Admission & Fees"
-    },
-    {
-        question: "Do I need a technical background to join?",
-        answer: "Not necessarily. We have courses for beginners as well as experienced professionals. Our trainers start from the basics and gradually move to advanced concepts.",
-        category: "Prerequisites & Timing"
-    },
-    {
-        question: "What are the batch timings?",
-        answer: "We have flexible batch timings including weekdays and weekends. Batches are available in the morning, afternoon, and evening to suit students and working professionals.",
-        category: "Prerequisites & Timing"
-    }
-];
+interface Faq {
+    id: number;
+    question: string;
+    answer: string;
+    category: {
+        id: number;
+        title: string;
+        slug: string;
+    };
+}
 
-// Helper to group FAQs by category for display
-const categories = Array.from(new Set(faqs.map(item => item.category)));
+interface FaqCategory {
+    id: number;
+    title: string;
+    slug: string;
+    _count?: {
+        faqs: number;
+    };
+}
+
+const categoryIcons: Record<string, typeof BookOpen> = {
+    "courses-training": BookOpen,
+    "admission-fees": Award,
+    "prerequisites-timing": Clock,
+};
 
 export default function FaqsPage() {
+    const [faqs, setFaqs] = useState<Faq[]>([]);
+    const [categories, setCategories] = useState<FaqCategory[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                // Fetch FAQs and categories in parallel
+                const [faqsRes, categoriesRes] = await Promise.all([
+                    fetch('/api/faqs?limit=100'),
+                    fetch('/api/faq-categories')
+                ]);
+
+                if (faqsRes.ok) {
+                    const faqsData = await faqsRes.json();
+                    if (faqsData.success) {
+                        setFaqs(faqsData.data);
+                    }
+                }
+
+                if (categoriesRes.ok) {
+                    const categoriesData = await categoriesRes.json();
+                    if (categoriesData.success) {
+                        setCategories(categoriesData.data);
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to fetch FAQs:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchData();
+    }, []);
+
+    // Group FAQs by category
+    const faqsByCategory = faqs.reduce((acc, faq) => {
+        const categoryTitle = faq.category.title;
+        if (!acc[categoryTitle]) {
+            acc[categoryTitle] = [];
+        }
+        acc[categoryTitle].push(faq);
+        return acc;
+    }, {} as Record<string, Faq[]>);
+
+    const categoryTitles = Object.keys(faqsByCategory);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-background pt-24 pb-16">
+                <div className="container">
+                    <div className="flex items-center justify-center py-20">
+                        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                        <span className="ml-3 text-muted-foreground">Loading FAQs...</span>
+                    </div>
+                </div>
+            </div>
+        );
+    }
     return (
         <div className="min-h-screen bg-background">
             <main>
@@ -87,22 +130,33 @@ export default function FaqsPage() {
                 {/* FAQ Section */}
                 <section className="pb-20">
                     <div className="container mx-auto px-4 max-w-4xl">
+                        {categoryTitles.length === 0 ? (
+                            <div className="text-center py-16 bg-card border border-border rounded-2xl">
+                                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
+                                    <HelpCircle className="w-8 h-8 text-muted-foreground" />
+                                </div>
+                                <p className="text-muted-foreground text-lg mb-2">
+                                    No FAQs available yet
+                                </p>
+                                <p className="text-sm text-muted-foreground">
+                                    Check back later for updates
+                                </p>
+                            </div>
+                        ) : (
                         <div className="space-y-12">
-                            {categories.map((category, index) => (
+                            {categoryTitles.map((category, index) => {
+                                const IconComponent = categoryIcons[category.toLowerCase().replace(/\s+/g, '-').replace(/&/g, '')] || HelpCircle;
+                                return (
                                 <div key={index} className="bg-muted/30 rounded-2xl p-6 md:p-8 border border-border/50 shadow-sm">
                                     <h3 className="text-xl md:text-2xl font-bold mb-6 flex items-center gap-3">
-                                        {category === "Courses & Training" && <BookOpen className="w-6 h-6 text-primary" />}
-                                        {category === "Admission & Fees" && <Award className="w-6 h-6 text-primary" />}
-                                        {category === "Prerequisites & Timing" && <Clock className="w-6 h-6 text-primary" />}
+                                        <IconComponent className="w-6 h-6 text-primary" />
                                         {category}
                                     </h3>
                                     
                                     <Accordion type="single" collapsible className="w-full space-y-4">
-                                        {faqs
-                                            .filter(item => item.category === category)
-                                            .map((item, itemIndex) => (
+                                        {faqsByCategory[category].map((item, itemIndex) => (
                                                 <AccordionItem 
-                                                    key={itemIndex} 
+                                                    key={item.id} 
                                                     value={`item-${index}-${itemIndex}`}
                                                     className="bg-background border rounded-xl px-4 shadow-sm"
                                                 >
@@ -117,8 +171,9 @@ export default function FaqsPage() {
                                         }
                                     </Accordion>
                                 </div>
-                            ))}
+                            )})}
                         </div>
+                        )}
                     </div>
                 </section>
 
@@ -137,9 +192,12 @@ export default function FaqsPage() {
                                 We're here to help! Reach out to our support team and we'll get back to you as soon as possible.
                             </p>
                             <div className="flex flex-wrap justify-center gap-4">
-                                <button className="px-8 py-3 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity shadow-lg shadow-primary/25">
-                                   Ask to our support team
-                                </button>
+                                <Link 
+                                    href="/query"
+                                    className="px-8 py-3 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity shadow-lg shadow-primary/25"
+                                >
+                                   Ask our support team
+                                </Link>
                             </div>
                         </div>
                     </div>

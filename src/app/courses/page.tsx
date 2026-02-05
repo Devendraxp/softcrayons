@@ -1,174 +1,309 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { CourseSidebar } from "@/components/courses/CourseSidebar";
 import { CourseCard } from "@/components/courses/CourseCard";
+import { Search, X, Loader2 } from "lucide-react";
+import Link from "next/link";
+import { Loader } from "@/components/ui/loader";
 
-const categories = [
-	{ id: "all", name: "All Courses", count: 10 },
-	{ id: "web-development", name: "Web Development", count: 2 },
-	{ id: "mobile-development", name: "Mobile Development", count: 2 },
-	{ id: "data-science", name: "Data Science", count: 2 },
-	{ id: "design", name: "UI/UX Design", count: 2 },
-	{ id: "devops", name: "DevOps", count: 2 },
-];
-
-interface CourseData {
+interface Category {
 	id: number;
 	title: string;
-	description: string;
-	category: string;
-	duration: string;
-	level: "Beginner" | "Intermediate" | "Advanced";
-	tags: string[];
-	image: string;
+	slug: string;
+	description: string | null;
+	_count: {
+		courses: number;
+	};
 }
 
-const courses: CourseData[] = [
-	{
-		id: 1,
-		title: "React Fundamentals",
-		description:
-			"Master React basics, hooks, and component patterns to build modern web applications.",
-		category: "web-development",
-		duration: "8 weeks",
-		level: "Beginner",
-		tags: ["React", "JavaScript", "Hooks"],
-		image:
-			"https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&auto=format&fit=crop&q=80",
-	},
-	{
-		id: 2,
-		title: "Node.js Backend Development",
-		description: "Build scalable backend APIs with Node.js, Express, and MongoDB.",
-		category: "web-development",
-		duration: "10 weeks",
-		level: "Intermediate",
-		tags: ["Node.js", "Express", "MongoDB"],
-		image:
-			"https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80",
-	},
-	{
-		id: 3,
-		title: "Flutter App Development",
-		description: "Create beautiful cross-platform mobile apps with Flutter and Dart.",
-		category: "mobile-development",
-		duration: "12 weeks",
-		level: "Beginner",
-		tags: ["Flutter", "Dart", "Mobile"],
-		image:
-			"https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&auto=format&fit=crop&q=80",
-	},
-	{
-		id: 4,
-		title: "React Native Mastery",
-		description: "Build production-ready iOS and Android apps with React Native.",
-		category: "mobile-development",
-		duration: "10 weeks",
-		level: "Intermediate",
-		tags: ["React Native", "TypeScript", "Firebase"],
-		image:
-			"https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&auto=format&fit=crop&q=80",
-	},
-	{
-		id: 5,
-		title: "Python for Data Science",
-		description: "Learn Python fundamentals and data analysis with Pandas and NumPy.",
-		category: "data-science",
-		duration: "14 weeks",
-		level: "Beginner",
-		tags: ["Python", "Pandas", "NumPy"],
-		image:
-			"https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=600&auto=format&fit=crop&q=80",
-	},
-	{
-		id: 6,
-		title: "Machine Learning Basics",
-		description: "Dive into ML algorithms, neural networks, and TensorFlow.",
-		category: "data-science",
-		duration: "16 weeks",
-		level: "Advanced",
-		tags: ["ML", "TensorFlow", "Python"],
-		image:
-			"https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=600&auto=format&fit=crop&q=80",
-	},
-	{
-		id: 7,
-		title: "Figma for Beginners",
-		description: "Master Figma basics and create stunning UI designs from scratch.",
-		category: "design",
-		duration: "6 weeks",
-		level: "Beginner",
-		tags: ["Figma", "UI", "Design"],
-		image:
-			"https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&auto=format&fit=crop&q=80",
-	},
-	{
-		id: 8,
-		title: "Advanced UI Design",
-		description:
-			"Learn design systems, micro-interactions, and advanced prototyping.",
-		category: "design",
-		duration: "8 weeks",
-		level: "Intermediate",
-		tags: ["UI/UX", "Prototyping", "Design Systems"],
-		image:
-			"https://images.unsplash.com/photo-1545235617-9465d2a55698?w=600&auto=format&fit=crop&q=80",
-	},
-	{
-		id: 9,
-		title: "Docker & Kubernetes",
-		description: "Containerize applications and orchestrate with Kubernetes.",
-		category: "devops",
-		duration: "10 weeks",
-		level: "Intermediate",
-		tags: ["Docker", "Kubernetes", "DevOps"],
-		image:
-			"https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?w=600&auto=format&fit=crop&q=80",
-	},
-	{
-		id: 10,
-		title: "CI/CD Pipeline Mastery",
-		description: "Build automated pipelines with GitHub Actions and Jenkins.",
-		category: "devops",
-		duration: "8 weeks",
-		level: "Advanced",
-		tags: ["CI/CD", "GitHub Actions", "Jenkins"],
-		image:
-			"https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=600&auto=format&fit=crop&q=80",
-	},
-];
+interface Course {
+	id: number;
+	title: string;
+	slug: string;
+	description: string | null;
+	thumbnailImage: string | null;
+	bannerImage: string | null;
+	duration: string | null;
+	difficulty: string;
+	fees: number | null;
+	discount: number | null;
+	isFeatured: boolean;
+	category: {
+		id: number;
+		title: string;
+		slug: string;
+	};
+}
+
+interface SearchResult {
+	id: number;
+	title: string;
+	slug: string;
+	description: string | null;
+	thumbnailImage: string | null;
+	duration: string | null;
+	difficulty: string;
+	category: {
+		title: string;
+		slug: string;
+	};
+	type: string;
+}
+
+interface CoursesResponse {
+	success: boolean;
+	data: Course[];
+	pagination: {
+		page: number;
+		limit: number;
+		totalCount: number;
+		totalPages: number;
+		hasNextPage: boolean;
+		hasPrevPage: boolean;
+	};
+}
 
 export default function CoursesPage() {
 	const [selectedCategory, setSelectedCategory] = useState("all");
+	const [categories, setCategories] = useState<{ id: string; name: string; count: number }[]>([
+		{ id: "all", name: "All Courses", count: 0 },
+	]);
+	const [courses, setCourses] = useState<Course[]>([]);
+	const [loading, setLoading] = useState(true);
+	const [loadingMore, setLoadingMore] = useState(false);
+	const [page, setPage] = useState(1);
+	const [hasMore, setHasMore] = useState(true);
+	const [totalCount, setTotalCount] = useState(0);
+	
+	// Search state
+	const [searchQuery, setSearchQuery] = useState("");
+	const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+	const [isSearching, setIsSearching] = useState(false);
+	const [showSearchResults, setShowSearchResults] = useState(false);
 
-	const filteredCourses =
-		selectedCategory === "all"
-			? courses
-			: courses.filter((course) => course.category === selectedCategory);
+	// Fetch categories
+	useEffect(() => {
+		const fetchCategories = async () => {
+			try {
+				const response = await fetch("/api/course-categories");
+				const data = await response.json();
+				if (data.success) {
+					const cats = data.data.map((cat: Category) => ({
+						id: cat.slug,
+						name: cat.title,
+						count: cat._count.courses,
+					}));
+					const totalCount = cats.reduce((sum: number, cat: { count: number }) => sum + cat.count, 0);
+					setCategories([{ id: "all", name: "All Courses", count: totalCount }, ...cats]);
+				}
+			} catch (error) {
+				console.error("Failed to fetch categories:", error);
+			}
+		};
+		fetchCategories();
+	}, []);
 
-	// Add categoryName to each course for the card component
-	const coursesWithCategoryName = filteredCourses.map((course) => ({
-		...course,
-		categoryName: categories.find((c) => c.id === course.category)?.name || "",
+	// Full-text search
+	const performSearch = useCallback(async (query: string) => {
+		if (query.trim().length < 2) {
+			setSearchResults([]);
+			setShowSearchResults(false);
+			return;
+		}
+
+		setIsSearching(true);
+		try {
+			const response = await fetch(`/api/search?q=${encodeURIComponent(query)}&type=courses&limit=10`);
+			const data = await response.json();
+			if (data.success) {
+				setSearchResults(data.data.courses);
+				setShowSearchResults(true);
+			}
+		} catch (error) {
+			console.error("Search failed:", error);
+		} finally {
+			setIsSearching(false);
+		}
+	}, []);
+
+	// Debounced search
+	useEffect(() => {
+		const timeoutId = setTimeout(() => {
+			if (searchQuery) {
+				performSearch(searchQuery);
+			} else {
+				setSearchResults([]);
+				setShowSearchResults(false);
+			}
+		}, 300);
+		return () => clearTimeout(timeoutId);
+	}, [searchQuery, performSearch]);
+
+	// Fetch courses
+	const fetchCourses = async (pageNum: number, categorySlug: string, append: boolean = false) => {
+		try {
+			if (append) setLoadingMore(true);
+			else setLoading(true);
+
+			const params = new URLSearchParams({
+				page: pageNum.toString(),
+				limit: "12",
+			});
+			if (categorySlug !== "all") {
+				params.append("categorySlug", categorySlug);
+			}
+
+			const response = await fetch(`/api/courses?${params}`);
+			const data: CoursesResponse = await response.json();
+
+			if (data.success) {
+				if (append) {
+					setCourses((prev) => [...prev, ...data.data]);
+				} else {
+					setCourses(data.data);
+				}
+				setHasMore(data.pagination.hasNextPage);
+				setTotalCount(data.pagination.totalCount);
+			}
+		} catch (error) {
+			console.error("Failed to fetch courses:", error);
+		} finally {
+			setLoading(false);
+			setLoadingMore(false);
+		}
+	};
+
+	useEffect(() => {
+		setPage(1);
+		fetchCourses(1, selectedCategory);
+	}, [selectedCategory]);
+
+	const loadMore = () => {
+		const nextPage = page + 1;
+		setPage(nextPage);
+		fetchCourses(nextPage, selectedCategory, true);
+	};
+
+	const clearSearch = () => {
+		setSearchQuery("");
+		setSearchResults([]);
+		setShowSearchResults(false);
+	};
+
+	const formatDifficulty = (difficulty: string): "Beginner" | "Intermediate" | "Advanced" => {
+		const formatted = difficulty.charAt(0) + difficulty.slice(1).toLowerCase();
+		return formatted as "Beginner" | "Intermediate" | "Advanced";
+	};
+
+	// Transform courses for CourseCard component
+	const coursesWithCategoryName = courses.map((course) => ({
+		id: course.id,
+		title: course.title,
+		description: course.description || "",
+		category: course.category.slug,
+		categoryName: course.category.title,
+		duration: course.duration || "Self-paced",
+		level: formatDifficulty(course.difficulty),
+		tags: [], // Could be populated from topics JSON
+		image: course.thumbnailImage || "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&auto=format&fit=crop&q=80",
+		slug: course.slug,
 	}));
+
+	if (loading) {
+		return (
+			<div className="min-h-screen bg-background pt-24 pb-16">
+				<div className="container">
+					<Loader text="courses" size="lg" />
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className="min-h-screen bg-background pt-24 pb-16">
 			<div className="container">
 				{/* Header */}
 				<div className="mb-10">
-					<span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
-						Explore Courses
-					</span>
-					<h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
-						Find Your{" "}
-						<span className="text-gradient">Perfect Course</span>
-					</h1>
-					<p className="text-muted-foreground text-lg max-w-2xl">
-						Agar nahi samajh me aa raha to koi baat nahi, koi sa bhi choose kar lo, hamari support team aapse contact karke sahi course decide karne me help kar degi.
-					</p>
+					<div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+						<div>
+							<h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
+								Find Your{" "}
+								<span className="text-gradient">Perfect Course</span>
+							</h1>
+							<p className="text-muted-foreground text-lg max-w-2xl">
+								Feeling uncertain about which course is right for you? Don’t worry, you don’t have to figure it out alone. Simply explore your interests, and our expert advisors will connect with you to understand your goals, strengths, and ambitions.
+							</p>
+						</div>
+
+						{/* Search Box */}
+						<div className="relative w-full lg:w-96">
+							<Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+							<Input
+								type="text"
+								placeholder="Search courses..."
+								value={searchQuery}
+								onChange={(e) => setSearchQuery(e.target.value)}
+								className="pl-12 pr-10 py-6 rounded-2xl bg-card border-border focus:border-primary"
+							/>
+							{searchQuery && (
+								<button
+									onClick={clearSearch}
+									className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+								>
+									<X className="w-5 h-5" />
+								</button>
+							)}
+							{isSearching && (
+								<div className="absolute right-12 top-1/2 -translate-y-1/2">
+									<Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
+								</div>
+							)}
+
+							{/* Search Results Dropdown */}
+							{showSearchResults && searchResults.length > 0 && (
+								<div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-lg z-50 max-h-96 overflow-y-auto">
+									<div className="p-2">
+										<p className="text-xs text-muted-foreground px-3 py-2">
+											Found {searchResults.length} course{searchResults.length !== 1 ? 's' : ''}
+										</p>
+										{searchResults.map((result) => (
+											<Link
+												key={result.id}
+												href={`/courses/${result.slug}`}
+												onClick={clearSearch}
+												className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted transition-colors"
+											>
+												<div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-muted">
+													{result.thumbnailImage && (
+														<img
+															src={result.thumbnailImage}
+															alt={result.title}
+															className="w-full h-full object-cover"
+														/>
+													)}
+												</div>
+												<div className="flex-1 min-w-0">
+													<p className="font-medium text-sm truncate">{result.title}</p>
+													<p className="text-xs text-muted-foreground">
+														{result.category.title} • {result.duration || 'Self-paced'}
+													</p>
+												</div>
+											</Link>
+										))}
+									</div>
+								</div>
+							)}
+
+							{showSearchResults && searchResults.length === 0 && searchQuery.length >= 2 && !isSearching && (
+								<div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-lg z-50 p-6 text-center">
+									<p className="text-muted-foreground">No courses found for "{searchQuery}"</p>
+								</div>
+							)}
+						</div>
+					</div>
 				</div>
 
 				<div className="flex flex-col lg:flex-row gap-8">
@@ -185,10 +320,10 @@ export default function CoursesPage() {
 							<p className="text-muted-foreground">
 								Showing{" "}
 								<span className="font-semibold text-foreground">
-									{filteredCourses.length}
+									{totalCount}
 								</span>{" "}
 								course
-								{filteredCourses.length !== 1 ? "s" : ""}
+								{totalCount !== 1 ? "s" : ""}
 							</p>
 						</div>
 
@@ -198,7 +333,7 @@ export default function CoursesPage() {
 							))}
 						</div>
 
-						{filteredCourses.length === 0 && (
+						{courses.length === 0 && (
 							<div className="text-center py-16 bg-card border border-border rounded-2xl">
 								<p className="text-muted-foreground text-lg">
 									No courses found in this category.
@@ -209,6 +344,19 @@ export default function CoursesPage() {
 									onClick={() => setSelectedCategory("all")}
 								>
 									View All Courses
+								</Button>
+							</div>
+						)}
+
+						{hasMore && courses.length > 0 && (
+							<div className="text-center mt-8">
+								<Button
+									variant="outline"
+									size="lg"
+									onClick={loadMore}
+									disabled={loadingMore}
+								>
+									{loadingMore ? "Loading..." : "Load More Courses"}
 								</Button>
 							</div>
 						)}

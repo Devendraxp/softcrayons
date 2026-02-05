@@ -298,12 +298,29 @@ export default function InstructorPage() {
                             `${fileName}.${format}`
                           );
                         }
+                        // Reset body styles to restore scrolling
+                        document.body.style.overflow = "";
+                        document.body.style.pointerEvents = "";
+                      }}
+                      onClose={() => {
+                        setTimeout(() => {
+                          document.body.style.overflow = "";
+                          document.body.style.pointerEvents = "";
+                        }, 100);
+                      }}
+                      onError={() => {
+                        document.body.style.overflow = "";
+                        document.body.style.pointerEvents = "";
                       }}
                     >
                       {({ open }) => (
                         <button
                           type="button"
-                          onClick={() => open()}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            open();
+                          }}
                           className="flex items-center gap-3 w-full px-4 py-3 rounded-xl bg-muted/30 border-0 border-b border-border/50 border-dashed hover:border-primary cursor-pointer transition-all"
                           disabled={isSubmitting}
                         >

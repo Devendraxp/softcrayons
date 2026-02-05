@@ -169,12 +169,29 @@ export default function NewUserPage() {
                       if (result.info && typeof result.info === "object" && "secure_url" in result.info) {
                         handleChange("image", result.info.secure_url as string);
                       }
+                      // Reset body styles to restore scrolling
+                      document.body.style.overflow = "";
+                      document.body.style.pointerEvents = "";
+                    }}
+                    onClose={() => {
+                      setTimeout(() => {
+                        document.body.style.overflow = "";
+                        document.body.style.pointerEvents = "";
+                      }, 100);
+                    }}
+                    onError={() => {
+                      document.body.style.overflow = "";
+                      document.body.style.pointerEvents = "";
                     }}
                   >
                     {({ open }) => (
                       <button
                         type="button"
-                        onClick={() => open()}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          open();
+                        }}
                         className="flex h-20 w-20 flex-col items-center justify-center gap-1 rounded-full border-2 border-dashed border-muted-foreground/25 text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
                       >
                         <ImagePlus className="h-6 w-6" />

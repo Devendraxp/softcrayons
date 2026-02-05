@@ -1,81 +1,91 @@
-import { TestimonialCard } from "@/components/testimonial-card";
+"use client";
 
-const testimonials = [
-	{
-		name: "Rahul Sharma",
-		description: "Full Stack Developer",
-		testimonial:
-			"SoftCrayons transformed my career. The hands-on projects and mentorship helped me land my dream job at a top tech company. The curriculum is industry-relevant and the instructors are amazing!",
-		profileImage:
-			"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-	},
-	{
-		name: "Priya Patel",
-		description: "Data Scientist at Google",
-		testimonial:
-			"The data science course was comprehensive and practical. I went from zero coding knowledge to working as a data scientist in just 6 months. Highly recommended!",
-		profileImage:
-			"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
-	},
-	{
-		name: "Amit Kumar",
-		description: "Software Engineer",
-		testimonial:
-			"Best investment I've made in my education. The live classes, doubt sessions, and community support made learning so much easier.",
-		profileImage:
-			"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-	},
-	{
-		name: "Sneha Gupta",
-		description: "Frontend Developer at Microsoft",
-		testimonial:
-			"The React and Next.js courses are top-notch. The projects we built during the course are now part of my portfolio that impressed my interviewers. The instructors explain complex concepts in simple terms.",
-		profileImage:
-			"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-	},
-	{
-		name: "Vikram Singh",
-		description: "DevOps Engineer",
-		testimonial:
-			"SoftCrayons' DevOps course covered everything from Docker to Kubernetes to CI/CD pipelines. Real-world scenarios and hands-on labs made all the difference.",
-		profileImage:
-			"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-	},
-	{
-		name: "Anjali Verma",
-		description: "UI/UX Designer",
-		testimonial:
-			"Excellent course structure and supportive community. The feedback on my projects helped me improve rapidly.",
-		profileImage:
-			"https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face",
-	},
-	{
-		name: "Rohit Mehra",
-		description: "Backend Developer at Amazon",
-		testimonial:
-			"The Node.js and MongoDB course was exactly what I needed. Within 3 months of completing the course, I received multiple job offers. The placement support is genuine and effective.",
-		profileImage:
-			"https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop&crop=face",
-	},
-	{
-		name: "Kavita Reddy",
-		description: "Mobile App Developer",
-		testimonial:
-			"Learning React Native here was a game-changer. Now I build apps for both iOS and Android!",
-		profileImage:
-			"https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&h=150&fit=crop&crop=face",
-	},
-	{
-		name: "Arjun Nair",
-		description: "Cloud Architect",
-		testimonial:
-			"The AWS certification prep course was thorough and well-structured. Passed my exam on the first attempt thanks to the comprehensive coverage and practice tests provided.",
-		profileImage:
-			"https://images.unsplash.com/photo-1463453091185-61582044d556?w=150&h=150&fit=crop&crop=face",
-	},
-];
+import { TestimonialCard } from "@/components/testimonial-card";
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Star } from "lucide-react";
+import { Loader } from "@/components/ui/loader";
+
+interface Testimonial {
+	id: number;
+	studentName: string;
+	avatar: string | null;
+	rating: number;
+	feedback: string;
+	isFeatured: boolean;
+	createdAt: string;
+}
+
+interface ReviewsResponse {
+	success: boolean;
+	data: Testimonial[];
+	stats: {
+		averageRating: string;
+		totalReviews: number;
+	};
+	pagination: {
+		page: number;
+		limit: number;
+		totalCount: number;
+		totalPages: number;
+		hasNextPage: boolean;
+		hasPrevPage: boolean;
+	};
+}
 
 export default function ReviewsPage() {
+	const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+	const [loading, setLoading] = useState(true);
+	const [loadingMore, setLoadingMore] = useState(false);
+	const [stats, setStats] = useState({ averageRating: "0", totalReviews: 0 });
+	const [page, setPage] = useState(1);
+	const [hasMore, setHasMore] = useState(true);
+
+	const fetchReviews = async (pageNum: number, append: boolean = false) => {
+		try {
+			if (append) setLoadingMore(true);
+			else setLoading(true);
+
+			const response = await fetch(`/api/reviews?page=${pageNum}&limit=9`);
+			const data: ReviewsResponse = await response.json();
+
+			if (data.success) {
+				if (append) {
+					setTestimonials((prev) => [...prev, ...data.data]);
+				} else {
+					setTestimonials(data.data);
+				}
+				setStats(data.stats);
+				setHasMore(data.pagination.hasNextPage);
+			}
+		} catch (error) {
+			console.error("Failed to fetch reviews:", error);
+		} finally {
+			setLoading(false);
+			setLoadingMore(false);
+		}
+	};
+
+	useEffect(() => {
+		fetchReviews(1);
+	}, []);
+
+	const loadMore = () => {
+		const nextPage = page + 1;
+		setPage(nextPage);
+		fetchReviews(nextPage, true);
+	};
+
+	if (loading) {
+		return (
+			<main className="min-h-screen bg-white dark:bg-black pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+				<div className="max-w-7xl mx-auto">
+					<Loader text="reviews" size="lg" />
+				</div>
+			</main>
+		);
+	}
+
 	return (
 		<main className="min-h-screen bg-white dark:bg-black pt-32 pb-20 px-4 sm:px-6 lg:px-8">
 			<div className="max-w-7xl mx-auto">
@@ -84,18 +94,66 @@ export default function ReviewsPage() {
 						Wall of{" "}
 						<span className="text-gradient font-black">Love</span>
 					</h1>
-					<p className="text-gray-600 dark:text-zinc-400 text-lg max-w-2xl mx-auto">
+					<p className="text-gray-600 dark:text-zinc-400 text-lg max-w-2xl mx-auto mb-6">
 						Hear from our community of learners who have transformed their
 						careers with SoftCrayons
 					</p>
+
+					{/* Stats */}
+					<div className="flex items-center justify-center gap-8 mt-8">
+						<div className="text-center">
+							<div className="flex items-center justify-center gap-1 mb-1">
+								<Star className="w-5 h-5 fill-primary text-primary" />
+								<span className="text-2xl font-bold">{stats.averageRating}</span>
+							</div>
+							<p className="text-sm text-muted-foreground">Average Rating</p>
+						</div>
+						<div className="h-10 w-px bg-border" />
+						<div className="text-center">
+							<span className="text-2xl font-bold">{stats.totalReviews}</span>
+							<p className="text-sm text-muted-foreground">Total Reviews</p>
+						</div>
+					</div>
 				</div>
 
-				{/* Simple Grid Layout */}
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-					{testimonials.map((testimonial, index) => (
-						<TestimonialCard key={index} {...testimonial} />
-					))}
-				</div>
+				{testimonials.length === 0 ? (
+					<div className="text-center py-16">
+						<p className="text-muted-foreground text-lg">No reviews yet.</p>
+					</div>
+				) : (
+					<>
+						{/* Simple Grid Layout */}
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+							{testimonials.map((testimonial) => (
+								<TestimonialCard
+									key={testimonial.id}
+									name={testimonial.studentName}
+									description="SoftCrayons Alumni"
+									testimonial={testimonial.feedback}
+									profileImage={
+										testimonial.avatar ||
+										`https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.studentName)}&background=random`
+									}
+									rating={testimonial.rating}
+								/>
+							))}
+						</div>
+
+						{/* Load More Button */}
+						{hasMore && (
+							<div className="text-center mt-12">
+								<Button
+									variant="outline"
+									size="lg"
+									onClick={loadMore}
+									disabled={loadingMore}
+								>
+									{loadingMore ? "Loading..." : "Load More Reviews"}
+								</Button>
+							</div>
+						)}
+					</>
+				)}
 			</div>
 		</main>
 	);
