@@ -31,8 +31,8 @@ export function Navbar() {
 	const dropdownRef = useRef<HTMLDivElement>(null);
 	const pathname = usePathname();
 
-	const visibleLinks = navLinks.slice(0, 6);
-	const moreLinks = navLinks.slice(6);
+	const visibleLinks = navLinks.slice(0, 7);
+	const moreLinks = navLinks.slice(7);
 
 	const isActive = (href: string) => {
 		if (href === "/") return pathname === "/";
