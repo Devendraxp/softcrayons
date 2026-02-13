@@ -51,13 +51,12 @@ export const auth = betterAuth({
         provider: "postgresql",
     }),
     secret: process.env.BETTER_AUTH_SECRET,
-    baseURL: process.env.BETTER_AUTH_URL || process.env.NEXT_PUBLIC_APP_URL,
+    baseURL: process.env.NEXT_PUBLIC_APP_URL || process.env.BETTER_AUTH_URL,
     emailAndPassword: {
         enabled: true,
         requireEmailVerification: true,
         sendResetPassword: async ({ user, url, token }, request) => {
             console.log("[Auth] Sending password reset email to:", user.email);
-            // Don't await to prevent timing attacks
             const emailTemplate = getPasswordResetEmailTemplate(url);
             void sendEmail({
                 to: user.email,
@@ -90,11 +89,11 @@ export const auth = betterAuth({
         },
     },
     session: {
-        expiresIn: 60 * 60 * 24 * 7, // 7 days
-        updateAge: 60 * 60 * 24, // 1 day
+        expiresIn: 60 * 60 * 24 * 7,
+        updateAge: 60 * 60 * 24,
         cookieCache: {
             enabled: true,
-            maxAge: 5 * 60, // 5 minutes
+            maxAge: 5 * 60,
         },
     },
     user: {
