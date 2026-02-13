@@ -20,6 +20,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -27,7 +28,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UserSelector } from "@/components/ui/user-selector";
 import { type FacultyEnquiry, type FacultyEnquiryStatus } from "./FacultyEnquiryRow";
 import { cn } from "@/lib/utils";
-import { Phone, Mail, FileText, Calendar, User } from "lucide-react";
+import { Phone, Mail, FileText, Calendar, User, Trash2 } from "lucide-react";
 
 // View Details Dialog
 interface ViewDetailsDialogProps {
@@ -355,28 +356,64 @@ export function DeleteFacultyEnquiryDialog({
   onConfirm,
   isLoading = false,
 }: DeleteFacultyEnquiryDialogProps) {
+  const [confirmText, setConfirmText] = React.useState("");
+  const isConfirmed = confirmText === "DELETE";
+
+  const handleOpenChange = (value: boolean) => {
+    if (!value) setConfirmText("");
+    onOpenChange(value);
+  };
+
+  const handleConfirm = () => {
+    if (isConfirmed && enquiry) {
+      onConfirm(enquiry.id);
+      setConfirmText("");
+    }
+  };
+
   return (
-    <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Delete Faculty Enquiry</AlertDialogTitle>
-          <AlertDialogDescription>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10 mb-2">
+            <Trash2 className="h-6 w-6 text-destructive" />
+          </div>
+          <DialogTitle className="text-center">Delete Faculty Enquiry</DialogTitle>
+          <DialogDescription className="text-center">
             Are you sure you want to delete the faculty enquiry from{" "}
             <span className="font-semibold text-foreground">{enquiry?.name}</span>?
             This action cannot be undone.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={() => enquiry && onConfirm(enquiry.id)}
-            disabled={isLoading}
-            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+          </DialogDescription>
+        </DialogHeader>
+        <div className="space-y-2 py-2">
+          <Label htmlFor="confirm-delete-faculty-enquiry" className="text-sm font-medium">
+            Type <span className="font-bold text-destructive">DELETE</span> to confirm
+          </Label>
+          <Input
+            id="confirm-delete-faculty-enquiry"
+            value={confirmText}
+            onChange={(e) => setConfirmText(e.target.value)}
+            placeholder="Type DELETE here"
+            className="font-mono"
+            autoComplete="off"
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && isConfirmed) handleConfirm();
+            }}
+          />
+        </div>
+        <DialogFooter className="gap-2 sm:gap-0">
+          <Button variant="outline" onClick={() => handleOpenChange(false)} disabled={isLoading}>
+            Cancel
+          </Button>
+          <Button
+            variant="destructive"
+            onClick={handleConfirm}
+            disabled={!isConfirmed || isLoading}
           >
             {isLoading ? "Deleting..." : "Delete Enquiry"}
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

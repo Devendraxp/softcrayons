@@ -27,6 +27,7 @@ export interface BlogData {
     category: string;
     categoryName: string;
     author: string;
+    authorImage: string | null;
     date: string;
     readTime: string;
     featured?: boolean;
@@ -104,6 +105,7 @@ function transformBlog(blog: ApiBlog): BlogData {
         category: blog.category.slug,
         categoryName: blog.category.title,
         author: blog.author.name,
+        authorImage: blog.author.image,
         date: formatDate(blog.dateOfPublish),
         readTime: `${blog.readTime} min read`,
         featured: blog.isFeatured,
@@ -371,23 +373,6 @@ export default function BlogsPage() {
                                 </div>
                             )}
                         </div>
-                    </div>
-
-                    {/* Popular Tags */}
-                    <div className="flex flex-wrap items-center gap-3 mt-6">
-                        <span className="text-sm text-muted-foreground flex items-center gap-1">
-                            <TrendingUp className="w-4 h-4" />
-                            Trending:
-                        </span>
-                        {popularTags.map((tag) => (
-                            <button
-                                key={tag}
-                                onClick={() => setSearchQuery(tag)}
-                                className="px-3 py-1.5 text-sm rounded-full bg-muted hover:bg-primary/10 hover:text-primary transition-colors"
-                            >
-                                {tag}
-                            </button>
-                        ))}
                     </div>
                 </div>
 

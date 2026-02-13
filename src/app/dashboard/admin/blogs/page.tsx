@@ -43,6 +43,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DeleteConfirmModal } from "@/components/ui/delete-confirm-modal";
 import { toast } from "sonner"; // Assuming you have a toast component
 
 type Blog = {
@@ -70,6 +71,8 @@ export default function BlogsPage() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [isLoading, setIsLoading] = useState(true);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
 
   // Stats
   const totalBlogs = blogs.length;
@@ -125,19 +128,26 @@ export default function BlogsPage() {
     }
   };
 
-  const handleDeleteBlog = async (id: number) => {
-    if (!confirm("Are you sure you want to delete this blog?")) return;
+  const handleDeleteBlog = (id: number) => {
+    setDeleteItemId(id);
+    setDeleteModalOpen(true);
+  };
 
+  const confirmDeleteBlog = async () => {
+    if (!deleteItemId) return;
     try {
-      const response = await fetch(`/api/admin/blogs/${id}`, {
+      const response = await fetch(`/api/admin/blogs/${deleteItemId}`, {
         method: "DELETE",
       });
 
       if (response.ok) {
-        setBlogs(blogs.filter((b) => b.id !== id));
+        setBlogs(blogs.filter((b) => b.id !== deleteItemId));
       }
     } catch (error) {
       console.error("Failed to delete blog:", error);
+    } finally {
+      setDeleteModalOpen(false);
+      setDeleteItemId(null);
     }
   };
 
@@ -363,6 +373,17 @@ export default function BlogsPage() {
           </Table>
         </CardContent>
       </Card>
+
+      <DeleteConfirmModal
+        open={deleteModalOpen}
+        onOpenChange={(open) => {
+          setDeleteModalOpen(open);
+          if (!open) setDeleteItemId(null);
+        }}
+        onConfirm={confirmDeleteBlog}
+        title="Delete Blog"
+        description="This action cannot be undone. This will permanently delete this blog post."
+      />
     </div>
   );
 }

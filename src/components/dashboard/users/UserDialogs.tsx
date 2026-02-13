@@ -23,6 +23,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Trash2 } from "lucide-react";
 import { type User } from "./UserRow";
 
 // Delete User Dialog
@@ -41,32 +42,68 @@ export function DeleteUserDialog({
   onConfirm,
   isLoading = false,
 }: DeleteUserDialogProps) {
+  const [confirmText, setConfirmText] = React.useState("");
+  const isConfirmed = confirmText === "DELETE";
+
+  const handleOpenChange = (value: boolean) => {
+    if (!value) setConfirmText("");
+    onOpenChange(value);
+  };
+
+  const handleConfirm = () => {
+    if (isConfirmed && user) {
+      onConfirm(user.id);
+      setConfirmText("");
+    }
+  };
+
   return (
-    <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Delete User</AlertDialogTitle>
-          <AlertDialogDescription>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10 mb-2">
+            <Trash2 className="h-6 w-6 text-destructive" />
+          </div>
+          <DialogTitle className="text-center">Delete User</DialogTitle>
+          <DialogDescription className="text-center">
             Are you sure you want to delete{" "}
             <span className="font-semibold text-foreground">
               {user?.name || user?.email}
             </span>
             ? This action cannot be undone. All data associated with this user
             will be permanently removed.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={() => user && onConfirm(user.id)}
-            disabled={isLoading}
-            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+          </DialogDescription>
+        </DialogHeader>
+        <div className="space-y-2 py-2">
+          <Label htmlFor="confirm-delete-user" className="text-sm font-medium">
+            Type <span className="font-bold text-destructive">DELETE</span> to confirm
+          </Label>
+          <Input
+            id="confirm-delete-user"
+            value={confirmText}
+            onChange={(e) => setConfirmText(e.target.value)}
+            placeholder="Type DELETE here"
+            className="font-mono"
+            autoComplete="off"
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && isConfirmed) handleConfirm();
+            }}
+          />
+        </div>
+        <DialogFooter className="gap-2 sm:gap-0">
+          <Button variant="outline" onClick={() => handleOpenChange(false)} disabled={isLoading}>
+            Cancel
+          </Button>
+          <Button
+            variant="destructive"
+            onClick={handleConfirm}
+            disabled={!isConfirmed || isLoading}
           >
             {isLoading ? "Deleting..." : "Delete User"}
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
 

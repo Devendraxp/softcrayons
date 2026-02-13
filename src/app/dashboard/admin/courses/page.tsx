@@ -42,6 +42,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DeleteConfirmModal } from "@/components/ui/delete-confirm-modal";
 
 type Course = {
   id: number;
@@ -66,6 +67,8 @@ export default function CoursesPage() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [difficultyFilter, setDifficultyFilter] = useState("all");
   const [isLoading, setIsLoading] = useState(true);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
 
   // Stats
   const totalCourses = courses.length;
@@ -121,19 +124,26 @@ export default function CoursesPage() {
     }
   };
 
-  const handleDeleteCourse = async (id: number) => {
-    if (!confirm("Are you sure you want to delete this course?")) return;
+  const handleDeleteCourse = (id: number) => {
+    setDeleteItemId(id);
+    setDeleteModalOpen(true);
+  };
 
+  const confirmDeleteCourse = async () => {
+    if (!deleteItemId) return;
     try {
-      const response = await fetch(`/api/admin/courses/${id}`, {
+      const response = await fetch(`/api/admin/courses/${deleteItemId}`, {
         method: "DELETE",
       });
 
       if (response.ok) {
-        setCourses(courses.filter((c) => c.id !== id));
+        setCourses(courses.filter((c) => c.id !== deleteItemId));
       }
     } catch (error) {
       console.error("Failed to delete course:", error);
+    } finally {
+      setDeleteModalOpen(false);
+      setDeleteItemId(null);
     }
   };
 
@@ -386,6 +396,17 @@ export default function CoursesPage() {
           </Table>
         </CardContent>
       </Card>
+
+      <DeleteConfirmModal
+        open={deleteModalOpen}
+        onOpenChange={(open) => {
+          setDeleteModalOpen(open);
+          if (!open) setDeleteItemId(null);
+        }}
+        onConfirm={confirmDeleteCourse}
+        title="Delete Course"
+        description="This action cannot be undone. This will permanently delete this course."
+      />
     </div>
   );
 }

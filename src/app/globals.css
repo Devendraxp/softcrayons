@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@source "../../../node_modules/@tremor/react";
+
+@source "../lib/tremor-safelist.ts";
+
 /* Enable class-based dark mode */
 @custom-variant dark (&:is(.dark *));
 
@@ -440,6 +444,13 @@
   font-family: 'JetBrains Mono', ui-monospace, monospace !important;
   font-size: 0.875rem !important;
   line-height: 1.5 !important;
+}
+
+/* Reset pre styles inside React-rendered code blocks */
+.course-content .code-block-rendered pre {
+  margin: 0 !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 0 !important;
 }
 
 .course-content pre code {

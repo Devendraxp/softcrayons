@@ -16,6 +16,7 @@ interface FeaturedBlogCardProps {
         category: string;
         categoryName: string;
         author: string;
+        authorImage: string | null;
         date: string;
         readTime: string;
     };
@@ -65,9 +66,19 @@ export function FeaturedBlogCard({ blog, variant = "default" }: FeaturedBlogCard
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4 text-sm text-white/70">
                                 <div className="flex items-center gap-2">
-                                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                                        <User className="w-4 h-4" />
-                                    </div>
+                                    {blog.authorImage ? (
+                                        <Image
+                                            src={blog.authorImage}
+                                            alt={blog.author}
+                                            width={32}
+                                            height={32}
+                                            className="w-8 h-8 rounded-full object-cover"
+                                        />
+                                    ) : (
+                                        <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                                            <User className="w-4 h-4" />
+                                        </div>
+                                    )}
                                     <span>{blog.author}</span>
                                 </div>
                                 <span>•</span>
@@ -192,7 +203,17 @@ export function FeaturedBlogCard({ blog, variant = "default" }: FeaturedBlogCard
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4 text-xs text-muted-foreground">
                             <div className="flex items-center gap-1">
-                                <User className="w-3.5 h-3.5" />
+                                {blog.authorImage ? (
+                                    <Image
+                                        src={blog.authorImage}
+                                        alt={blog.author}
+                                        width={16}
+                                        height={16}
+                                        className="w-3.5 h-3.5 rounded-full object-cover"
+                                    />
+                                ) : (
+                                    <User className="w-3.5 h-3.5" />
+                                )}
                                 <span>{blog.author}</span>
                             </div>
                             <div className="flex items-center gap-1">

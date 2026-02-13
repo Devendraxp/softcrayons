@@ -44,6 +44,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { DeleteConfirmModal } from "@/components/ui/delete-confirm-modal";
 
 type Faculty = {
   id: number;
@@ -69,6 +70,8 @@ export default function FacultiesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [isLoading, setIsLoading] = useState(true);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
 
   // Stats
   const totalFaculties = faculties.length;
@@ -124,19 +127,26 @@ export default function FacultiesPage() {
     }
   };
 
-  const handleDeleteFaculty = async (id: number) => {
-    if (!confirm("Are you sure you want to delete this faculty member?")) return;
+  const handleDeleteFaculty = (id: number) => {
+    setDeleteItemId(id);
+    setDeleteModalOpen(true);
+  };
 
+  const confirmDeleteFaculty = async () => {
+    if (!deleteItemId) return;
     try {
-      const response = await fetch(`/api/admin/faculties/${id}`, {
+      const response = await fetch(`/api/admin/faculties/${deleteItemId}`, {
         method: "DELETE",
       });
 
       if (response.ok) {
-        setFaculties(faculties.filter((f) => f.id !== id));
+        setFaculties(faculties.filter((f) => f.id !== deleteItemId));
       }
     } catch (error) {
       console.error("Failed to delete faculty:", error);
+    } finally {
+      setDeleteModalOpen(false);
+      setDeleteItemId(null);
     }
   };
 
@@ -373,6 +383,17 @@ export default function FacultiesPage() {
           </Table>
         </CardContent>
       </Card>
+
+      <DeleteConfirmModal
+        open={deleteModalOpen}
+        onOpenChange={(open) => {
+          setDeleteModalOpen(open);
+          if (!open) setDeleteItemId(null);
+        }}
+        onConfirm={confirmDeleteFaculty}
+        title="Delete Faculty"
+        description="This action cannot be undone. This will permanently delete this faculty member."
+      />
     </div>
   );
 }

@@ -16,6 +16,7 @@ interface BlogCardProps {
         category: string;
         categoryName: string;
         author: string;
+        authorImage: string | null;
         date: string;
         readTime: string;
     };
@@ -64,9 +65,19 @@ export function BlogCard({ blog }: BlogCardProps) {
 
                     {/* Author & Date */}
                     <div className="flex items-center gap-3 pt-4 border-t border-border mt-auto">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                            <User className="w-4 h-4 text-primary" />
-                        </div>
+                        {blog.authorImage ? (
+                            <Image
+                                src={blog.authorImage}
+                                alt={blog.author}
+                                width={32}
+                                height={32}
+                                className="w-8 h-8 rounded-full object-cover"
+                            />
+                        ) : (
+                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                                <User className="w-4 h-4 text-primary" />
+                            </div>
+                        )}
                         <div className="flex-1 min-w-0">
                             <p className="text-sm font-medium truncate">{blog.author}</p>
                             <p className="text-xs text-muted-foreground">{blog.date}</p>

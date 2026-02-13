@@ -15,21 +15,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import {
   Alert,
   AlertDescription,
   AlertTitle,
 } from "@/components/ui/alert";
+import { DeleteConfirmModal } from "@/components/ui/delete-confirm-modal";
 
 type Blog = {
   id: number;
@@ -48,6 +38,8 @@ type Blog = {
 export default function ContentWriterBlogsPage() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
 
   useEffect(() => {
     fetchBlogs();
@@ -77,10 +69,13 @@ export default function ContentWriterBlogsPage() {
         setBlogs((prev) => prev.filter((blog) => blog.id !== id));
       } else {
         const error = await response.json();
-        alert(error.error || "Failed to delete blog");
+        console.error(error.error || "Failed to delete blog");
       }
     } catch (error) {
       console.error("Error deleting blog:", error);
+    } finally {
+      setDeleteModalOpen(false);
+      setDeleteItemId(null);
     }
   };
 
@@ -181,31 +176,16 @@ export default function ContentWriterBlogsPage() {
                           <Pencil className="h-4 w-4" />
                         </Link>
                       </Button>
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <Button variant="ghost" size="icon">
-                            <Trash2 className="h-4 w-4 text-destructive" />
-                          </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>Delete Blog Post?</AlertDialogTitle>
-                            <AlertDialogDescription>
-                              This action cannot be undone. This will permanently delete
-                              the blog post &quot;{blog.title}&quot;.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction
-                              onClick={() => handleDelete(blog.id)}
-                              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                            >
-                              Delete
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => {
+                          setDeleteItemId(blog.id);
+                          setDeleteModalOpen(true);
+                        }}
+                      >
+                        <Trash2 className="h-4 w-4 text-destructive" />
+                      </Button>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -214,6 +194,17 @@ export default function ContentWriterBlogsPage() {
           </Table>
         </div>
       )}
+
+      <DeleteConfirmModal
+        open={deleteModalOpen}
+        onOpenChange={(open) => {
+          setDeleteModalOpen(open);
+          if (!open) setDeleteItemId(null);
+        }}
+        onConfirm={() => deleteItemId && handleDelete(deleteItemId)}
+        title="Delete Blog Post"
+        description="This action cannot be undone. This will permanently delete this blog post."
+      />
     </div>
   );
 }

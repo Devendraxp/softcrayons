@@ -43,6 +43,7 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { DeleteConfirmModal } from "@/components/ui/delete-confirm-modal";
 
 type Placement = {
   id: number;
@@ -64,6 +65,8 @@ export default function PlacementsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [isLoading, setIsLoading] = useState(true);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
 
   // Stats
   const totalPlacements = placements.length;
@@ -119,19 +122,26 @@ export default function PlacementsPage() {
     }
   };
 
-  const handleDeletePlacement = async (id: number) => {
-    if (!confirm("Are you sure you want to delete this placement?")) return;
+  const handleDeletePlacement = (id: number) => {
+    setDeleteItemId(id);
+    setDeleteModalOpen(true);
+  };
 
+  const confirmDeletePlacement = async () => {
+    if (!deleteItemId) return;
     try {
-      const response = await fetch(`/api/admin/placements/${id}`, {
+      const response = await fetch(`/api/admin/placements/${deleteItemId}`, {
         method: "DELETE",
       });
 
       if (response.ok) {
-        setPlacements(placements.filter((p) => p.id !== id));
+        setPlacements(placements.filter((p) => p.id !== deleteItemId));
       }
     } catch (error) {
       console.error("Failed to delete placement:", error);
+    } finally {
+      setDeleteModalOpen(false);
+      setDeleteItemId(null);
     }
   };
 
@@ -367,6 +377,17 @@ export default function PlacementsPage() {
           </Table>
         </CardContent>
       </Card>
+
+      <DeleteConfirmModal
+        open={deleteModalOpen}
+        onOpenChange={(open) => {
+          setDeleteModalOpen(open);
+          if (!open) setDeleteItemId(null);
+        }}
+        onConfirm={confirmDeletePlacement}
+        title="Delete Placement"
+        description="This action cannot be undone. This will permanently delete this placement record."
+      />
     </div>
   );
 }

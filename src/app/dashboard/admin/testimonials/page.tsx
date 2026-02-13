@@ -42,6 +42,7 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { DeleteConfirmModal } from "@/components/ui/delete-confirm-modal";
 
 type Testimonial = {
   id: number;
@@ -60,6 +61,8 @@ export default function TestimonialsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [isLoading, setIsLoading] = useState(true);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
 
   // Stats
   const totalTestimonials = testimonials.length;
@@ -115,19 +118,26 @@ export default function TestimonialsPage() {
     }
   };
 
-  const handleDeleteTestimonial = async (id: number) => {
-    if (!confirm("Are you sure you want to delete this testimonial?")) return;
+  const handleDeleteTestimonial = (id: number) => {
+    setDeleteItemId(id);
+    setDeleteModalOpen(true);
+  };
 
+  const confirmDeleteTestimonial = async () => {
+    if (!deleteItemId) return;
     try {
-      const response = await fetch(`/api/admin/testimonials/${id}`, {
+      const response = await fetch(`/api/admin/testimonials/${deleteItemId}`, {
         method: "DELETE",
       });
 
       if (response.ok) {
-        setTestimonials(testimonials.filter((t) => t.id !== id));
+        setTestimonials(testimonials.filter((t) => t.id !== deleteItemId));
       }
     } catch (error) {
       console.error("Failed to delete testimonial:", error);
+    } finally {
+      setDeleteModalOpen(false);
+      setDeleteItemId(null);
     }
   };
 
@@ -375,6 +385,17 @@ export default function TestimonialsPage() {
           </Table>
         </CardContent>
       </Card>
+
+      <DeleteConfirmModal
+        open={deleteModalOpen}
+        onOpenChange={(open) => {
+          setDeleteModalOpen(open);
+          if (!open) setDeleteItemId(null);
+        }}
+        onConfirm={confirmDeleteTestimonial}
+        title="Delete Testimonial"
+        description="This action cannot be undone. This will permanently delete this testimonial."
+      />
     </div>
   );
 }

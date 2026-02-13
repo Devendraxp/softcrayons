@@ -42,6 +42,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DeleteConfirmModal } from "@/components/ui/delete-confirm-modal";
 
 type Faq = {
   id: number;
@@ -71,6 +72,8 @@ export default function FaqsPage() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [isLoading, setIsLoading] = useState(true);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
 
   // Stats
   const totalFaqs = faqs.length;
@@ -139,19 +142,26 @@ export default function FaqsPage() {
     }
   };
 
-  const handleDeleteFaq = async (id: number) => {
-    if (!confirm("Are you sure you want to delete this FAQ?")) return;
+  const handleDeleteFaq = (id: number) => {
+    setDeleteItemId(id);
+    setDeleteModalOpen(true);
+  };
 
+  const confirmDeleteFaq = async () => {
+    if (!deleteItemId) return;
     try {
-      const response = await fetch(`/api/admin/faqs/${id}`, {
+      const response = await fetch(`/api/admin/faqs/${deleteItemId}`, {
         method: "DELETE",
       });
 
       if (response.ok) {
-        setFaqs(faqs.filter((f) => f.id !== id));
+        setFaqs(faqs.filter((f) => f.id !== deleteItemId));
       }
     } catch (error) {
       console.error("Failed to delete FAQ:", error);
+    } finally {
+      setDeleteModalOpen(false);
+      setDeleteItemId(null);
     }
   };
 
@@ -395,6 +405,17 @@ export default function FaqsPage() {
           </Table>
         </CardContent>
       </Card>
+
+      <DeleteConfirmModal
+        open={deleteModalOpen}
+        onOpenChange={(open) => {
+          setDeleteModalOpen(open);
+          if (!open) setDeleteItemId(null);
+        }}
+        onConfirm={confirmDeleteFaq}
+        title="Delete FAQ"
+        description="This action cannot be undone. This will permanently delete this FAQ."
+      />
     </div>
   );
 }

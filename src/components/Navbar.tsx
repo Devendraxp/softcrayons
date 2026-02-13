@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
-import { Menu, X, Sun, Moon, Code2, ChevronDown } from "lucide-react";
+import { Menu, X, Sun, Moon, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
@@ -27,9 +27,14 @@ const navLinks = [
 export function Navbar() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isMoreOpen, setIsMoreOpen] = useState(false);
+	const [mounted, setMounted] = useState(false);
 	const { theme, setTheme } = useTheme();
 	const dropdownRef = useRef<HTMLDivElement>(null);
 	const pathname = usePathname();
+
+	useEffect(() => {
+		setMounted(true);
+	}, []);
 
 	const visibleLinks = navLinks.slice(0, 7);
 	const moreLinks = navLinks.slice(7);
@@ -58,26 +63,24 @@ export function Navbar() {
 
 	return (
 		<nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50">
-			<div className="container mx-auto">
+			<div className="mx-auto w-full px-2 sm:px-3 lg:px-4 2xl:px-6">
 				<div className="flex items-center justify-between h-16 md:h-20">
 					{/* Logo */}
-					<Link href="/" className="flex items-center gap-2 group">
-						<div className="w-10 h-10 rounded-lg bg-gradient-orange flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+					<Link href="/" className="flex items-center shrink-0">
+						<div className="h-12 md:h-14">
 							<Image
-								src={theme === "dark" ? "/dark.svg" : "/light.svg"}
+								src="https://i.ibb.co/tphyBYTY/sc-logo.png"
 								alt="Soft Crayons Logo"
-								width={40}
-								height={40}
-								className="w-full h-full object-contain"
+								width={160}
+								height={56}
+								className="h-full w-auto object-contain"
+								priority
 							/>
 						</div>
-						<span className="text-xl font-bold tracking-tight">
-							Soft <span className="text-gradient"> Crayons</span>
-						</span>
 					</Link>
 
 					{/* Desktop Navigation */}
-					<div className="hidden md:flex items-center gap-8">
+					<div className="hidden md:flex items-center gap-5 lg:gap-7 xl:gap-9 ml-8 lg:ml-12">
 						{visibleLinks.map((link) => (
 							<Link
 								key={link.name}
@@ -135,7 +138,7 @@ export function Navbar() {
 							className="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-muted transition-colors duration-200"
 							aria-label="Toggle theme"
 						>
-							{theme === "dark" ? (
+							{mounted && theme === "dark" ? (
 								<Sun className="w-5 h-5" />
 							) : (
 								<Moon className="w-5 h-5" />
@@ -160,7 +163,7 @@ export function Navbar() {
 							className="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-muted transition-colors"
 							aria-label="Toggle theme"
 						>
-							{theme === "dark" ? (
+							{mounted && theme === "dark" ? (
 								<Sun className="w-5 h-5" />
 							) : (
 								<Moon className="w-5 h-5" />

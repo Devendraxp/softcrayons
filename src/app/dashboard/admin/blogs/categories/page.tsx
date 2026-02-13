@@ -30,6 +30,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DeleteConfirmModal } from "@/components/ui/delete-confirm-modal";
 
 type BlogCategory = {
   id: number;
@@ -48,6 +49,8 @@ export default function BlogCategoriesPage() {
   const [categories, setCategories] = useState<BlogCategory[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
 
   // Stats
   const totalCategories = categories.length;
@@ -101,19 +104,26 @@ export default function BlogCategoriesPage() {
     }
   };
 
-  const handleDeleteCategory = async (id: number) => {
-    if (!confirm("Are you sure you want to delete this category? This may affect associated blogs.")) return;
+  const handleDeleteCategory = (id: number) => {
+    setDeleteItemId(id);
+    setDeleteModalOpen(true);
+  };
 
+  const confirmDeleteCategory = async () => {
+    if (!deleteItemId) return;
     try {
-      const response = await fetch(`/api/admin/blog-categories/${id}`, {
+      const response = await fetch(`/api/admin/blog-categories/${deleteItemId}`, {
         method: "DELETE",
       });
 
       if (response.ok) {
-        setCategories(categories.filter((c) => c.id !== id));
+        setCategories(categories.filter((c) => c.id !== deleteItemId));
       }
     } catch (error) {
       console.error("Failed to delete category:", error);
+    } finally {
+      setDeleteModalOpen(false);
+      setDeleteItemId(null);
     }
   };
 
@@ -294,6 +304,17 @@ export default function BlogCategoriesPage() {
           </Table>
         </CardContent>
       </Card>
+
+      <DeleteConfirmModal
+        open={deleteModalOpen}
+        onOpenChange={(open) => {
+          setDeleteModalOpen(open);
+          if (!open) setDeleteItemId(null);
+        }}
+        onConfirm={confirmDeleteCategory}
+        title="Delete Blog Category"
+        description="This action cannot be undone. This will permanently delete this category. This may affect associated blogs."
+      />
     </div>
   );
 }

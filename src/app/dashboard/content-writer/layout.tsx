@@ -90,7 +90,7 @@ export default function ContentWriterLayout({ children }: { children: ReactNode 
   return (
     <div className="flex min-h-screen bg-background">
       <DashboardSidePanel
-        brand={{ name: "SoftCrayons", logo: "/light.svg", href: "/", label: "Writer" }}
+        brand={{ name: "SoftCrayons", logo: "https://i.ibb.co/bMMh6s8F/new-logo-png-Copy.png", href: "/", label: "Writer" }}
         navItems={navItems}
         user={dashboardUser}
       />

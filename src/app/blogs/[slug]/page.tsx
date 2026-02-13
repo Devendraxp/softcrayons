@@ -2,10 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Calendar, Clock, User, ChevronRight, Link2, Check } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, User, ChevronRight, Link2, Check, Copy } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { notFound } from "next/navigation";
 import { useState, useEffect } from "react";
+import { Loader } from "@/components/ui/loader";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface Blog {
     id: number;
@@ -13,10 +16,12 @@ interface Blog {
     slug: string;
     content: string | null;
     excerpt: string | null;
-    featuredImage: string | null;
+    bannerImage: string | null;
+    thumbnailImage: string | null;
     metaTitle: string | null;
     metaDescription: string | null;
     featured: boolean;
+    readTime: number;
     createdAt: string;
     updatedAt: string;
     category: {
@@ -36,7 +41,7 @@ interface RelatedBlog {
     title: string;
     slug: string;
     excerpt: string | null;
-    featuredImage: string | null;
+    thumbnailImage: string | null;
     createdAt: string;
 }
 
@@ -81,20 +86,85 @@ function estimateReadTime(content: string | null): string {
     return `${minutes} min read`;
 }
 
-// Function to render HTML content safely
+// Code block with syntax highlighting and copy button
+function CodeBlock({ code, language }: { code: string; language: string }) {
+    const [copied, setCopied] = useState(false);
+
+    const handleCopy = async () => {
+        await navigator.clipboard.writeText(code);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
+    const langLabel = language || "plaintext";
+
+    return (
+        <div className="relative my-6 overflow-hidden rounded-lg border border-border">
+            <div className="flex items-center justify-between border-b border-border bg-muted/60 px-4 py-2">
+                <span className="text-xs font-medium uppercase text-muted-foreground">{langLabel}</span>
+                <button
+                    onClick={handleCopy}
+                    className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+                >
+                    {copied ? (
+                        <><Check className="h-3.5 w-3.5 text-green-500" /> Copied</>
+                    ) : (
+                        <><Copy className="h-3.5 w-3.5" /> Copy</>
+                    )}
+                </button>
+            </div>
+            <div className="code-block-rendered">
+                <SyntaxHighlighter
+                    language={langLabel}
+                    style={oneDark}
+                    customStyle={{
+                        margin: 0,
+                        borderRadius: 0,
+                        fontSize: "0.875rem",
+                        padding: "0.75rem 1rem",
+                    }}
+                    showLineNumbers={false}
+                    wrapLongLines={true}
+                >
+                    {code}
+                </SyntaxHighlighter>
+            </div>
+        </div>
+    );
+}
+
+// Function to render HTML content safely with code highlighting
 function BlogContent({ content }: { content: string | null }) {
     if (!content) return null;
-    
+
     // Check if content looks like HTML
     if (content.includes('<') && content.includes('>')) {
+        // Split content into segments: regular HTML and code blocks
+        const segments = parseContentSegments(content);
+
         return (
-            <div 
-                className="course-content"
-                dangerouslySetInnerHTML={{ __html: content }}
-            />
+            <div className="course-content">
+                {segments.map((segment, index) => {
+                    if (segment.type === 'code') {
+                        return (
+                            <CodeBlock
+                                key={index}
+                                code={segment.code}
+                                language={segment.language}
+                            />
+                        );
+                    }
+                    return (
+                        <div
+                            key={index}
+                            dangerouslySetInnerHTML={{ __html: segment.html }}
+                        />
+                    );
+                })}
+            </div>
         );
     }
-    
+
     // Otherwise, render as plain text with line breaks
     return (
         <div className="course-content">
@@ -103,6 +173,66 @@ function BlogContent({ content }: { content: string | null }) {
             ))}
         </div>
     );
+}
+
+type ContentSegment =
+    | { type: 'html'; html: string }
+    | { type: 'code'; code: string; language: string };
+
+function parseContentSegments(html: string): ContentSegment[] {
+    const segments: ContentSegment[] = [];
+    // Match <pre><code class="language-xxx">...</code></pre> blocks
+    const codeBlockRegex = /<pre[^>]*>\s*<code(?:\s+class="language-([^"]*)")?[^>]*>([\s\S]*?)<\/code>\s*<\/pre>/gi;
+    let lastIndex = 0;
+    let match;
+
+    while ((match = codeBlockRegex.exec(html)) !== null) {
+        // Add HTML before this code block
+        if (match.index > lastIndex) {
+            const htmlSegment = html.slice(lastIndex, match.index).trim();
+            if (htmlSegment) {
+                segments.push({ type: 'html', html: htmlSegment });
+            }
+        }
+
+        // Decode HTML entities in code
+        const rawCode = match[2]
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&amp;/g, '&')
+            .replace(/&quot;/g, '"')
+            .replace(/&#39;/g, "'")
+            .replace(/&#x27;/g, "'")
+            .replace(/&#x2F;/g, '/')
+            .replace(/&nbsp;/g, ' ')
+            .replace(/\u00A0/g, ' ');
+
+        // Remove leading/trailing blank lines
+        const cleanCode = rawCode.trim().replace(/^\n+|\n+$/g, '');
+
+        segments.push({
+            type: 'code',
+            code: cleanCode,
+            language: match[1] || 'plaintext',
+        });
+
+        lastIndex = match.index + match[0].length;
+    }
+
+    // Add remaining HTML after last code block
+    if (lastIndex < html.length) {
+        const htmlSegment = html.slice(lastIndex).trim();
+        if (htmlSegment) {
+            segments.push({ type: 'html', html: htmlSegment });
+        }
+    }
+
+    // If no code blocks found, return the whole thing as HTML
+    if (segments.length === 0) {
+        segments.push({ type: 'html', html });
+    }
+
+    return segments;
 }
 
 // Copy Link Button Component
@@ -155,11 +285,7 @@ export default function BlogDetailPage({
     }, [params]);
 
     if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"></div>
-            </div>
-        );
+        return <Loader text="blog" fullScreen />;
     }
 
     if (!blog) {
@@ -191,15 +317,7 @@ export default function BlogDetailPage({
             </div>
 
             {/* Article Header */}
-            <div className="container pt-8 pb-6">
-                <div className="max-w-4xl">
-                    {/* Category Badge */}
-                    <Link href={`/blogs?category=${blog.category.slug}`}>
-                        <Badge className="bg-secondary text-white hover:bg-primary/20 border-0 mb-4">
-                            {blog.category.title}
-                        </Badge>
-                    </Link>
-
+            <div className="container pt-16 pb-6">
                     {/* Title */}
                     <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-6 leading-tight">
                         {blog.title}
@@ -248,18 +366,26 @@ export default function BlogDetailPage({
                         {/* Read Time */}
                         <div className="flex items-center gap-2 text-muted-foreground">
                             <Clock className="w-4 h-4" />
-                            <span>{estimateReadTime(blog.content)}</span>
+                            <span>{blog.readTime} min read</span>
+                        </div>
+
+                        {/* Category - pushed to right */}
+                        <div className="sm:ml-auto">
+                            <Link href={`/blogs?category=${blog.category.slug}`}>
+                                <Badge className="bg-secondary text-white hover:bg-primary/20 border-0">
+                                    {blog.category.title}
+                                </Badge>
+                            </Link>
                         </div>
                     </div>
-                </div>
             </div>
 
-            {/* Featured Image - Full Width */}
+            {/* Featured Image */}
             <div className="w-full mb-10">
                 <div className="container">
-                    <div className="relative w-full aspect-[21/9] sm:aspect-[2.5/1] rounded-2xl overflow-hidden">
+                    <div className="relative w-full max-w-5xl mx-auto aspect-video rounded-2xl overflow-hidden">
                         <Image
-                            src={blog.featuredImage || "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1200&auto=format&fit=crop&q=80"}
+                            src={blog.bannerImage || blog.thumbnailImage || "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1200&auto=format&fit=crop&q=80"}
                             alt={blog.title}
                             fill
                             className="object-cover"
@@ -270,8 +396,8 @@ export default function BlogDetailPage({
             </div>
 
             <div className="container pb-16">
-                {/* Main Content - Full Width */}
-                <article className="max-w-4xl mx-auto">
+                {/* Main Content */}
+                <article className="max-w-5xl mx-auto">
                     {/* Blog Content */}
                     <BlogContent content={blog.content} />
 
@@ -342,7 +468,7 @@ export default function BlogDetailPage({
                                 >
                                     <div className="relative aspect-[16/9] overflow-hidden">
                                         <Image
-                                            src={related.featuredImage || "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&auto=format&fit=crop&q=80"}
+                                            src={related.thumbnailImage || "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&auto=format&fit=crop&q=80"}
                                             alt={related.title}
                                             fill
                                             className="object-cover"

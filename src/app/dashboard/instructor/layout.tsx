@@ -84,7 +84,7 @@ export default function InstructorLayout({ children }: { children: ReactNode }) 
   return (
     <div className="flex min-h-screen bg-background">
       <DashboardSidePanel
-        brand={{ name: "SoftCrayons", logo: "/light.svg", href: "/", label: "Instructor" }}
+        brand={{ name: "SoftCrayons", logo: "https://i.ibb.co/bMMh6s8F/new-logo-png-Copy.png", href: "/", label: "Instructor" }}
         navItems={navItems}
         user={dashboardUser}
       />
