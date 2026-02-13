@@ -27,7 +27,7 @@ export function CoursesSection() {
     const [courses, setCourses] = useState<Course[]>([]);
     const [loading, setLoading] = useState(true);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+    const [isAutoPlaying, setIsAutoPlaying] = useState(false);
 
     useEffect(() => {
         const fetchCourses = async () => {

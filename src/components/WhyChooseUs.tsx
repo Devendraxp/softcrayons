@@ -67,7 +67,7 @@ export function WhyChooseUs() {
 						<span className="text-gradient">Success</span>
 					</h2>
 					<p className="text-muted-foreground text-lg">
-						Hum padhane ke sath sath aapko vo environment bhi dete hain jo aapko sikhne me madad kare. Real world projects, personal mentorship, aur ek active community ke sath, hum aapki success ke liye committed hain.
+						We don't just teach, we provide an environment designed for your growth. With real-world projects, personalized mentorship, and an active community, we are fully committed to your success.
 					</p>
 				</div>
 

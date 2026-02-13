@@ -43,18 +43,15 @@ export function Footer() {
           {/* Brand */}
           <div className="col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-gradient-orange flex items-center justify-center">
+              <div className="h-12">
                 <Image
-                  src="/light.svg"
+                  src="https://i.ibb.co/tphyBYTY/sc-logo.png"
                   alt="Soft Crayons Logo"
-                  width={40}
-                  height={40}
-                  className="w-full h-full object-contain"
+                  width={160}
+                  height={48}
+                  className="h-full w-auto object-contain"
                 />
               </div>
-              <span className="text-xl font-bold tracking-tight">
-                Soft <span className="text-gradient"> Crayons</span>
-              </span>
             </Link>
             <p className="text-muted-foreground text-sm mb-6 max-w-xs">
               Empowering developers worldwide with industry-focused education and
@@ -141,17 +138,9 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom Bar */}
         <div className="border-t border-border mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} CodeCraft. All rights reserved.
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Made with{" "}
-            <span className="text-primary" role="img" aria-label="heart">
-              ♥
-            </span>{" "}
-            for developers
+            © {new Date().getFullYear()} Soft Crayons. All rights reserved.
           </p>
         </div>
       </div>

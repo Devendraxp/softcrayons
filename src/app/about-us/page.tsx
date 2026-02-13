@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Phone, Mail, Clock, Award, BookOpen, GraduationCap, Users, Trophy } from "lucide-react";
 import Image from "next/image";
-import { FacultyCarousel } from "@/components/faculties/FacultyCarousel";
+import { DynamicFacultyCarousel } from "@/components/faculties/DynamicFacultyCarousel";
 
 // Placeholder data - update as needed
 const branches = [
@@ -22,45 +22,6 @@ const branches = [
         altPhone: "+91 98765 43213",
         email: "branch2@softcrayons.com",
         timing: "Mon - Sat: 9:00 AM - 7:00 PM",
-    },
-];
-
-const faculties = [
-    {
-        name: "Rajesh Kumar",
-        role: "Senior Java Trainer",
-        experience: "12+ Years",
-        image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face",
-    },
-    {
-        name: "Priya Sharma",
-        role: "Python & Data Science Expert",
-        experience: "10+ Years",
-        image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=300&fit=crop&crop=face",
-    },
-    {
-        name: "Amit Singh",
-        role: "Full Stack Developer Trainer",
-        experience: "8+ Years",
-        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face",
-    },
-    {
-        name: "Neha Gupta",
-        role: "Cloud & DevOps Specialist",
-        experience: "9+ Years",
-        image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop&crop=face",
-    },
-    {
-        name: "Vikram Patel",
-        role: "React & Frontend Expert",
-        experience: "7+ Years",
-        image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop&crop=face",
-    },
-    {
-        name: "Sunita Verma",
-        role: "Database & SQL Trainer",
-        experience: "11+ Years",
-        image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&h=300&fit=crop&crop=face",
     },
 ];
 
@@ -231,7 +192,7 @@ export default function AboutUsPage() {
                         </div>
 
                         <div className="max-w-6xl mx-auto">
-                            <FacultyCarousel faculties={faculties} />
+                            <DynamicFacultyCarousel />
                         </div>
                     </div>
                 </section>
