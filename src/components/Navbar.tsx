@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { useSession } from "@/lib/auth-client";
 
 const navLinks = [
 	{ name: "Home", href: "/" },
@@ -31,6 +32,7 @@ export function Navbar() {
 	const { theme, setTheme } = useTheme();
 	const dropdownRef = useRef<HTMLDivElement>(null);
 	const pathname = usePathname();
+	const { data: session } = useSession();
 
 	useEffect(() => {
 		setMounted(true);
@@ -67,12 +69,12 @@ export function Navbar() {
 				<div className="flex items-center justify-between h-16 md:h-20">
 					{/* Logo */}
 					<Link href="/" className="flex items-center shrink-0">
-						<div className="h-8 sm:h-10 md:h-14">
+						<div className="h-6 sm:h-7 md:h-9">
 							<Image
 								src="https://i.ibb.co/tphyBYTY/sc-logo.png"
 								alt="Soft Crayons Logo"
-								width={160}
-								height={56}
+								width={120}
+								height={36}
 								className="h-full w-auto object-contain"
 								priority
 							/>
@@ -149,11 +151,32 @@ export function Navbar() {
 								Take Admission
 							</Button>
 						</Link>
-						<Link href="/sign-in" passHref>
-							<Button variant="outline" size="lg">
-								Log In
-							</Button>
-						</Link>
+						{session?.user ? (
+							<Link href="/dashboard" passHref>
+								<Button variant="outline" size="lg" className="flex items-center gap-2">
+									{session.user.image ? (
+										<Image
+											src={session.user.image}
+											alt={session.user.name || "Profile"}
+											width={24}
+											height={24}
+											className="w-6 h-6 rounded-full object-cover"
+										/>
+									) : (
+										<span className="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-semibold">
+											{session.user.name?.charAt(0).toUpperCase() || "U"}
+										</span>
+									)}
+									Dashboard
+								</Button>
+							</Link>
+						) : (
+							<Link href="/sign-in" passHref>
+								<Button variant="outline" size="lg">
+									Log In
+								</Button>
+							</Link>
+						)}
 					</div>
 
 					{/* Mobile Menu Button */}

@@ -31,6 +31,7 @@ interface RelatedCourse {
     slug: string;
     description: string | null;
     thumbnailImage: string | null;
+    bannerImage: string | null;
     duration: string | null;
     difficulty: string;
     fees: number | null;
@@ -69,10 +70,8 @@ function formatDifficulty(difficulty: string): string {
     return difficulty.charAt(0) + difficulty.slice(1).toLowerCase();
 }
 
-function formatPrice(fees: number | null, discount: number | null): string {
-    if (!fees) return "Free";
-    const discountedPrice = discount ? fees - (fees * discount / 100) : fees;
-    return `₹${discountedPrice.toLocaleString('en-IN')}`;
+function formatPrice(fees: number): string {
+    return `₹${fees.toLocaleString('en-IN')}`;
 }
 
 // Function to render HTML content safely
@@ -229,12 +228,32 @@ export default async function CourseDetailPage({
                                 {/* Course Details */}
                                 <div className="p-6">
                                     {/* Fees */}
-                                    <div className="flex items-center justify-between mb-6">
-                                        <span className="text-muted-foreground">Course Fees</span>
-                                        <span className="text-3xl font-black text-primary flex items-center">
-                                            {formatPrice(course.fees, course.discount)}
-                                        </span>
-                                    </div>
+                                    {course.fees != null && course.fees > 0 && (
+                                        <div className="flex items-center justify-between mb-6">
+                                            <span className="text-muted-foreground">Course Fees</span>
+                                            <div className="flex flex-col items-end">
+                                                {course.discount && course.discount > 0 ? (
+                                                    <>
+                                                        <div className="flex items-center gap-2">
+                                                            <span className="text-base text-muted-foreground line-through">
+                                                                {formatPrice(course.fees)}
+                                                            </span>
+                                                            <span className="text-xs font-bold text-green-600 dark:text-green-400 bg-green-500/10 px-2 py-0.5 rounded-full">
+                                                                {course.discount}% off
+                                                            </span>
+                                                        </div>
+                                                        <span className="text-3xl font-black text-primary">
+                                                            {formatPrice(Math.round(course.fees - (course.fees * course.discount / 100)))}
+                                                        </span>
+                                                    </>
+                                                ) : (
+                                                    <span className="text-3xl font-black text-primary">
+                                                        {formatPrice(course.fees)}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
 
                                     {/* Info Grid */}
                                     <div className="space-y-4 mb-6">
@@ -282,11 +301,6 @@ export default async function CourseDetailPage({
                                             Join Now
                                         </Button>
                                     </Link>
-
-                                    {/* Additional Info */}
-                                    <p className="text-center text-xs text-muted-foreground mt-4">
-                                        30-day money-back guarantee
-                                    </p>
                                 </div>
                             </div>
 
@@ -319,7 +333,7 @@ export default async function CourseDetailPage({
                                 >
                                     <div className="relative h-32 overflow-hidden">
                                         <img
-                                            src={related.thumbnailImage || 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&auto=format&fit=crop&q=80'}
+                                            src={related.thumbnailImage || related.bannerImage || 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&auto=format&fit=crop&q=80'}
                                             alt={related.title}
                                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                         />

@@ -2,52 +2,80 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Award } from "lucide-react";
 import Image from "next/image";
 
-interface FacultyCardProps {
+interface FacultyData {
+  id: number;
   name: string;
-  role: string;
-  experience: string;
-  image: string;
-  skills: string[];
+  designation: string | null;
+  domain: string | null;
+  avatar: string | null;
+  bio: string | null;
+  experience: string | null;
+  ProjectsHandled: string | null;
+  studentsMentored: string | null;
+  ratings: number | null;
+  technologies: string[] | null;
+  locations: string | null;
+  isFeatured: boolean;
 }
 
-export function FacultyCard({ name, role, experience, image, skills }: FacultyCardProps) {
+interface FacultyCardProps {
+  faculty: FacultyData;
+}
+
+export function FacultyCard({ faculty }: FacultyCardProps) {
+  const skills = Array.isArray(faculty.technologies) ? faculty.technologies : [];
+
   return (
     <Card className="group bg-card border border-border hover:border-primary/30 hover:shadow-xl transition-all duration-300 h-full">
       <CardContent className="p-6 flex flex-col items-center">
         {/* Rounded Image Section */}
         <div className="mb-4">
           <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-border group-hover:border-primary/30 transition-colors duration-300">
-            <Image
-              src={image}
-              alt={name}
-              fill
-              className="object-cover object-top"
-            />
+            {faculty.avatar ? (
+              <Image
+                src={faculty.avatar}
+                alt={faculty.name}
+                fill
+                className="object-cover object-top"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center">
+                <span className="text-3xl font-bold text-primary-foreground">
+                  {faculty.name.charAt(0)}
+                </span>
+              </div>
+            )}
           </div>
         </div>
 
         {/* Content Section */}
         <div className="text-center w-full">
           <h3 className="text-xl font-bold text-foreground mb-1 group-hover:text-primary transition-colors duration-300">
-            {name}
+            {faculty.name}
           </h3>
-          <p className="text-muted-foreground font-medium mb-4">{role}</p>
+          {faculty.designation && (
+            <p className="text-muted-foreground font-medium mb-4">{faculty.designation}</p>
+          )}
           
-          <div className="flex flex-wrap justify-center gap-2 mb-5">
-            {skills.slice(0, 3).map((skill, index) => (
-              <span 
-                key={index} 
-                className="px-2.5 py-1 rounded-md bg-muted text-muted-foreground text-xs font-medium border border-border"
-              >
-                {skill}
-              </span>
-            ))}
-          </div>
+          {skills.length > 0 && (
+            <div className="flex flex-wrap justify-center gap-2 mb-5">
+              {skills.slice(0, 3).map((skill, index) => (
+                <span 
+                  key={index} 
+                  className="px-2.5 py-1 rounded-md bg-muted text-muted-foreground text-xs font-medium border border-border"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          )}
 
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/5 text-primary text-sm font-semibold border border-primary/10">
-            <Award className="w-4 h-4" />
-            {experience} Exp.
-          </div>
+          {faculty.experience && (
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/5 text-primary text-sm font-semibold border border-primary/10">
+              <Award className="w-4 h-4" />
+              {faculty.experience} Exp.
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>

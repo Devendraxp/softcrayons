@@ -43,12 +43,12 @@ export function Footer() {
           {/* Brand */}
           <div className="col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="h-12">
+              <div className="h-8">
                 <Image
                   src="https://i.ibb.co/tphyBYTY/sc-logo.png"
                   alt="Soft Crayons Logo"
-                  width={160}
-                  height={48}
+                  width={120}
+                  height={32}
                   className="h-full w-auto object-contain"
                 />
               </div>

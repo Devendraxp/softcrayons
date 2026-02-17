@@ -11,6 +11,7 @@ interface Course {
     slug: string;
     description: string | null;
     thumbnailImage: string | null;
+    bannerImage: string | null;
     duration: string | null;
     difficulty: string;
     fees: number | null;
@@ -142,7 +143,7 @@ export function CoursesSection() {
                                                 {/* Course Image - No overlay */}
                                                 <div className="relative h-56 sm:h-64 overflow-hidden flex-shrink-0">
                                                     <img
-                                                        src={course.thumbnailImage || 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&auto=format&fit=crop&q=80'}
+                                                        src={course.thumbnailImage || course.bannerImage || 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&auto=format&fit=crop&q=80'}
                                                         alt={course.title}
                                                         className="w-full h-full object-cover"
                                                     />

@@ -51,6 +51,7 @@ export async function GET(
         slug: true,
         description: true,
         thumbnailImage: true,
+        bannerImage: true,
         duration: true,
         difficulty: true,
         fees: true,
