@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Trophy, Users, Briefcase, Building2, TrendingUp } from "lucide-react";
-import { FeaturedPlacementCard } from "@/components/placements/FeaturedPlacementCard";
 import { PlacementCard } from "@/components/placements/PlacementCard";
+import { CountUpNumber } from "@/components/CountUpNumber";
 import { Button } from "@/components/ui/button";
 import { Loader } from "@/components/ui/loader";
 
@@ -114,19 +114,17 @@ export default function PlacementsPage() {
 				{/* Stats Row */}
 				<div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20">
 					{[
-						{ icon: Users, value: `${stats.totalPlacements}+`, label: "Total Placed" },
-						{ icon: Building2, value: `${stats.uniqueCompanies}+`, label: "Hiring Partners" },
-						{ icon: TrendingUp, value: "92%", label: "Placement Rate" },
-						{ icon: Trophy, value: "24 LPA", label: "Highest Package" },
+						{ icon: Users, value: `500+`, label: "Total Placed" },
+						{ icon: Building2, value: `20+`, label: "Hiring Partners" },
+						{ icon: TrendingUp, value: "94%", label: "Placement Rate" },
+						{ icon: Trophy, value: "50 LPA", label: "Highest Package" },
 					].map((stat, idx) => (
 						<div
 							key={idx}
 							className="bg-card border border-border rounded-xl p-5 text-center hover:border-primary/30 transition-colors"
 						>
 							<stat.icon className="w-6 h-6 text-primary mx-auto mb-3" />
-							<div className="text-2xl font-bold text-foreground mb-1">
-								{stat.value}
-							</div>
+						<CountUpNumber value={stat.value} className="text-2xl font-bold text-foreground mb-1" />
 							<div className="text-xs text-muted-foreground uppercase tracking-widest font-medium">
 								{stat.label}
 							</div>
@@ -139,15 +137,14 @@ export default function PlacementsPage() {
 				<section className="mb-20">
 					<div className="flex items-center justify-between mb-8">
 						<h2 className="text-2xl font-bold flex items-center gap-2">
-							<Trophy className="w-5 h-5 text-yellow-500 fill-yellow-500" />
 							Top Achievers
 						</h2>
 						<div className="h-px bg-border flex-1 ml-6 hidden sm:block" />
 					</div>
 
-					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-						{featuredPlacements.map((student) => (
-							<FeaturedPlacementCard
+				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+					{featuredPlacements.map((student) => (
+						<PlacementCard
 								key={student.id}
 								name={student.studentName}
 								course={student.courseName}

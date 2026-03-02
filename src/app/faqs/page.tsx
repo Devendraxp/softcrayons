@@ -44,19 +44,24 @@ export default function FaqsPage() {
     useEffect(() => {
         async function fetchData() {
             try {
-                // Fetch FAQs and categories in parallel
-                const [faqsRes, categoriesRes] = await Promise.all([
-                    fetch('/api/faqs?limit=100'),
-                    fetch('/api/faq-categories')
-                ]);
+                // Fetch all FAQs using pagination (API max limit is 50)
+                let allFaqs: Faq[] = [];
+                let page = 1;
+                let hasMore = true;
 
-                if (faqsRes.ok) {
-                    const faqsData = await faqsRes.json();
-                    if (faqsData.success) {
-                        setFaqs(faqsData.data);
-                    }
+                while (hasMore) {
+                    const res = await fetch(`/api/faqs?page=${page}&limit=50`);
+                    if (!res.ok) break;
+                    const data = await res.json();
+                    if (!data.success) break;
+                    allFaqs = [...allFaqs, ...data.data];
+                    hasMore = data.pagination?.hasNextPage ?? false;
+                    page++;
                 }
 
+                setFaqs(allFaqs);
+
+                const categoriesRes = await fetch('/api/faq-categories');
                 if (categoriesRes.ok) {
                     const categoriesData = await categoriesRes.json();
                     if (categoriesData.success) {

@@ -43,7 +43,7 @@ export function CTASection() {
 
           {/* Trust Elements */}
           <p className="mt-8 text-sm text-muted-foreground">
-            ✓ Free trial &nbsp;&nbsp; ✓ Free consultation &nbsp;&nbsp;  ✓ 100% satisfaction guarantee
+            ✓ Free trial &nbsp;&nbsp; ✓ Beginner friendly &nbsp;&nbsp;  ✓ 100% satisfaction guarantee
           </p>
         </div>
       </div>

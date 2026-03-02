@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Code2, Github, Twitter, Linkedin, Youtube } from "lucide-react";
+import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 import Image from "next/image";
 
 const footerLinks = {
@@ -29,10 +29,10 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { icon: Github, href: "#", label: "GitHub" },
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Linkedin, href: "#", label: "LinkedIn" },
-  { icon: Youtube, href: "#", label: "YouTube" },
+  { icon: Facebook, href: "https://www.facebook.com/softcrayons", label: "Facebook" },
+  { icon: Twitter, href: "https://x.com/TechSoftcrayons", label: "X" },
+  { icon: Instagram, href: "https://www.instagram.com/softcrayons", label: "Instagram" },
+  { icon: Linkedin, href: "https://linkedin.com/company/softcrayons-it-education", label: "LinkedIn" },
 ];
 
 export function Footer() {

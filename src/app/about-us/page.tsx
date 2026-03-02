@@ -2,45 +2,31 @@ import { Badge } from "@/components/ui/badge";
 import { MapPin, Phone, Mail, Clock, Award, BookOpen, GraduationCap, Users, Trophy } from "lucide-react";
 import Image from "next/image";
 import { DynamicFacultyCarousel } from "@/components/faculties/DynamicFacultyCarousel";
+import { CountUpNumber } from "@/components/CountUpNumber";
 
 // Placeholder data - update as needed
 const branches = [
     {
         id: 1,
-        name: "SoftCrayons - Main Branch",
-        address: "123 Main Street, Sector 62, Noida, Uttar Pradesh - 201301",
-        phone: "+91 98765 43210",
-        altPhone: "+91 98765 43211",
-        email: "main@softcrayons.com",
-        timing: "Mon - Sat: 9:00 AM - 7:00 PM",
+        name: "SoftCrayons - Noida Branch",
+        address: "C-6 (First Floor), Sector 2, Near Sector 15 Metro Station, Noida, Uttar Pradesh 201301",
+        phone: "+91 8545012345",
+        altPhone: "",
+        email: "info@softcrayons.com",
+        timing: "Mon - Sun: 9:00 AM - 7:00 PM",
     },
     {
         id: 2,
-        name: "SoftCrayons - Branch 2",
-        address: "456 Tech Park, Sector 18, Noida, Uttar Pradesh - 201301",
-        phone: "+91 98765 43212",
-        altPhone: "+91 98765 43213",
-        email: "branch2@softcrayons.com",
-        timing: "Mon - Sat: 9:00 AM - 7:00 PM",
+        name: "SoftCrayons - Ghaziabad Branch",
+        address: "A-693, Vasundhara, Sector 14-A, Ghaziabad, Uttar Pradesh 201010",
+        phone: "+91 8545012345",
+        altPhone: "",
+        email: "info@softcrayons.com",
+        timing: "Mon - Sun: 9:00 AM - 7:00 PM",
     },
 ];
 
-const leadership = [
-    {
-        name: "Dr. Anil Sharma",
-        role: "Director",
-        experience: "20+ Years in IT Education",
-        description: "Visionary leader with extensive experience in IT training and corporate solutions.",
-        image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop&crop=face",
-    },
-    {
-        name: "Meera Kapoor",
-        role: "Center Manager",
-        experience: "15+ Years in Education Management",
-        description: "Expert in operations and student success with a passion for quality education.",
-        image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&crop=face",
-    },
-];
+
 
 const stats = [
     { icon: GraduationCap, value: "15+", label: "Years Experience" },
@@ -72,9 +58,7 @@ export default function AboutUsPage() {
                                 {stats.map((stat, index) => (
                                     <div key={index} className="text-center">
                                         <stat.icon className="w-10 h-10 text-primary mx-auto mb-3" />
-                                        <div className="text-4xl md:text-5xl font-black text-foreground mb-1">
-                                            {stat.value}
-                                        </div>
+                                        <CountUpNumber value={stat.value} className="text-4xl md:text-5xl font-black text-foreground mb-1" />
                                         <div className="text-muted-foreground font-medium">
                                             {stat.label}
                                         </div>
@@ -121,7 +105,7 @@ export default function AboutUsPage() {
                                     {/* Branch Details */}
                                     <div className={index % 2 === 1 ? 'md:order-1' : ''}>
                                         <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
-                                            {index === 0 ? "Main Branch" : `Branch ${index + 1}`}
+                                            {index === 0 ? "Noida Branch" : "Ghaziabad Branch"}
                                         </span>
                                         <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-6">
                                             {branch.name}
@@ -145,7 +129,7 @@ export default function AboutUsPage() {
                                                 <div>
                                                     <p className="font-semibold text-foreground group-hover:text-primary transition-colors">Phone</p>
                                                     <p className="text-muted-foreground">{branch.phone}</p>
-                                                    <p className="text-muted-foreground">{branch.altPhone}</p>
+                                                    {branch.altPhone && <p className="text-muted-foreground">{branch.altPhone}</p>}
                                                 </div>
                                             </div>
 
@@ -197,57 +181,6 @@ export default function AboutUsPage() {
                     </div>
                 </section>
 
-                {/* Leadership Section */}
-                <section className="py-20 bg-muted/30">
-                    <div className="container mx-auto px-4">
-                        <div className="text-center mb-12">
-                            <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
-                                Leadership
-                            </span>
-                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground mb-4">
-                                Our <span className="text-gradient">Leadership Team</span>
-                            </h2>
-                            <p className="text-muted-foreground max-w-2xl mx-auto">
-                                Guided by experienced professionals committed to your success
-                            </p>
-                        </div>
-
-                        <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
-                            {leadership.map((leader, index) => (
-                                <div
-                                    key={index}
-                                    className="text-center group cursor-pointer"
-                                >
-                                    {/* Rounded Image */}
-                                    <div className="relative w-48 h-48 rounded-full overflow-hidden ring-4 ring-primary/10 group-hover:ring-primary/40 transition-all duration-300 mx-auto mb-6">
-                                        <Image
-                                            src={leader.image}
-                                            alt={leader.name}
-                                            fill
-                                            className="object-cover object-top"
-                                        />
-                                    </div>
-
-                                    <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-3">
-                                        {leader.role}
-                                    </span>
-                                    <h3 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors duration-300 mb-2">
-                                        {leader.name}
-                                    </h3>
-                                    <div className="flex items-center justify-center gap-2 mb-4">
-                                        <Award className="w-4 h-4 text-primary" />
-                                        <p className="text-primary font-semibold">
-                                            {leader.experience}
-                                        </p>
-                                    </div>
-                                    <p className="text-muted-foreground leading-relaxed max-w-sm mx-auto">
-                                        {leader.description}
-                                    </p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
 
                 {/* Closing Section */}
                 <section className="py-20">
