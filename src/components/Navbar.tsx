@@ -38,8 +38,8 @@ export function Navbar() {
 		setMounted(true);
 	}, []);
 
-	const visibleLinks = navLinks.slice(0, 7);
-	const moreLinks = navLinks.slice(7);
+	const visibleLinks = navLinks.slice(0, 4);
+	const moreLinks = navLinks.slice(4);
 
 	const isActive = (href: string) => {
 		if (href === "/") return pathname === "/";
@@ -69,12 +69,12 @@ export function Navbar() {
 				<div className="flex items-center justify-between h-16 md:h-20">
 					{/* Logo */}
 					<Link href="/" className="flex items-center shrink-0">
-						<div className="h-6 sm:h-7 md:h-9">
+						<div className="ml-8 h-8 sm:h-7 md:h-16">
 							<Image
-								src="https://i.ibb.co/tphyBYTY/sc-logo.png"
+								src="/logo.png"
 								alt="Soft Crayons Logo"
-								width={120}
-								height={36}
+								width={220}
+								height={46}
 								className="h-full w-auto object-contain"
 								priority
 							/>

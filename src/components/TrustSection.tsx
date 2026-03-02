@@ -1,4 +1,5 @@
 import { Users, BookOpen, Award, Globe } from 'lucide-react';
+import { CountUpNumber } from './CountUpNumber';
 
 const stats = [
   {
@@ -19,7 +20,7 @@ const stats = [
   {
     icon: Globe,
     value: '200+',
-    label: 'Companies Hired',
+    label: 'Partner Companies',
   },
 ];
 
@@ -37,9 +38,10 @@ export function TrustSection() {
               <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary/10 mb-4 group-hover:bg-primary/20 group-hover:scale-110 transition-all duration-300">
                 <stat.icon className="w-7 h-7 text-primary" />
               </div>
-              <div className="text-3xl sm:text-4xl font-black text-foreground mb-1">
-                {stat.value}
-              </div>
+              <CountUpNumber
+                value={stat.value}
+                className="text-3xl sm:text-4xl font-black text-foreground mb-1"
+              />
               <div className="text-sm text-muted-foreground font-medium">
                 {stat.label}
               </div>
