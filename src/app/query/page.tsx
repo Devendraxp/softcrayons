@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, MessageCircle, Mail, Phone, User, BookOpen, Loader2, CheckCircle } from "lucide-react";
@@ -8,6 +8,14 @@ import CourseSearch from "@/components/CourseSearch";
 import { useToast } from "@/hooks/use-toast";
 
 export default function QueryPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>}>
+      <QueryPageContent />
+    </Suspense>
+  );
+}
+
+function QueryPageContent() {
   const searchParams = useSearchParams();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
