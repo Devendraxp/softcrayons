@@ -12,7 +12,6 @@ export async function GET(request: NextRequest) {
     const featured = searchParams.get('featured');
     const difficulty = searchParams.get('difficulty');
 
-    // Validate pagination params
     if (page < 1 || limit < 1) {
       return NextResponse.json({
         success: false,
@@ -43,7 +42,6 @@ export async function GET(request: NextRequest) {
       ...(difficulty && { difficulty }),
     };
 
-    // Get total count for pagination
     const totalCount = await prisma.course.count({ where: whereClause });
 
     const courses = await prisma.course.findMany({

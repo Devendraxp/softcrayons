@@ -60,7 +60,6 @@ export function WhyChooseUs() {
 	return (
 		<section className="py-24 bg-muted/30">
 			<div className="container">
-				{/* Header */}
 				<div className="text-center max-w-2xl mx-auto mb-16">
 					<h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
 						Built for Your{' '}
@@ -71,7 +70,6 @@ export function WhyChooseUs() {
 					</p>
 				</div>
 
-				{/* Bento Grid */}
 				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 max-w-6xl mx-auto">
 					{features.map((feature, index) => (
 						<div
@@ -79,7 +77,6 @@ export function WhyChooseUs() {
 							className={`group relative rounded-3xl p-6 bg-card hover:shadow-xl transition-all duration-300 animate-fade-up flex flex-col justify-end ${feature.span}`}
 							style={{ animationDelay: `${index * 0.05}s`, minHeight: '160px' }}
 						>
-							{/* Content */}
 							<div>
 								<h3
 									className={`inline-block px-3 py-1.5 rounded-md text-sm font-semibold mb-2 text-foreground ${feature.titleBg}`}

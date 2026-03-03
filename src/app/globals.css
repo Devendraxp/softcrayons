@@ -2,13 +2,10 @@
 @import "tw-animate-css";
 
 @source "../../../node_modules/@tremor/react";
-
 @source "../lib/tremor-safelist.ts";
 
-/* Enable class-based dark mode */
 @custom-variant dark (&:is(.dark *));
 
-/* Tailwind theme tokens */
 @theme inline {
   --font-sans: 'DM Sans', system-ui, sans-serif;
   --font-heading: 'Space Grotesk', system-ui, sans-serif;
@@ -52,13 +49,20 @@
   --radius: 0.75rem;
 
   --background: 0 0% 100%;
-  --foreground: 0 0% 5%;
+  --foreground: 0 0% 3.9%;
 
-  --card: 0 0% 98%;
-  --card-foreground: 0 0% 5%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 3.9%;
 
   --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 5%;
+  --popover-foreground: 0 0% 3.9%;
+
+  --border: 0 0% 89.8%;
+  --input: 0 0% 89.8%;
+  
+  --muted: 0 0% 96.1%;
+  --muted-foreground: 0 0% 45.1%;
+
 
   --primary: 25 95% 53%;
   --primary-foreground: 0 0% 100%;
@@ -66,33 +70,32 @@
   --secondary: 220 50% 37%;
   --secondary-foreground: 0 0% 100%;
 
-  --muted: 0 0% 96%;
-  --muted-foreground: 0 0% 45%;
-
-  --accent: 25 95% 53%;
+  --accent: 220 50% 37%;
   --accent-foreground: 0 0% 100%;
 
-  --destructive: 0 84% 60%;
-  --destructive-foreground: 0 0% 100%;
-
-  --border: 0 0% 90%;
-  --input: 0 0% 90%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
   --ring: 25 95% 53%;
 
   --gradient-orange: linear-gradient(135deg, hsl(25, 95%, 53%) 0%, hsl(35, 100%, 55%) 100%);
-  --gradient-dark: linear-gradient(180deg, hsl(0, 0%, 0%) 0%, hsl(0, 0%, 8%) 100%);
-  --glow-orange: 0 0 40px hsl(25 95% 53% / 0.3);
 }
 
 .dark {
-  --background: 0 0% 0%;
-  --foreground: 0 0% 98%;
+  --background: 0 0% 3.9%;
+  --foreground: 0 0% 98%; 
 
-  --card: 0 0% 5%;
+  --card: 0 0% 3.9%;
   --card-foreground: 0 0% 98%;
 
-  --popover: 0 0% 5%;
+  --popover: 0 0% 3.9%;
   --popover-foreground: 0 0% 98%;
+
+  --border: 0 0% 14.9%;
+  --input: 0 0% 14.9%;
+  
+  --muted: 0 0% 14.9%;
+  --muted-foreground: 0 0% 63.9%;
+
 
   --primary: 25 95% 53%;
   --primary-foreground: 0 0% 100%;
@@ -100,22 +103,14 @@
   --secondary: 220 50% 37%;
   --secondary-foreground: 0 0% 100%;
 
-  --muted: 0 0% 12%;
-  --muted-foreground: 0 0% 65%;
-
-  --accent: 25 95% 53%;
+  --accent: 220 50% 37%;
   --accent-foreground: 0 0% 100%;
 
-  --destructive: 0 62% 30%;
+  --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 0 0% 98%;
-
-  --border: 0 0% 15%;
-  --input: 0 0% 15%;
   --ring: 25 95% 53%;
 
   --gradient-orange: linear-gradient(135deg, hsl(25, 95%, 53%) 0%, hsl(35, 100%, 55%) 100%);
-  --gradient-dark: linear-gradient(180deg, hsl(0, 0%, 0%) 0%, hsl(0, 0%, 5%) 100%);
-  --glow-orange: 0 0 60px hsl(25 95% 53% / 0.4);
 }
 
 @layer base {
@@ -139,11 +134,12 @@
   }
 
   code, pre {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-mono);
   }
 }
 
-/* Container utility - centered with padding */
+/* Keep the rest of your custom layers and animations here... */
+
 @layer components {
   .container {
     @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
@@ -160,38 +156,12 @@
     background-image: var(--gradient-orange);
   }
 
-  .glow-orange {
-    box-shadow: var(--glow-orange);
-  }
-
-  .hover-glow {
-    @apply transition-all duration-300;
-  }
-
-  .hover-glow:hover {
-    box-shadow: var(--glow-orange);
-  }
-
-  .card-hover {
-    @apply transition-all duration-300 ease-out;
-  }
-
-  .card-hover:hover {
-    @apply -translate-y-1;
-    box-shadow: var(--glow-orange);
-  }
-
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
 
   .animate-pulse-slow {
     animation: pulse-slow 4s ease-in-out infinite;
-  }
-
-  .animate-gradient {
-    animation: gradient-shift 8s ease infinite;
-    background-size: 200% 200%;
   }
 
   .animate-fade-up {
@@ -208,12 +178,6 @@
 @keyframes pulse-slow {
   0%, 100% { opacity: 0.4; }
   50% { opacity: 0.8; }
-}
-
-@keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
 
 @keyframes fade-up {
@@ -277,7 +241,6 @@
   100% { width: 100%; }
 }
 
-/* Marquee Animations */
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(calc(-100% - var(--gap))); }
@@ -314,7 +277,6 @@
   animation: marquee-vertical-reverse linear infinite;
 }
 
-/* ===== Course Content Styles ===== */
 .course-content {
   @apply text-foreground;
 }
@@ -366,7 +328,6 @@
   color: hsl(var(--foreground));
 }
 
-/* Links - Primary color with underline */
 .course-content a {
   color: hsl(var(--primary)) !important;
   text-decoration: underline !important;
@@ -379,7 +340,6 @@
   opacity: 0.8 !important;
 }
 
-/* Unordered Lists - Styled bullets */
 .course-content ul {
   list-style: none !important;
   padding-left: 0 !important;
@@ -405,7 +365,6 @@
   border-radius: 50%;
 }
 
-/* Ordered Lists */
 .course-content ol {
   list-style: none !important;
   padding-left: 0 !important;
@@ -439,7 +398,6 @@
   justify-content: center;
 }
 
-/* Nested lists */
 .course-content ul ul,
 .course-content ol ul,
 .course-content ul ol,
@@ -452,7 +410,6 @@
   margin-bottom: 0.25rem;
 }
 
-/* Blockquote */
 .course-content blockquote {
   border-left: 4px solid hsl(var(--primary)) !important;
   padding-left: 1.25rem !important;
@@ -468,7 +425,6 @@
   margin-bottom: 0;
 }
 
-/* Highlight */
 .course-content mark {
   background-color: hsl(var(--primary) / 0.2);
   color: hsl(var(--foreground));
@@ -476,14 +432,12 @@
   border-radius: 0.25rem !important;
 }
 
-/* Horizontal rule */
 .course-content hr {
   border: none;
   border-top: 1px solid hsl(var(--border)) !important;
   margin: 2rem 0 !important;
 }
 
-/* Images */
 .course-content img {
   max-width: 100% !important;
   height: auto !important;
@@ -492,7 +446,6 @@
   display: block !important;
 }
 
-/* Code blocks */
 .course-content pre {
   background-color: #18181b !important;
   color: #f4f4f5 !important;
@@ -505,7 +458,6 @@
   line-height: 1.5 !important;
 }
 
-/* Reset pre styles inside React-rendered code blocks */
 .course-content .code-block-rendered pre {
   margin: 0 !important;
   padding: 0.75rem 1rem !important;
@@ -520,7 +472,6 @@
   font-size: inherit !important;
 }
 
-/* Inline code */
 .course-content code:not(pre code) {
   background-color: hsl(var(--muted)) !important;
   color: hsl(var(--primary)) !important;
@@ -531,7 +482,6 @@
   font-weight: 500 !important;
 }
 
-/* Tables */
 .course-content table {
   width: 100%;
   border-collapse: collapse;
@@ -555,7 +505,6 @@
   color: hsl(var(--muted-foreground));
 }
 
-/* ===== TipTap Editor Styles ===== */
 .tiptap {
   @apply min-h-[350px] outline-none;
 }
@@ -569,7 +518,6 @@
   content: attr(data-placeholder);
 }
 
-/* Headings */
 .tiptap h1 {
   font-size: 2rem !important;
   line-height: 1.2 !important;
@@ -594,13 +542,11 @@
   margin-bottom: 0.5rem !important;
 }
 
-/* Paragraphs */
 .tiptap p {
   margin-bottom: 1rem;
   line-height: 1.7;
 }
 
-/* Lists */
 .tiptap ul {
   list-style-type: disc !important;
   padding-left: 1.5rem !important;
@@ -621,7 +567,6 @@
   margin-bottom: 0.25rem;
 }
 
-/* Blockquote */
 .tiptap blockquote {
   border-left: 4px solid hsl(var(--primary)) !important;
   padding-left: 1rem !important;
@@ -630,7 +575,6 @@
   color: hsl(var(--muted-foreground)) !important;
 }
 
-/* Highlight */
 .tiptap mark {
   background-color: #fef08a;
   padding: 0.125rem 0.25rem !important;
@@ -641,7 +585,6 @@
   background-color: rgba(234, 179, 8, 0.4);
 }
 
-/* Links */
 .tiptap a {
   color: hsl(var(--primary)) !important;
   text-decoration: underline !important;
@@ -649,13 +592,11 @@
   cursor: pointer !important;
 }
 
-/* Horizontal rule */
 .tiptap hr {
   border-color: hsl(var(--border)) !important;
   margin: 1.5rem 0 !important;
 }
 
-/* Images */
 .tiptap img {
   max-width: 100% !important;
   height: auto !important;
@@ -664,7 +605,6 @@
   display: block !important;
 }
 
-/* Code Block Styles - Reset standard styles when using custom node view */
 .tiptap .code-block-wrapper pre {
   margin: 0 !important;
   border-radius: 0 !important;
@@ -691,7 +631,6 @@
   font-size: inherit !important;
 }
 
-/* Inline code */
 .tiptap code:not(pre code) {
   background-color: hsl(var(--muted)) !important;
   color: hsl(var(--primary)) !important;
@@ -702,7 +641,6 @@
   font-weight: 500 !important;
 }
 
-/* Syntax Highlighting for Code Blocks */
 .tiptap pre .hljs-comment,
 .tiptap pre .hljs-quote {
   color: #71717a !important;

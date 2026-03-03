@@ -30,7 +30,6 @@ export default function DashboardRedirect() {
     }
   }, [isLoading, isAuthenticated, user, router]);
 
-  // Show loading skeleton while redirecting
   return (
     <div className="flex min-h-screen items-center justify-center bg-background">
       <div className="text-center space-y-4">

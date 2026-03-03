@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "FAQs — Frequently Asked Questions | Softcrayons",
+  title: "FAQs - Frequently Asked Questions | Softcrayons",
   description:
     "Find answers to frequently asked questions about Softcrayons courses, admissions, fees, placements, batch timings, certification, and more. Get clarity before you enroll.",
   keywords: [
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     "Certification Questions",
   ],
   openGraph: {
-    title: "FAQs — Frequently Asked Questions | Softcrayons",
+    title: "FAQs - Frequently Asked Questions | Softcrayons",
     description:
       "Find answers to common questions about courses, admissions, fees, and placements at Softcrayons.",
     url: "https://softcrayons.com/faqs",

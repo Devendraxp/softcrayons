@@ -53,7 +53,6 @@ export function PartnersSection() {
   return (
     <section className="py-24 bg-muted/30">
       <div className="container">
-        {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
             SoftCrayons <span className="text-gradient">Global Partners</span>
@@ -63,7 +62,6 @@ export function PartnersSection() {
           </p>
         </div>
 
-        {/* Partners Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
           {partners.map((partner, index) => (
             <div
@@ -80,7 +78,6 @@ export function PartnersSection() {
                 className="max-h-10 sm:max-h-12 w-auto object-contain grayscale group-hover:grayscale-0 opacity-70 group-hover:opacity-100 transition-all duration-300"
               />
               
-              {/* Tooltip on hover */}
               <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 translate-y-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
                 <div className="bg-foreground text-background text-xs font-medium px-2 py-1 rounded whitespace-nowrap">
                   {partner.name}

@@ -25,7 +25,7 @@ const jetbrainsMono = JetBrains_Mono({
 const SITE_URL = "https://softcrayons.com";
 const SITE_NAME = "Softcrayons Tech Solutions";
 const SITE_DESCRIPTION =
-  "Softcrayons — No.1 Coding & IT Training Institute in Noida & Ghaziabad. Industry-focused courses in Full Stack Development, React, Python, Java, Data Science, Cloud Computing, DevOps, AI/ML & more. 100% placement assistance, expert mentors, live projects.";
+  "Softcrayons - No.1 Coding & IT Training Institute in Noida & Ghaziabad. Industry-focused courses in Full Stack Development, React, Python, Java, Data Science, Cloud Computing, DevOps, AI/ML & more. 100% placement assistance, expert mentors, live projects.";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
 
   title: {
     default:
-      "Softcrayons — Best Coding & IT Training Institute in Noida | Skill Development Courses",
+      "Softcrayons - Best Coding & IT Training Institute in Noida | Skill Development Courses",
     template: "%s | Softcrayons Tech Solutions",
   },
 
@@ -53,12 +53,10 @@ export const metadata: Metadata = {
   referrer: "origin-when-cross-origin",
 
   keywords: [
-    // Primary brand
     "Softcrayons",
     "Softcrayons Tech Solutions",
     "Soft Crayons",
 
-    // Core offerings
     "Coding Institute in Noida",
     "Coding Institute in Ghaziabad",
     "IT Training Institute in Noida",
@@ -79,7 +77,6 @@ export const metadata: Metadata = {
     "Best IT Coaching Noida",
     "Best IT Coaching Ghaziabad",
 
-    // Course-specific
     "Full Stack Development Course Noida",
     "MERN Stack Training Noida",
     "React JS Training Noida",
@@ -129,7 +126,6 @@ export const metadata: Metadata = {
     "Selenium Training Noida",
     "API Testing Course Noida",
 
-    // Placement & career
     "Placement Guarantee Course Noida",
     "100 Percent Placement Assistance Noida",
     "Job Oriented Courses Noida",
@@ -143,7 +139,6 @@ export const metadata: Metadata = {
     "Summer Training Noida",
     "Winter Training Noida",
 
-    // Audience-specific
     "Best Institute for BCA Students Noida",
     "Best Institute for MCA Students Noida",
     "Best Institute for BTech Students Noida",
@@ -153,7 +148,6 @@ export const metadata: Metadata = {
     "Upskilling Courses Noida",
     "Reskilling Courses Noida",
 
-    // Location-specific
     "Sector 62 Noida Coaching",
     "Sector 63 Noida Coaching",
     "Best Institute near me Noida",
@@ -206,7 +200,7 @@ export const metadata: Metadata = {
     url: SITE_URL,
     siteName: SITE_NAME,
     title:
-      "Softcrayons — Best Coding & IT Training Institute in Noida & Ghaziabad",
+      "Softcrayons - Best Coding & IT Training Institute in Noida & Ghaziabad",
     description: SITE_DESCRIPTION,
     images: [
       {
@@ -221,7 +215,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title:
-      "Softcrayons — Best Coding & IT Training Institute in Noida & Ghaziabad",
+      "Softcrayons - Best Coding & IT Training Institute in Noida & Ghaziabad",
     description: SITE_DESCRIPTION,
     images: ["/favicon.png"],
     creator: "@softcrayons",
@@ -272,7 +266,6 @@ export const metadata: Metadata = {
   },
 };
 
-// JSON-LD Structured Data
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "EducationalOrganization",

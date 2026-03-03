@@ -74,7 +74,6 @@ export function FacultyCarousel({ faculties }: FacultyCarouselProps) {
 
   return (
     <div className="relative">
-      {/* Carousel Container */}
       <div
         ref={scrollRef}
         className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-4 px-1"
@@ -87,9 +86,7 @@ export function FacultyCarousel({ faculties }: FacultyCarouselProps) {
         ))}
       </div>
 
-      {/* Navigation - Bottom Center */}
       <div className="flex flex-col items-center gap-6 mt-8">
-        {/* Dots and Arrows */}
         <div className="flex items-center gap-4">
           <Button
             variant="outline"
@@ -105,7 +102,6 @@ export function FacultyCarousel({ faculties }: FacultyCarouselProps) {
             <ChevronLeft className="w-5 h-5" />
           </Button>
 
-          {/* Dots */}
           <div className="flex items-center gap-2">
             {Array.from({ length: totalDots }).map((_, index) => (
               <button
@@ -136,7 +132,6 @@ export function FacultyCarousel({ faculties }: FacultyCarouselProps) {
           </Button>
         </div>
 
-        {/* View All Button */}
         <Link href="/faculties">
           <Button
             variant="outline"

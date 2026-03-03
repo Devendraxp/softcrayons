@@ -34,7 +34,6 @@ export function Loader({
   return (
     <div className={cn(containerClasses, className)}>
       <div className="flex flex-col items-center gap-4">
-        {/* Perfect Round Spinner */}
         <div
           className={cn(
             "rounded-full border-primary/30 border-t-primary animate-spin",
@@ -45,7 +44,6 @@ export function Loader({
           }}
         />
         
-        {/* Loading Text */}
         <p
           className={cn(
             "text-muted-foreground font-medium animate-pulse",
@@ -59,17 +57,14 @@ export function Loader({
   );
 }
 
-// Page-level loader for full page loading states
 export function PageLoader({ text = "page" }: { text?: string }) {
   return <Loader text={text} size="lg" fullScreen />;
 }
 
-// Section loader for loading content sections
 export function SectionLoader({ text = "content" }: { text?: string }) {
   return <Loader text={text} size="md" />;
 }
 
-// Inline loader for smaller loading states
 export function InlineLoader({ text = "data" }: { text?: string }) {
   return (
     <div className="inline-flex items-center gap-2">

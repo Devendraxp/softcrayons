@@ -26,7 +26,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Trash2 } from "lucide-react";
 import { type User } from "./UserRow";
 
-// Delete User Dialog
 interface DeleteUserDialogProps {
   user: User | null;
   open: boolean;
@@ -107,7 +106,6 @@ export function DeleteUserDialog({
   );
 }
 
-// Ban User Dialog
 interface BanUserDialogProps {
   user: User | null;
   open: boolean;
@@ -212,7 +210,6 @@ export function BanUserDialog({
   );
 }
 
-// Unban User Dialog
 interface UnbanUserDialogProps {
   user: User | null;
   open: boolean;
@@ -260,7 +257,6 @@ export function UnbanUserDialog({
   );
 }
 
-// Change Password Dialog
 interface ChangePasswordDialogProps {
   user: User | null;
   open: boolean;
@@ -357,7 +353,6 @@ export function ChangePasswordDialog({
   );
 }
 
-// View Profile Dialog
 interface ViewProfileDialogProps {
   user: User | null;
   open: boolean;

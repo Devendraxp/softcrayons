@@ -49,7 +49,6 @@ type ToolbarButtonProps = {
   disabled?: boolean;
 };
 
-// Use forwardRef to allow PopoverTrigger to work correctly - simplified as component
 const ToolbarButton = ({ onClick, isActive, children, title, disabled }: ToolbarButtonProps) => {
   return (
     <button
@@ -82,7 +81,6 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
   const [linkUrl, setLinkUrl] = useState("");
   const [isLinkPopoverOpen, setIsLinkPopoverOpen] = useState(false);
 
-  // Force re-render on editor updates
   useEffect(() => {
     if (!editor) return;
 
@@ -99,7 +97,6 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
     };
   }, [editor]);
 
-  // Update link URL state when selection changes
   useEffect(() => {
     if (editor && editor.isActive("link")) {
       setLinkUrl(editor.getAttributes("link").href);
@@ -142,7 +139,6 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
 
   return (
     <div className="flex flex-wrap items-center gap-0.5 border-b border-border bg-muted/40 p-2">
-      {/* Undo/Redo */}
       <ToolbarButton
         onClick={() => editor.chain().focus().undo().run()}
         disabled={!editor.can().undo()}
@@ -160,7 +156,6 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
 
       <ToolbarDivider />
 
-      {/* Text styles */}
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleBold().run()}
         isActive={editor.isActive("bold")}
@@ -183,7 +178,6 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
         <Strikethrough className="h-4 w-4" />
       </ToolbarButton>
 
-      {/* Highlight Color Picker */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <button
@@ -213,7 +207,6 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
 
       <ToolbarDivider />
 
-      {/* Link */}
       <Popover open={isLinkPopoverOpen} onOpenChange={setIsLinkPopoverOpen}>
         <PopoverTrigger asChild>
           <button
@@ -255,7 +248,6 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
 
       <ToolbarDivider />
 
-      {/* Headings */}
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
         isActive={editor.isActive("heading", { level: 1 })}
@@ -280,7 +272,6 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
 
       <ToolbarDivider />
 
-      {/* Lists */}
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         isActive={editor.isActive("bulletList")}
@@ -298,7 +289,6 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
 
       <ToolbarDivider />
 
-      {/* Alignment */}
       <ToolbarButton
         onClick={() => editor.chain().focus().setTextAlign("left").run()}
         isActive={editor.isActive({ textAlign: "left" })}
@@ -323,7 +313,6 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
 
       <ToolbarDivider />
 
-      {/* Blockquote */}
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
         isActive={editor.isActive("blockquote")}
@@ -332,7 +321,6 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
         <Quote className="h-4 w-4" />
       </ToolbarButton>
 
-      {/* Code block */}
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
         isActive={editor.isActive("codeBlock")}
@@ -341,7 +329,6 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
         <Code className="h-4 w-4" />
       </ToolbarButton>
 
-      {/* Horizontal Rule */}
       <ToolbarButton
         onClick={() => editor.chain().focus().setHorizontalRule().run()}
         title="Horizontal Line"
@@ -351,7 +338,6 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
 
       <ToolbarDivider />
 
-      {/* Image Upload via Cloudinary */}
       <CldUploadWidget
         uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "blog_unsigned"}
         options={{
@@ -363,19 +349,16 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
           if (result.info && typeof result.info === "object" && "secure_url" in result.info) {
             handleImageUpload(result.info.secure_url as string);
           }
-          // Reset body styles to restore scrolling
           document.body.style.overflow = "";
           document.body.style.pointerEvents = "";
         }}
         onClose={() => {
-          // Ensure proper cleanup when widget closes
           setTimeout(() => {
             document.body.style.overflow = "";
             document.body.style.pointerEvents = "";
           }, 100);
         }}
         onError={() => {
-          // Handle error and cleanup
           document.body.style.overflow = "";
           document.body.style.pointerEvents = "";
         }}

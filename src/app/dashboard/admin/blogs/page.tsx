@@ -44,7 +44,7 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DeleteConfirmModal } from "@/components/ui/delete-confirm-modal";
-import { toast } from "sonner"; // Assuming you have a toast component
+import { toast } from "sonner";
 
 type Blog = {
   id: number;
@@ -60,7 +60,6 @@ type Blog = {
   thumbnailImage: string | null;
   createdAt: string;
   updatedAt: string;
-  // Included purely for UI compatibility with dummy data if API structure differs slightly
   category?: { id: string; name: string }; 
   author?: { id: string; name: string };
 };
@@ -74,7 +73,6 @@ export default function BlogsPage() {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
 
-  // Stats
   const totalBlogs = blogs.length;
   const publishedBlogs = blogs.filter((b) => b.isPublic).length;
   const draftBlogs = blogs.filter((b) => !b.isPublic).length;
@@ -100,7 +98,6 @@ export default function BlogsPage() {
   };
 
   const handleToggle = async (id: number, field: "isPublic" | "isFeatured", currentValue: boolean) => {
-    // Optimistic update
     setBlogs((prev) =>
       prev.map((blog) =>
         blog.id === id ? { ...blog, [field]: !currentValue } : blog
@@ -119,7 +116,6 @@ export default function BlogsPage() {
       }
     } catch (error) {
       console.error("Update failed:", error);
-      // Revert optimism
       setBlogs((prev) =>
         prev.map((blog) =>
           blog.id === id ? { ...blog, [field]: currentValue } : blog
@@ -159,7 +155,6 @@ export default function BlogsPage() {
       statusFilter === "all" ||
       (statusFilter === "published" && blog.isPublic) ||
       (statusFilter === "draft" && !blog.isPublic);
-    // Note: Simple category filter logic for now
     const matchesCategory =
       categoryFilter === "all" || blog.categoryId.toString() === categoryFilter;
 
@@ -177,7 +172,6 @@ export default function BlogsPage() {
 
   return (
     <div className="w-full max-w-[98%] mx-auto p-4 space-y-4">
-      {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Blogs</h1>
@@ -193,7 +187,6 @@ export default function BlogsPage() {
         </Button>
       </div>
 
-      {/* Stats Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -241,7 +234,6 @@ export default function BlogsPage() {
         </Card>
       </div>
 
-      {/* Filters */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -266,7 +258,6 @@ export default function BlogsPage() {
         </div>
       </div>
 
-      {/* Blogs Table */}
       <Card>
         <CardContent className="p-0">
           <Table>

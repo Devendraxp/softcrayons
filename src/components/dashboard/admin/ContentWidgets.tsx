@@ -53,7 +53,6 @@ export function ContentStats({ content }: ContentWidgetsProps) {
         Blog & testimonial status
       </Text>
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        {/* Total Blogs */}
         <div className="flex flex-col items-center rounded-xl border border-border/60 bg-background/60 p-4">
           <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-blue-200 dark:bg-blue-500/30">
             <FileText className="h-5 w-5 text-blue-600 dark:text-blue-400" />
@@ -66,7 +65,6 @@ export function ContentStats({ content }: ContentWidgetsProps) {
           </Text>
         </div>
 
-        {/* Total Reviews */}
         <div className="flex flex-col items-center rounded-xl border border-border/60 bg-background/60 p-4">
           <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-purple-200 dark:bg-purple-500/30">
             <MessageSquare className="h-5 w-5 text-purple-600 dark:text-purple-400" />
@@ -79,7 +77,6 @@ export function ContentStats({ content }: ContentWidgetsProps) {
           </Text>
         </div>
 
-        {/* Pending Moderation */}
         <div className="flex flex-col items-center rounded-xl border border-border/60 bg-background/60 p-4">
           <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-amber-200 dark:bg-amber-500/30">
             <Eye className="h-5 w-5 text-amber-600 dark:text-amber-400" />

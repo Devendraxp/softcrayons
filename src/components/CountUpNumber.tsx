@@ -8,7 +8,6 @@ interface CountUpNumberProps {
 }
 
 function parseValue(value: string): { number: number; prefix: string; suffix: string } {
-  // Extract prefix (non-digit chars at start), number, and suffix (non-digit chars at end)
   const match = value.match(/^([^0-9]*)([0-9,]+)([^0-9]*)$/);
   if (!match) return { number: 0, prefix: '', suffix: value };
   const number = parseInt(match[2].replace(/,/g, ''), 10);
@@ -16,7 +15,6 @@ function parseValue(value: string): { number: number; prefix: string; suffix: st
 }
 
 function formatNumber(num: number, original: number): string {
-  // Match the formatting of the original number (e.g., comma separators)
   if (original >= 1000) {
     return num.toLocaleString('en-US');
   }
@@ -37,7 +35,7 @@ export function CountUpNumber({ value, className }: CountUpNumberProps) {
       ([entry]) => {
         if (entry.isIntersecting && !hasAnimated.current) {
           hasAnimated.current = true;
-          const duration = 2000; // ms
+          const duration = 2000;
           const startTime = performance.now();
 
           const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);

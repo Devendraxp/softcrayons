@@ -38,7 +38,6 @@ export async function GET(
       }, { status: 404 });
     }
 
-    // Get related FAQs from the same category
     const relatedFaqs = await prisma.faq.findMany({
       where: {
         isPublic: true,

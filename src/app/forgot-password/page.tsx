@@ -50,7 +50,6 @@ export default function ForgotPasswordPage() {
   if (isSuccess) {
     return (
       <div className="min-h-screen relative overflow-hidden bg-background">
-        {/* Background Effects */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-1/4 -left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse-slow" />
           <div
@@ -60,10 +59,8 @@ export default function ForgotPasswordPage() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-primary/5 to-transparent rounded-full" />
         </div>
 
-        {/* Grid Pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.3)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.3)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_40%,transparent_100%)]" />
 
-        {/* Main Content */}
         <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
           <div className="w-full max-w-md">
             <div className="text-center space-y-6 animate-fade-up">
@@ -100,7 +97,6 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-background">
-      {/* Background Effects */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 -left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse-slow" />
         <div
@@ -114,10 +110,8 @@ export default function ForgotPasswordPage() {
         />
       </div>
 
-      {/* Grid Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.3)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.3)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_40%,transparent_100%)]" />
 
-      {/* Floating Elements */}
       <div className="absolute top-20 left-[10%] animate-float hidden lg:block">
         <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-lg">
           <Mail className="w-7 h-7 text-white" />
@@ -148,10 +142,8 @@ export default function ForgotPasswordPage() {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
         <div className="w-full max-w-md">
-          {/* Header */}
           <div className="text-center mb-8 animate-fade-up">
             <h1 className="text-3xl sm:text-4xl font-black mb-3">
               Forgot <span className="text-gradient">password?</span>
@@ -161,7 +153,6 @@ export default function ForgotPasswordPage() {
             </p>
           </div>
 
-          {/* Form */}
           <div className="animate-fade-up" style={{ animationDelay: "0.1s" }}>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">

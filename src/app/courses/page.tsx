@@ -79,13 +79,11 @@ export default function CoursesPage() {
 	const [hasMore, setHasMore] = useState(true);
 	const [totalCount, setTotalCount] = useState(0);
 	
-	// Search state
 	const [searchQuery, setSearchQuery] = useState("");
 	const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
 	const [isSearching, setIsSearching] = useState(false);
 	const [showSearchResults, setShowSearchResults] = useState(false);
 
-	// Fetch categories
 	useEffect(() => {
 		const fetchCategories = async () => {
 			try {
@@ -107,7 +105,6 @@ export default function CoursesPage() {
 		fetchCategories();
 	}, []);
 
-	// Full-text search
 	const performSearch = useCallback(async (query: string) => {
 		if (query.trim().length < 2) {
 			setSearchResults([]);
@@ -130,7 +127,6 @@ export default function CoursesPage() {
 		}
 	}, []);
 
-	// Debounced search
 	useEffect(() => {
 		const timeoutId = setTimeout(() => {
 			if (searchQuery) {
@@ -143,7 +139,6 @@ export default function CoursesPage() {
 		return () => clearTimeout(timeoutId);
 	}, [searchQuery, performSearch]);
 
-	// Fetch courses
 	const fetchCourses = async (pageNum: number, categorySlug: string, append: boolean = false) => {
 		try {
 			if (append) setLoadingMore(true);
@@ -199,7 +194,6 @@ export default function CoursesPage() {
 		return formatted as "Beginner" | "Intermediate" | "Advanced";
 	};
 
-	// Transform courses for CourseCard component
 	const coursesWithCategoryName = courses.map((course) => ({
 		id: course.id,
 		title: course.title,
@@ -208,7 +202,7 @@ export default function CoursesPage() {
 		categoryName: course.category.title,
 		duration: course.duration || "Self-paced",
 		level: formatDifficulty(course.difficulty),
-		tags: [], // Could be populated from topics JSON
+		tags: [],
 		image: course.thumbnailImage || course.bannerImage || "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&auto=format&fit=crop&q=80",
 		slug: course.slug,
 	}));
@@ -226,7 +220,6 @@ export default function CoursesPage() {
 	return (
 		<div className="min-h-screen bg-background pt-24 pb-16">
 			<div className="container">
-				{/* Header */}
 				<div className="mb-10">
 					<div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
 						<div>
@@ -239,7 +232,6 @@ export default function CoursesPage() {
 							</p>
 						</div>
 
-						{/* Search Box */}
 						<div className="relative w-full lg:w-96">
 							<Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
 							<Input
@@ -263,7 +255,6 @@ export default function CoursesPage() {
 								</div>
 							)}
 
-							{/* Search Results Dropdown */}
 							{showSearchResults && searchResults.length > 0 && (
 								<div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-lg z-50 max-h-96 overflow-y-auto">
 									<div className="p-2">
@@ -308,14 +299,12 @@ export default function CoursesPage() {
 				</div>
 
 				<div className="flex flex-col lg:flex-row gap-8">
-					{/* Left Sidebar */}
 					<CourseSidebar
 						categories={categories}
 						selectedCategory={selectedCategory}
 						onCategoryChange={setSelectedCategory}
 					/>
 
-					{/* Right Side - Course Listings */}
 					<main className="flex-1">
 						<div className="flex items-center justify-between mb-6">
 							<p className="text-muted-foreground">

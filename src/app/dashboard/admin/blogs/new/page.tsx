@@ -230,7 +230,6 @@ export default function NewBlogPage() {
 
   return (
     <div className="w-full max-w-[98%] mx-auto p-4 space-y-4">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" asChild>
@@ -258,9 +257,7 @@ export default function NewBlogPage() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Top Section - 3 columns */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column */}
           <div className="lg:col-span-2 space-y-6">
             <Card>
               <CardHeader>
@@ -412,7 +409,6 @@ export default function NewBlogPage() {
             </Card>
           </div>
 
-          {/* Right Column - Sidebar */}
           <div className="space-y-6">
             <Card>
               <CardHeader>
@@ -578,7 +574,6 @@ export default function NewBlogPage() {
                             result.info.secure_url as string
                           );
                         }
-                        // Reset body styles to restore scrolling
                         document.body.style.overflow = "";
                         document.body.style.pointerEvents = "";
                       }}
@@ -650,7 +645,6 @@ export default function NewBlogPage() {
                             result.info.secure_url as string
                           );
                         }
-                        // Reset body styles to restore scrolling
                         document.body.style.overflow = "";
                         document.body.style.pointerEvents = "";
                       }}
@@ -687,7 +681,6 @@ export default function NewBlogPage() {
           </div>
         </div>
 
-        {/* Content Section - Full Width at Bottom */}
         <Card className="min-h-[500px]">
           <CardHeader>
             <CardTitle>Content</CardTitle>

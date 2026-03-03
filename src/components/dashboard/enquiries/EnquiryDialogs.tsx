@@ -30,7 +30,6 @@ import { type Enquiry, type EnquiryStatus } from "./EnquiryRow";
 import { cn } from "@/lib/utils";
 import { Phone, Mail, BookOpen, Calendar, User, Trash2 } from "lucide-react";
 
-// View Details Dialog
 interface ViewDetailsDialogProps {
   enquiry: Enquiry | null;
   open: boolean;
@@ -72,7 +71,6 @@ export function ViewDetailsDialog({
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-6 py-4">
-          {/* Contact Info */}
           <div className="space-y-3">
             <h4 className="text-sm font-semibold text-muted-foreground">Contact Information</h4>
             <div className="space-y-2">
@@ -95,7 +93,6 @@ export function ViewDetailsDialog({
             </div>
           </div>
 
-          {/* Course */}
           {enquiry.course && (
             <div className="space-y-2">
               <h4 className="text-sm font-semibold text-muted-foreground">Course Interest</h4>
@@ -106,7 +103,6 @@ export function ViewDetailsDialog({
             </div>
           )}
 
-          {/* Message */}
           {enquiry.message && (
             <div className="space-y-2">
               <h4 className="text-sm font-semibold text-muted-foreground">Message</h4>
@@ -114,7 +110,6 @@ export function ViewDetailsDialog({
             </div>
           )}
 
-          {/* Status & Assignment */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <h4 className="text-sm font-semibold text-muted-foreground">Status</h4>
@@ -140,7 +135,6 @@ export function ViewDetailsDialog({
             </div>
           </div>
 
-          {/* Agent */}
           {enquiry.agent && (
             <div className="space-y-2">
               <h4 className="text-sm font-semibold text-muted-foreground">Agent</h4>
@@ -156,7 +150,6 @@ export function ViewDetailsDialog({
             </div>
           )}
 
-          {/* Notes & Remarks */}
           {(enquiry.note || enquiry.remark) && (
             <div className="space-y-3">
               {enquiry.note && (
@@ -176,7 +169,6 @@ export function ViewDetailsDialog({
             </div>
           )}
 
-          {/* Timestamps */}
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Calendar className="h-3 w-3" />
             <span>Created: {formatDate(enquiry.createdAt)}</span>
@@ -195,7 +187,6 @@ export function ViewDetailsDialog({
   );
 }
 
-// Assign Counselor Dialog
 interface AssignCounselorDialogProps {
   enquiry: Enquiry | null;
   open: boolean;
@@ -261,7 +252,6 @@ export function AssignCounselorDialog({
   );
 }
 
-// Add Agent Dialog
 interface AddAgentDialogProps {
   enquiry: Enquiry | null;
   open: boolean;
@@ -327,7 +317,6 @@ export function AddAgentDialog({
   );
 }
 
-// Edit Notes Dialog
 interface EditNotesDialogProps {
   enquiry: Enquiry | null;
   open: boolean;
@@ -407,7 +396,6 @@ export function EditNotesDialog({
   );
 }
 
-// Delete Enquiry Dialog
 interface DeleteEnquiryDialogProps {
   enquiry: Enquiry | null;
   open: boolean;

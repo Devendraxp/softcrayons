@@ -85,12 +85,10 @@ export default function EditUserPage() {
 
   const [errors, setErrors] = React.useState<Record<string, string>>({});
 
-  // Sessions state
   const [sessions, setSessions] = React.useState<Session[]>([]);
   const [isLoadingSessions, setIsLoadingSessions] = React.useState(true);
   const [revokingSessionId, setRevokingSessionId] = React.useState<string | null>(null);
 
-  // Fetch user data
   React.useEffect(() => {
     const fetchUser = async () => {
       setIsLoading(true);
@@ -132,7 +130,6 @@ export default function EditUserPage() {
     }
   }, [userId, router]);
 
-  // Fetch user sessions
   const fetchSessions = React.useCallback(async () => {
     if (!userId) return;
     
@@ -161,7 +158,6 @@ export default function EditUserPage() {
     }
   }, [userId, fetchSessions]);
 
-  // Session handlers
   const handleRevokeSession = async (sessionToken: string) => {
     setRevokingSessionId(sessionToken);
     try {
@@ -201,7 +197,6 @@ export default function EditUserPage() {
     }
   };
 
-  // Helper functions for sessions
   const getDeviceIcon = (userAgent: string | null | undefined) => {
     if (!userAgent) return <Globe className="h-5 w-5" />;
     const ua = userAgent.toLowerCase();
@@ -267,7 +262,6 @@ export default function EditUserPage() {
 
     setIsSubmitting(true);
     try {
-      // Update user details
       const { error: updateError } = await authClient.admin.updateUser({
         userId,
         data: {
@@ -283,11 +277,10 @@ export default function EditUserPage() {
         return;
       }
 
-      // Update role if changed
       if (formData.role !== originalRole) {
         const { error: roleError } = await authClient.admin.setRole({
           userId,
-          role: formData.role as unknown as "user" | "admin", // Keep uppercase to match Prisma enum
+          role: formData.role as unknown as "user" | "admin",
         });
 
         if (roleError) {
@@ -338,7 +331,6 @@ export default function EditUserPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex items-center gap-4">
         <Link href="/dashboard/admin/users">
           <Button variant="ghost" size="icon">
@@ -353,11 +345,9 @@ export default function EditUserPage() {
         </div>
       </div>
 
-      {/* Form */}
       <div className="max-w-2xl">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="rounded-xl border border-border bg-card p-6 space-y-6">
-            {/* Profile Image */}
             <div className="space-y-2">
               <Label>Profile Image</Label>
               <div className="flex items-center gap-4">
@@ -391,7 +381,6 @@ export default function EditUserPage() {
                       if (result.info && typeof result.info === "object" && "secure_url" in result.info) {
                         handleChange("image", result.info.secure_url as string);
                       }
-                      // Reset body styles to restore scrolling
                       document.body.style.overflow = "";
                       document.body.style.pointerEvents = "";
                     }}
@@ -428,7 +417,6 @@ export default function EditUserPage() {
               </div>
             </div>
 
-            {/* Name */}
             <div className="space-y-2">
               <Label htmlFor="name">
                 Name <span className="text-destructive">*</span>
@@ -445,7 +433,6 @@ export default function EditUserPage() {
               )}
             </div>
 
-            {/* Email */}
             <div className="space-y-2">
               <Label htmlFor="email">
                 Email <span className="text-destructive">*</span>
@@ -463,7 +450,6 @@ export default function EditUserPage() {
               )}
             </div>
 
-            {/* Phone */}
             <div className="space-y-2">
               <Label htmlFor="phone">Phone</Label>
               <Input
@@ -475,7 +461,6 @@ export default function EditUserPage() {
               />
             </div>
 
-            {/* Role */}
             <div className="space-y-2">
               <Label htmlFor="role">
                 Role <span className="text-destructive">*</span>
@@ -505,7 +490,6 @@ export default function EditUserPage() {
             </div>
           </div>
 
-          {/* Actions */}
           <div className="flex items-center gap-4">
             <Button type="submit" disabled={isSubmitting} className="gap-2">
               {isSubmitting ? (
@@ -529,7 +513,6 @@ export default function EditUserPage() {
         </form>
       </div>
 
-      {/* User Sessions */}
       <Card className="max-w-2xl">
         <CardHeader>
           <div className="flex items-center justify-between">

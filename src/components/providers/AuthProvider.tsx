@@ -63,7 +63,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [session]);
 
   const refresh = React.useCallback(async () => {
-    // Session will auto-refresh with better-auth
   }, []);
 
   return (

@@ -40,7 +40,6 @@ export default function VerifyEmailPage() {
     setResendSuccess(false);
 
     try {
-      // Using better-auth to resend verification email
       const result = await authClient.sendVerificationEmail({
         email,
         callbackURL: "/sign-in",
@@ -62,7 +61,6 @@ export default function VerifyEmailPage() {
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-background">
-      {/* Full Page Background Effects */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 -left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse-slow" />
         <div
@@ -76,10 +74,8 @@ export default function VerifyEmailPage() {
         />
       </div>
 
-      {/* Grid Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.3)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.3)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_40%,transparent_100%)]" />
 
-      {/* Floating Elements */}
       <div className="absolute top-20 left-[10%] animate-float hidden lg:block">
         <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-lg">
           <BookOpen className="w-7 h-7 text-white" />
@@ -110,17 +106,14 @@ export default function VerifyEmailPage() {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
         <div className="w-full max-w-md text-center">
-          {/* Icon */}
           <div className="animate-fade-up mb-8">
             <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
               <Mail className="w-12 h-12 text-primary" />
             </div>
           </div>
 
-          {/* Header */}
           <div className="animate-fade-up" style={{ animationDelay: "0.1s" }}>
             <h1 className="text-3xl sm:text-4xl font-black mb-4">
               Verify your <span className="text-gradient">email</span>
@@ -133,7 +126,6 @@ export default function VerifyEmailPage() {
             </p>
           </div>
 
-          {/* Instructions */}
           <div
             className="animate-fade-up space-y-6"
             style={{ animationDelay: "0.2s" }}
@@ -163,7 +155,6 @@ export default function VerifyEmailPage() {
               </div>
             </div>
 
-            {/* Alerts */}
             {error && (
               <Alert variant="destructive">
                 <AlertDescription>{error}</AlertDescription>
@@ -177,7 +168,6 @@ export default function VerifyEmailPage() {
               </Alert>
             )}
 
-            {/* Resend Button */}
             <div className="space-y-4">
               <p className="text-sm text-muted-foreground">
                 Didn&apos;t receive the email?
@@ -202,7 +192,6 @@ export default function VerifyEmailPage() {
               </Button>
             </div>
 
-            {/* Back to Sign In */}
             <Link
               href="/sign-in"
               className="inline-flex items-center text-sm text-primary hover:underline"

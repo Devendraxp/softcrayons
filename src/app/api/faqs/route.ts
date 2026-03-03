@@ -10,7 +10,6 @@ export async function GET(request: NextRequest) {
     const categoryId = searchParams.get('categoryId');
     const categorySlug = searchParams.get('categorySlug');
 
-    // Validate pagination params
     if (page < 1 || limit < 1) {
       return NextResponse.json({
         success: false,
@@ -39,7 +38,6 @@ export async function GET(request: NextRequest) {
       ...(categorySlug && { category: { slug: categorySlug } }),
     };
 
-    // Get total count for pagination
     const totalCount = await prisma.faq.count({ where: whereClause });
 
     const faqs = await prisma.faq.findMany({

@@ -60,7 +60,6 @@ export default function FacultiesPage() {
 	return (
 		<div className="min-h-screen bg-background pt-24 pb-16">
 			<div className="container">
-				{/* Header */}
 				<div className="mb-12 max-w-3xl">
 					<span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
 						Our Expert Team
@@ -76,7 +75,6 @@ export default function FacultiesPage() {
 					</p>
 				</div>
 
-				{/* Stats Row */}
 				<div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
 					{[
 						{
@@ -121,7 +119,6 @@ export default function FacultiesPage() {
 					))}
 				</div>
 
-				{/* Featured Faculty Section */}
 				{featuredFaculties.length > 0 && (
 					<section className="mb-16">
 						<div className="flex items-center gap-3 mb-8">
@@ -146,7 +143,6 @@ export default function FacultiesPage() {
 					</section>
 				)}
 
-				{/* All Faculty Section */}
 				{regularFaculties.length > 0 && (
 					<section className="mb-16">
 						<div className="flex items-center gap-3 mb-8">
@@ -179,7 +175,6 @@ export default function FacultiesPage() {
 					</div>
 				)}
 
-				{/* Join CTA */}
 				<section className="bg-card border border-border rounded-2xl p-8 md:p-12 text-center">
 					<div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5 mb-4">
 						<Heart className="w-4 h-4 text-primary" />

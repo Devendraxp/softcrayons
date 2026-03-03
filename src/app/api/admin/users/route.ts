@@ -11,19 +11,16 @@ export async function GET(request: NextRequest) {
     const isActive = searchParams.get('isActive');
     const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : 50;
 
-    // Build filter for better-auth admin API
     const query: any = {
       limit,
     };
 
-    // Search by name or email
     if (search) {
       query.searchValue = search;
       query.searchField = 'name';
       query.searchOperator = 'contains';
     }
 
-    // Filter by role
     if (role) {
       query.filterField = 'role';
       query.filterValue = role;

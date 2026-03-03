@@ -126,12 +126,10 @@ export default function BlogsPage() {
     const [totalBlogs, setTotalBlogs] = useState(0);
     const [loadingMore, setLoadingMore] = useState(false);
     
-    // Search state
     const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
     const [isSearching, setIsSearching] = useState(false);
     const [showSearchResults, setShowSearchResults] = useState(false);
 
-    // Fetch categories
     useEffect(() => {
         async function fetchCategories() {
             try {
@@ -158,7 +156,6 @@ export default function BlogsPage() {
         fetchCategories();
     }, []);
 
-    // Fetch featured blogs
     useEffect(() => {
         async function fetchFeaturedBlogs() {
             try {
@@ -176,7 +173,6 @@ export default function BlogsPage() {
         fetchFeaturedBlogs();
     }, []);
 
-    // Full-text search
     const performSearch = useCallback(async (query: string) => {
         if (query.trim().length < 2) {
             setSearchResults([]);
@@ -199,7 +195,6 @@ export default function BlogsPage() {
         }
     }, []);
 
-    // Debounced search for dropdown
     useEffect(() => {
         const timeoutId = setTimeout(() => {
             if (searchQuery) {
@@ -212,7 +207,6 @@ export default function BlogsPage() {
         return () => clearTimeout(timeoutId);
     }, [searchQuery, performSearch]);
 
-    // Fetch blogs (for main listing, filtered by category)
     useEffect(() => {
         async function fetchBlogs() {
             setLoading(true);
@@ -279,7 +273,6 @@ export default function BlogsPage() {
         setShowSearchResults(false);
     };
 
-    // Use fetched featured blogs, or fallback to latest blogs if none are featured
     const displayFeaturedBlogs = featuredBlogs.length > 0 ? featuredBlogs : blogs.slice(0, 3);
     const heroBlog = displayFeaturedBlogs[0];
     const sideFeatured = displayFeaturedBlogs.slice(1, 3);
@@ -296,7 +289,6 @@ export default function BlogsPage() {
     return (
         <div className="min-h-screen bg-background pt-24 pb-16">
             <div className="container">
-                {/* Header Section */}
                 <div className="mb-12">
                     <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
                         <div>
@@ -308,7 +300,6 @@ export default function BlogsPage() {
                             </p>
                         </div>
 
-                        {/* Search Bar */}
                         <div className="relative w-full lg:w-96">
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                             <Input
@@ -332,7 +323,6 @@ export default function BlogsPage() {
                                 </div>
                             )}
 
-                            {/* Search Results Dropdown */}
                             {showSearchResults && searchResults.length > 0 && (
                                 <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-lg z-50 max-h-96 overflow-y-auto">
                                     <div className="p-2">
@@ -376,7 +366,6 @@ export default function BlogsPage() {
                     </div>
                 </div>
 
-                {/* Hero Featured Section - Bento Grid Style */}
                 {!searchQuery && selectedCategory === "all" && (
                     <section className="mb-16">
                         <div className="flex items-center gap-3 mb-6">
@@ -384,7 +373,6 @@ export default function BlogsPage() {
                             <h2 className="text-2xl font-bold">Featured Articles</h2>
                         </div>
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            {/* Main Featured */}
                             {heroBlog && (
                                 <FeaturedBlogCard
                                     blog={{
@@ -396,7 +384,6 @@ export default function BlogsPage() {
                                     variant="hero"
                                 />
                             )}
-                            {/* Side Featured */}
                             <div className="grid grid-cols-1 gap-6">
                                 {sideFeatured.map((blog) => (
                                     <FeaturedBlogCard
@@ -415,19 +402,15 @@ export default function BlogsPage() {
                     </section>
                 )}
 
-                {/* Divider */}
                 <div className="border-t border-border mb-10" />
 
-                {/* All Blogs Section */}
                 <div className="flex flex-col lg:flex-row gap-8">
-                    {/* Left Sidebar */}
                     <BlogSidebar
                         categories={categories}
                         selectedCategory={selectedCategory}
                         onCategoryChange={setSelectedCategory}
                     />
 
-                    {/* Right Side - Blog Listings */}
                     <main className="flex-1">
                         <div className="flex items-center justify-between mb-6">
                             <h2 className="text-2xl font-bold">
@@ -475,7 +458,6 @@ export default function BlogsPage() {
                             </div>
                         )}
 
-                        {/* Load More Button */}
                         {hasMore && (
                             <div className="flex justify-center mt-10">
                                 <Button

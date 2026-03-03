@@ -25,7 +25,6 @@ const createBlog = async (data: createBlogData): Promise<any> => {
         throw new Error('Title, category, slug, and author are required fields.');
     }
 
-    // Convert date string to proper Date object
     const publishDate = typeof dateOfPublish === 'string' ? new Date(dateOfPublish) : dateOfPublish;
 
     const newBlog = await prisma.blog.create({
@@ -88,7 +87,6 @@ const updateBlog = async (id: number, updateData: any): Promise<any> => {
     const dataToUpdate: any = {};
     for (const field of allowedFields) {
         if (updateData[field] !== undefined) {
-            // Convert date string to proper Date object
             if (field === 'dateOfPublish' && typeof updateData[field] === 'string') {
                 dataToUpdate[field] = new Date(updateData[field]);
             } else {

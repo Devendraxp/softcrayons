@@ -73,7 +73,6 @@ export default function FacultiesPage() {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
 
-  // Stats
   const totalFaculties = faculties.length;
   const publishedFaculties = faculties.filter((f) => f.isPublic).length;
   const draftFaculties = faculties.filter((f) => !f.isPublic).length;
@@ -99,7 +98,6 @@ export default function FacultiesPage() {
   };
 
   const handleToggle = async (id: number, field: "isPublic" | "isFeatured", currentValue: boolean) => {
-    // Optimistic update
     setFaculties((prev) =>
       prev.map((faculty) =>
         faculty.id === id ? { ...faculty, [field]: !currentValue } : faculty
@@ -118,7 +116,6 @@ export default function FacultiesPage() {
       }
     } catch (error) {
       console.error("Update failed:", error);
-      // Revert optimism
       setFaculties((prev) =>
         prev.map((faculty) =>
           faculty.id === id ? { ...faculty, [field]: currentValue } : faculty
@@ -183,7 +180,6 @@ export default function FacultiesPage() {
 
   return (
     <div className="w-full p-4 space-y-6">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Faculties</h1>
@@ -198,7 +194,6 @@ export default function FacultiesPage() {
         </Button>
       </div>
 
-      {/* Stats Cards */}
       <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -238,7 +233,6 @@ export default function FacultiesPage() {
         </Card>
       </div>
 
-      {/* Filters */}
       <Card>
         <CardContent className="pt-6">
           <div className="flex flex-col sm:flex-row gap-4">
@@ -265,7 +259,6 @@ export default function FacultiesPage() {
         </CardContent>
       </Card>
 
-      {/* Faculties Table */}
       <Card>
         <CardContent className="p-0">
           <Table>

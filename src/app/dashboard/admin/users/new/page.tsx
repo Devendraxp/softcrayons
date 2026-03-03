@@ -116,7 +116,6 @@ export default function NewUserPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex items-center gap-4">
         <Link href="/dashboard/admin/users">
           <Button variant="ghost" size="icon">
@@ -131,11 +130,9 @@ export default function NewUserPage() {
         </div>
       </div>
 
-      {/* Form */}
       <div className="max-w-2xl">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="rounded-xl border border-border bg-card p-6 space-y-6">
-            {/* Profile Image */}
             <div className="space-y-2">
               <Label>Profile Image</Label>
               <div className="flex items-center gap-4">
@@ -169,7 +166,6 @@ export default function NewUserPage() {
                       if (result.info && typeof result.info === "object" && "secure_url" in result.info) {
                         handleChange("image", result.info.secure_url as string);
                       }
-                      // Reset body styles to restore scrolling
                       document.body.style.overflow = "";
                       document.body.style.pointerEvents = "";
                     }}
@@ -206,7 +202,6 @@ export default function NewUserPage() {
               </div>
             </div>
 
-            {/* Name */}
             <div className="space-y-2">
               <Label htmlFor="name">
                 Name <span className="text-destructive">*</span>
@@ -223,7 +218,6 @@ export default function NewUserPage() {
               )}
             </div>
 
-            {/* Email */}
             <div className="space-y-2">
               <Label htmlFor="email">
                 Email <span className="text-destructive">*</span>
@@ -241,7 +235,6 @@ export default function NewUserPage() {
               )}
             </div>
 
-            {/* Phone */}
             <div className="space-y-2">
               <Label htmlFor="phone">Phone</Label>
               <Input
@@ -253,7 +246,6 @@ export default function NewUserPage() {
               />
             </div>
 
-            {/* Role */}
             <div className="space-y-2">
               <Label htmlFor="role">
                 Role <span className="text-destructive">*</span>
@@ -275,7 +267,6 @@ export default function NewUserPage() {
               </Select>
             </div>
 
-            {/* Password */}
             <div className="space-y-2">
               <Label htmlFor="password">
                 Password <span className="text-destructive">*</span>
@@ -293,7 +284,6 @@ export default function NewUserPage() {
               )}
             </div>
 
-            {/* Confirm Password */}
             <div className="space-y-2">
               <Label htmlFor="confirmPassword">
                 Confirm Password <span className="text-destructive">*</span>
@@ -312,7 +302,6 @@ export default function NewUserPage() {
             </div>
           </div>
 
-          {/* Actions */}
           <div className="flex items-center gap-4">
             <Button type="submit" disabled={isSubmitting} className="gap-2">
               {isSubmitting ? (

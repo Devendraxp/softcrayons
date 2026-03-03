@@ -51,7 +51,6 @@ interface Session {
 export default function ProfilePage() {
   const { user, isLoading: authLoading, refresh } = useAuth();
 
-  // Profile form state
   const [isUpdatingProfile, setIsUpdatingProfile] = React.useState(false);
   const [profileForm, setProfileForm] = React.useState({
     name: "",
@@ -61,7 +60,6 @@ export default function ProfilePage() {
   });
   const [profileErrors, setProfileErrors] = React.useState<Record<string, string>>({});
 
-  // Password form state
   const [isUpdatingPassword, setIsUpdatingPassword] = React.useState(false);
   const [passwordForm, setPasswordForm] = React.useState({
     currentPassword: "",
@@ -75,12 +73,10 @@ export default function ProfilePage() {
     confirm: false,
   });
 
-  // Sessions state
   const [sessions, setSessions] = React.useState<Session[]>([]);
   const [isLoadingSessions, setIsLoadingSessions] = React.useState(true);
   const [revokingSessionId, setRevokingSessionId] = React.useState<string | null>(null);
 
-  // Initialize profile form with user data
   React.useEffect(() => {
     if (user) {
       setProfileForm({
@@ -92,7 +88,6 @@ export default function ProfilePage() {
     }
   }, [user]);
 
-  // Fetch sessions
   const fetchSessions = React.useCallback(async () => {
     if (!user?.id) return;
     
@@ -117,7 +112,6 @@ export default function ProfilePage() {
     fetchSessions();
   }, [fetchSessions]);
 
-  // Profile form handlers
   const validateProfileForm = () => {
     const newErrors: Record<string, string> = {};
 
@@ -168,7 +162,6 @@ export default function ProfilePage() {
     }
   };
 
-  // Password form handlers
   const validatePasswordForm = () => {
     const newErrors: Record<string, string> = {};
 
@@ -229,7 +222,6 @@ export default function ProfilePage() {
     }
   };
 
-  // Session handlers
   const handleRevokeSession = async (sessionToken: string) => {
     setRevokingSessionId(sessionToken);
     try {
@@ -267,7 +259,6 @@ export default function ProfilePage() {
     }
   };
 
-  // Helper functions
   const getDeviceIcon = (userAgent: string | null | undefined) => {
     if (!userAgent) return <Globe className="h-5 w-5" />;
     const ua = userAgent.toLowerCase();
@@ -284,7 +275,6 @@ export default function ProfilePage() {
     let device = "Desktop";
     let browser = "Unknown Browser";
 
-    // Detect device
     if (ua.includes("iphone")) device = "iPhone";
     else if (ua.includes("ipad")) device = "iPad";
     else if (ua.includes("android")) device = "Android";
@@ -292,7 +282,6 @@ export default function ProfilePage() {
     else if (ua.includes("windows")) device = "Windows";
     else if (ua.includes("linux")) device = "Linux";
 
-    // Detect browser
     if (ua.includes("chrome") && !ua.includes("edg")) browser = "Chrome";
     else if (ua.includes("firefox")) browser = "Firefox";
     else if (ua.includes("safari") && !ua.includes("chrome")) browser = "Safari";
@@ -312,8 +301,6 @@ export default function ProfilePage() {
   };
 
   const isCurrentSession = (session: Session) => {
-    // The current session is typically the most recently created one
-    // This is a simple heuristic - in a real app you'd compare with the actual session token
     return sessions.length > 0 && session.id === sessions[0]?.id;
   };
 
@@ -332,7 +319,6 @@ export default function ProfilePage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-foreground">Profile Settings</h1>
         <p className="text-sm text-muted-foreground">
@@ -341,7 +327,6 @@ export default function ProfilePage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        {/* Profile Information */}
         <Card>
           <CardHeader>
             <CardTitle>Profile Information</CardTitle>
@@ -351,7 +336,6 @@ export default function ProfilePage() {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleProfileSubmit} className="space-y-6">
-              {/* Profile Image */}
               <div className="space-y-2">
                 <Label>Profile Image</Label>
                 <div className="flex items-center gap-4">
@@ -385,7 +369,6 @@ export default function ProfilePage() {
                         if (result.info && typeof result.info === "object" && "secure_url" in result.info) {
                           handleProfileChange("image", result.info.secure_url as string);
                         }
-                        // Reset body styles to restore scrolling
                         document.body.style.overflow = "";
                         document.body.style.pointerEvents = "";
                       }}
@@ -422,7 +405,6 @@ export default function ProfilePage() {
                 </div>
               </div>
 
-              {/* Name */}
               <div className="space-y-2">
                 <Label htmlFor="name">
                   Name <span className="text-destructive">*</span>
@@ -439,7 +421,6 @@ export default function ProfilePage() {
                 )}
               </div>
 
-              {/* Email (read-only for display) */}
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -454,7 +435,6 @@ export default function ProfilePage() {
                 </p>
               </div>
 
-              {/* Phone */}
               <div className="space-y-2">
                 <Label htmlFor="phone">Phone</Label>
                 <Input
@@ -485,7 +465,6 @@ export default function ProfilePage() {
           </CardContent>
         </Card>
 
-        {/* Change Password */}
         <Card>
           <CardHeader>
             <CardTitle>Change Password</CardTitle>
@@ -495,7 +474,6 @@ export default function ProfilePage() {
           </CardHeader>
           <CardContent>
             <form onSubmit={handlePasswordSubmit} className="space-y-6">
-              {/* Current Password */}
               <div className="space-y-2">
                 <Label htmlFor="currentPassword">
                   Current Password <span className="text-destructive">*</span>
@@ -522,7 +500,6 @@ export default function ProfilePage() {
                 )}
               </div>
 
-              {/* New Password */}
               <div className="space-y-2">
                 <Label htmlFor="newPassword">
                   New Password <span className="text-destructive">*</span>
@@ -549,7 +526,6 @@ export default function ProfilePage() {
                 )}
               </div>
 
-              {/* Confirm Password */}
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword">
                   Confirm New Password <span className="text-destructive">*</span>
@@ -591,7 +567,6 @@ export default function ProfilePage() {
         </Card>
       </div>
 
-      {/* Active Sessions */}
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">

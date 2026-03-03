@@ -10,7 +10,7 @@ interface MarqueeProps {
   pauseOnHover?: boolean;
   vertical?: boolean;
   repeat?: number;
-  duration?: number; // Duration in seconds
+  duration?: number;
 }
 
 export function Marquee({
@@ -20,7 +20,7 @@ export function Marquee({
   pauseOnHover = false,
   vertical = false,
   repeat = 4,
-  duration = 40, // Slow speed by default
+  duration = 40,
 }: MarqueeProps) {
   return (
     <div

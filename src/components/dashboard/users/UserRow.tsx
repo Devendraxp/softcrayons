@@ -100,7 +100,6 @@ export function UserRow({
 }: UserRowProps) {
   return (
     <div className="flex flex-col gap-4 p-4 rounded-xl border border-border bg-card hover:shadow-sm transition-shadow md:flex-row md:items-center md:gap-6">
-      {/* Avatar */}
       <div className="flex items-center gap-4 md:w-auto">
         <Avatar className="h-10 w-10">
           <AvatarImage src={user.image || undefined} alt={user.name || user.email} />
@@ -109,19 +108,16 @@ export function UserRow({
           </AvatarFallback>
         </Avatar>
 
-        {/* Name - Mobile shows with avatar */}
         <div className="md:hidden">
           <div className="font-semibold text-foreground">{user.name || "No Name"}</div>
           <div className="text-sm text-muted-foreground">{user.email}</div>
         </div>
       </div>
 
-      {/* Name - Desktop */}
       <div className="hidden md:block md:min-w-[150px]">
         <div className="font-semibold text-foreground">{user.name || "No Name"}</div>
       </div>
 
-      {/* Role */}
       {showRole && (
         <div className="md:min-w-[120px]">
           <Badge
@@ -133,18 +129,15 @@ export function UserRow({
         </div>
       )}
 
-      {/* Email - Desktop */}
       <div className="hidden md:block md:flex-1 md:min-w-[200px]">
         <span className="text-sm text-muted-foreground">{user.email}</span>
       </div>
 
-      {/* Phone */}
       <div className="flex items-center gap-2 text-sm text-muted-foreground md:min-w-[130px]">
         <span className="text-muted-foreground md:hidden">Phone:</span>
         <span>{user.phone || "—"}</span>
       </div>
 
-      {/* Status */}
       <div className="md:min-w-[100px]">
         {user.banned ? (
           <Badge variant="destructive" className="gap-1">
@@ -162,9 +155,7 @@ export function UserRow({
         )}
       </div>
 
-      {/* Actions */}
       <div className="flex items-center gap-2 md:ml-auto">
-        {/* Desktop Actions */}
         <div className="hidden lg:flex items-center gap-2">
           <Button
             variant="ghost"
@@ -222,7 +213,6 @@ export function UserRow({
           </Button>
         </div>
 
-        {/* Mobile Dropdown */}
         <div className="lg:hidden">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

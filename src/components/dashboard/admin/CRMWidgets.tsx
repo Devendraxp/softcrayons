@@ -24,7 +24,6 @@ interface CRMWidgetsProps {
 }
 
 export function EnquiryFunnel({ crm }: CRMWidgetsProps) {
-  // Color map for funnel stages
   const colors = ["blue", "cyan", "emerald", "rose", "slate"];
 
   return (

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Courses — Best IT & Coding Courses in Noida | Softcrayons",
+  title: "Courses - Best IT & Coding Courses in Noida | Softcrayons",
   description:
-    "Explore industry-focused IT courses at Softcrayons — Full Stack Development, Python, Java, React, Data Science, AI/ML, Cloud Computing, DevOps & more. Hands-on training with live projects and 100% placement assistance in Noida & Ghaziabad.",
+    "Explore industry-focused IT courses at Softcrayons. Full Stack Development, Python, Java, React, Data Science, AI/ML, Cloud Computing, DevOps & more. Hands-on training with live projects and 100% placement assistance in Noida & Ghaziabad.",
   keywords: [
     "IT Courses Noida",
     "Coding Courses Noida",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     "Job Oriented Courses Noida",
   ],
   openGraph: {
-    title: "Courses — Best IT & Coding Courses in Noida | Softcrayons",
+    title: "Courses - Best IT & Coding Courses in Noida | Softcrayons",
     description:
       "Industry-focused IT and coding courses with hands-on training, live projects, and 100% placement assistance at Softcrayons Noida.",
     url: "https://softcrayons.com/courses",

@@ -45,7 +45,6 @@ export async function GET(
       }, { status: 404 });
     }
 
-    // Get related blogs from the same category
     const relatedBlogs = await prisma.blog.findMany({
       where: {
         isPublic: true,

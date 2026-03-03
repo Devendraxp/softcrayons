@@ -40,7 +40,6 @@ export default function EnquiriesPage() {
   const [counts, setCounts] = React.useState<Record<string, number>>({});
   const pageSize = 20;
 
-  // Dialog states
   const [selectedEnquiry, setSelectedEnquiry] = React.useState<Enquiry | null>(null);
   const [viewDetailsOpen, setViewDetailsOpen] = React.useState(false);
   const [assignCounselorOpen, setAssignCounselorOpen] = React.useState(false);
@@ -73,11 +72,9 @@ export default function EnquiriesPage() {
       }
 
       if (activeTab === "NEW") {
-        // NEW tab shows only unassigned
         params.set("status", "NEW");
         params.set("subStatus", "unassigned");
       } else if (activeTab === "ASSIGNED") {
-        // ASSIGNED tab shows only assigned NEW enquiries
         params.set("status", "NEW");
         params.set("subStatus", "assigned");
       } else if (activeTab !== "ALL") {
@@ -106,12 +103,10 @@ export default function EnquiriesPage() {
     fetchCounts();
   }, [fetchEnquiries, fetchCounts]);
 
-  // Reset page when filters change
   React.useEffect(() => {
     setCurrentPage(1);
   }, [activeTab, searchQuery]);
 
-  // Action handlers
   const handleViewDetails = (enquiry: Enquiry) => {
     setSelectedEnquiry(enquiry);
     setViewDetailsOpen(true);
@@ -159,7 +154,6 @@ export default function EnquiriesPage() {
     setDeleteOpen(true);
   };
 
-  // Confirm handlers
   const confirmAssignCounselor = async (enquiryId: number, counselorId: string) => {
     setActionLoading(true);
     try {
@@ -262,7 +256,6 @@ export default function EnquiriesPage() {
 
   const totalPages = Math.ceil(total / pageSize);
 
-  // Get count for a tab
   const getTabCount = (tab: StatusTab): number | undefined => {
     if (tab === "ALL") return counts.TOTAL;
     if (tab === "NEW") return counts.NEW_UNASSIGNED;
@@ -272,7 +265,6 @@ export default function EnquiriesPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Enquiries</h1>
@@ -282,7 +274,6 @@ export default function EnquiriesPage() {
         </div>
       </div>
 
-      {/* Search and Refresh */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -306,7 +297,6 @@ export default function EnquiriesPage() {
         </Button>
       </div>
 
-      {/* Status Tabs */}
       <div className="border-b border-border overflow-x-auto">
         <div className="flex min-w-max">
           {STATUS_TABS.map((tab) => {
@@ -340,7 +330,6 @@ export default function EnquiriesPage() {
         </div>
       </div>
 
-      {/* Enquiry List */}
       <div>
         <EnquiryListHeader />
         <EnquiryList
@@ -355,7 +344,6 @@ export default function EnquiriesPage() {
         />
       </div>
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-2">
           <Button
@@ -380,7 +368,6 @@ export default function EnquiriesPage() {
         </div>
       )}
 
-      {/* Dialogs */}
       <ViewDetailsDialog
         enquiry={selectedEnquiry}
         open={viewDetailsOpen}

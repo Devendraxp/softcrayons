@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Our Faculty — Expert Mentors & Instructors | Softcrayons",
+  title: "Our Faculty - Expert Mentors & Instructors | Softcrayons",
   description:
     "Meet the expert faculty and mentors at Softcrayons Tech Solutions. Industry professionals with years of experience in software development, data science, cloud computing, and more.",
   keywords: [
@@ -14,9 +14,9 @@ export const metadata: Metadata = {
     "Software Development Mentors",
   ],
   openGraph: {
-    title: "Our Faculty — Expert Mentors | Softcrayons",
+    title: "Our Faculty - Expert Mentors | Softcrayons",
     description:
-      "Meet Softcrayons' expert faculty — industry professionals training the next generation of tech talent.",
+      "Meet Softcrayons' expert faculty. Industry professionals training the next generation of tech talent.",
     url: "https://softcrayons.com/faculties",
   },
   alternates: {

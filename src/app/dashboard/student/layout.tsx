@@ -31,7 +31,6 @@ export default function StudentLayout({ children }: { children: ReactNode }) {
       if (!isAuthenticated) {
         router.replace("/sign-in");
       } else if (user?.role !== "STUDENT") {
-        // Redirect to appropriate dashboard based on role
         const roleRoutes: Record<string, string> = {
           ADMIN: "/dashboard/admin",
           INSTRUCTOR: "/dashboard/instructor",
@@ -45,7 +44,6 @@ export default function StudentLayout({ children }: { children: ReactNode }) {
     }
   }, [isLoading, isAuthenticated, user, router]);
 
-  // Show loading skeleton while checking auth
   if (isLoading) {
     return (
       <div className="flex min-h-screen bg-background">
@@ -66,7 +64,6 @@ export default function StudentLayout({ children }: { children: ReactNode }) {
     );
   }
 
-  // Don't render if not authorized
   if (!isAuthenticated || user?.role !== "STUDENT") {
     return null;
   }

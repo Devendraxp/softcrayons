@@ -102,7 +102,6 @@ export default function InstructorPage() {
   if (isSuccess) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-primary/10 pt-20 relative overflow-hidden">
-        {/* Background decorative elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
@@ -133,7 +132,6 @@ export default function InstructorPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-primary/10 pt-20 relative overflow-hidden">
-      {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
@@ -142,7 +140,6 @@ export default function InstructorPage() {
       
       <div className="container py-16 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Left Side - Text Content */}
           <div>
             <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-6">
               Teach - Mentor - Inspire
@@ -190,7 +187,6 @@ export default function InstructorPage() {
             </div>
           </div>
 
-          {/* Right Side - Form */}
           <div className="relative">
             <div className="p-8">
               <h2 className="text-2xl font-bold mb-2">
@@ -202,7 +198,6 @@ export default function InstructorPage() {
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-5">
-                {/* Name */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Your Full Name
@@ -220,7 +215,6 @@ export default function InstructorPage() {
                   </div>
                 </div>
 
-                {/* Email */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Email (for communication)
@@ -238,7 +232,6 @@ export default function InstructorPage() {
                   </div>
                 </div>
 
-                {/* Contact */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Phone Number (HR callback)
@@ -257,7 +250,6 @@ export default function InstructorPage() {
                   </div>
                 </div>
 
-                {/* Document Upload with Cloudinary */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Upload Resume / CV / Portfolio
@@ -287,7 +279,7 @@ export default function InstructorPage() {
                         maxFiles: 1,
                         resourceType: "raw",
                         clientAllowedFormats: ["pdf", "doc", "docx"],
-                        maxFileSize: 5000000, // 5MB
+                        maxFileSize: 5000000,
                       }}
                       onSuccess={(result: CloudinaryUploadWidgetResults) => {
                         if (result.info && typeof result.info === "object" && "secure_url" in result.info) {
@@ -298,7 +290,6 @@ export default function InstructorPage() {
                             `${fileName}.${format}`
                           );
                         }
-                        // Reset body styles to restore scrolling
                         document.body.style.overflow = "";
                         document.body.style.pointerEvents = "";
                       }}
@@ -338,7 +329,6 @@ export default function InstructorPage() {
                   )}
                 </div>
 
-                {/* Availability */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     When can you start teaching?
@@ -362,7 +352,6 @@ export default function InstructorPage() {
                   </div>
                 </div>
 
-                {/* Reason */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Why do you want to teach with us?

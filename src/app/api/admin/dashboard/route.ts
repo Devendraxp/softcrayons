@@ -37,7 +37,6 @@ export async function GET() {
       prisma.enquiry.count(),
     ]);
 
-    // Estimated revenue from enrolled enquiries
     const enrolledWithFees = await prisma.enquiry.findMany({
       where: { status: 'ENROLLED' },
       select: { course: { select: { fees: true, discount: true } } },
@@ -70,7 +69,6 @@ export async function GET() {
       { stage: 'Archived', value: archivedCount },
     ];
 
-    // Unassigned leads
     const unassignedLeads = await prisma.enquiry.findMany({
       where: { assignedToId: null, status: 'NEW' },
       take: 5,
@@ -78,7 +76,6 @@ export async function GET() {
       include: { course: { select: { title: true } } },
     });
 
-    // Top performing agents (by enrolled count)
     const agentPerformanceRaw = await prisma.enquiry.groupBy({
       by: ['agentId'],
       where: { status: 'ENROLLED', agentId: { not: null } },
@@ -103,7 +100,6 @@ export async function GET() {
       enrollments: a._count.id,
     }));
 
-    // Lead source split
     const [studentLeads, enterpriseLeads] = await Promise.all([
       prisma.enquiry.count(),
       prisma.enterpriseEnquiry.count(),
@@ -133,7 +129,6 @@ export async function GET() {
       enquiries: c._count.id,
     }));
 
-    // Revenue by category (from enrolled enquiries)
     const enrolledWithCategory = await prisma.enquiry.findMany({
       where: { status: 'ENROLLED', courseId: { not: null } },
       select: {
@@ -159,7 +154,6 @@ export async function GET() {
       revenue,
     }));
 
-    // Course difficulty distribution
     const difficultyDist = await prisma.course.groupBy({
       by: ['difficulty'],
       _count: { id: true },
@@ -210,7 +204,6 @@ export async function GET() {
       const dateKey = b.createdAt.toISOString().split('T')[0];
       blogActivityMap.set(dateKey, (blogActivityMap.get(dateKey) || 0) + 1);
     }
-    // Fill missing days
     const blogActivity: { date: string; count: number }[] = [];
     for (let i = 29; i >= 0; i--) {
       const d = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);
@@ -220,7 +213,6 @@ export async function GET() {
 
     const pendingReviews = await prisma.testimonial.count({ where: { isPublic: false } });
 
-    // Total blogs and total testimonials
     const [totalBlogs, totalTestimonials] = await Promise.all([
       prisma.blog.count(),
       prisma.testimonial.count(),
@@ -230,7 +222,6 @@ export async function GET() {
       where: { expiresAt: { gt: now } },
     });
 
-    // User registration trend (last 30 days)
     const recentUsers = await prisma.user.findMany({
       where: { createdAt: { gte: thirtyDaysAgo } },
       select: { createdAt: true },
@@ -249,7 +240,6 @@ export async function GET() {
       userRegistrationTrend.push({ date: key, registrations: userTrendMap.get(key) || 0 });
     }
 
-    // Total users by role
     const usersByRole = await prisma.user.groupBy({
       by: ['role'],
       _count: { id: true },

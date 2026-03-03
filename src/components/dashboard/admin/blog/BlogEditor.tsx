@@ -12,7 +12,6 @@ import { common, createLowlight } from "lowlight";
 import EditorToolbar from "./EditorToolbar";
 import CodeBlockComponent from "./CodeBlockComponent";
 
-// Create lowlight instance with common languages
 const lowlight = createLowlight(common);
 
 type BlogEditorProps = {

@@ -40,7 +40,6 @@ export function Footer() {
     <footer className="border-t border-border bg-card/50">
       <div className="container py-16">
         <div className="grid grid-cols-2 md:grid-cols-6 gap-8">
-          {/* Brand */}
           <div className="col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-4">
               <div className="h-8">
@@ -57,7 +56,6 @@ export function Footer() {
               Empowering developers worldwide with industry-focused education and
               mentorship.
             </p>
-            {/* Social Links */}
             <div className="flex gap-3">
               {socialLinks.map((social) => (
                 <Link
@@ -72,7 +70,6 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Links */}
           <div>
             <h4 className="font-semibold mb-4">Courses</h4>
             <ul className="space-y-3">

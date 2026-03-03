@@ -2,10 +2,6 @@ import { NextResponse } from 'next/server';
 import { createBlog, getAllBlogs } from '@/services/blog.service';
 import { getUserFromHeaders } from '@/lib/request-user';
 
-/**
- * GET /api/content-writer/blogs
- * Get all blogs - Content writers can only see their own blogs
- */
 export async function GET(request: Request) {
   try {
     const user = await getUserFromHeaders();
@@ -20,7 +16,6 @@ export async function GET(request: Request) {
     
     const filters = {
       categoryId: searchParams.get('categoryId') ? parseInt(searchParams.get('categoryId')!) : undefined,
-      // Content writers can only see their own blogs
       authorId: user.id,
       isPublic: searchParams.get('isPublic') ? searchParams.get('isPublic') === 'true' : undefined,
       isFeatured: searchParams.get('isFeatured') ? searchParams.get('isFeatured') === 'true' : undefined,
@@ -44,14 +39,6 @@ export async function GET(request: Request) {
   }
 }
 
-/**
- * POST /api/content-writer/blogs
- * Create a new blog - Content writers have limited control:
- * - Cannot set isPublic (defaults to false)
- * - Cannot set isFeatured (defaults to false)
- * - Cannot select author (uses current user)
- * - Cannot select publish date (uses today's date)
- */
 export async function POST(request: Request) {
   try {
     const user = await getUserFromHeaders();
@@ -64,18 +51,13 @@ export async function POST(request: Request) {
 
     const body = await request.json();
     
-    // Force these values for non-admin users:
-    // - authorId is the current user
-    // - dateOfPublish is today
-    // - isPublic defaults to false (they can't set it)
-    // - isFeatured defaults to false (they can't set it)
     const blogData = {
       title: body.title,
       description: body.description,
       content: body.content,
       categoryId: body.categoryId,
       slug: body.slug,
-      authorId: user.id, // Force current user as author
+      authorId: user.id,
       bannerImage: body.bannerImage,
       thumbnailImage: body.thumbnailImage,
       dateOfPublish: new Date(), // Force today's date
@@ -85,7 +67,6 @@ export async function POST(request: Request) {
       metaTitle: body.metaTitle,
       metaDescription: body.metaDescription,
       metaKeywords: body.metaKeywords,
-      // isPublic and isFeatured are not set - will use database defaults (false)
     };
 
     const newBlog = await createBlog(blogData);

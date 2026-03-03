@@ -6,7 +6,6 @@ import { EnterpriseEnquiryStatus } from '../../../../../generated/prisma/client'
 
 export async function GET(request: NextRequest) {
   try {
-    // Check admin/HR/Counselor authorization
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session?.user || (session.user.role !== 'ADMIN' && session.user.role !== 'HR' && session.user.role !== 'COUNSELOR')) {
       return NextResponse.json({
@@ -25,7 +24,6 @@ export async function GET(request: NextRequest) {
     const assignedToId = searchParams.get('assignedToId') || undefined;
     const getCounts = searchParams.get('counts') === 'true';
 
-    // If counts requested, return counts only
     if (getCounts) {
       const counts = await getEnterpriseEnquiryCounts();
       return NextResponse.json({

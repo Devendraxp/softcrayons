@@ -28,7 +28,6 @@ const levelColors = {
 export function CourseCard({ course }: CourseCardProps) {
     return (
         <div className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/30 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
-            {/* Course Image - No overlay */}
             <div className="relative h-56 sm:h-64 overflow-hidden flex-shrink-0">
                 <img
                     src={course.image}
@@ -37,9 +36,7 @@ export function CourseCard({ course }: CourseCardProps) {
                 />
             </div>
 
-            {/* Course Content */}
             <div className="p-5 flex flex-col flex-grow">
-                {/* Category Badge */}
                 <span className="inline-block px-3 py-1 text-xs font-medium bg-secondary text-white rounded-full mb-3 w-fit">
                     {course.categoryName}
                 </span>
@@ -52,7 +49,6 @@ export function CourseCard({ course }: CourseCardProps) {
                     {course.description}
                 </p>
 
-                {/* Meta Info - Duration and Level on same line */}
                 <div className="flex items-center justify-between text-sm mb-4">
                     <span className="flex items-center gap-1.5 text-muted-foreground">
                         <Clock className="w-4 h-4" />
@@ -64,7 +60,6 @@ export function CourseCard({ course }: CourseCardProps) {
                     </span>
                 </div>
 
-                {/* Tags */}
                 {course.tags.length > 0 && (
                 <div className="flex flex-wrap gap-2 mb-5">
                     {course.tags.slice(0, 2).map((tag) => (

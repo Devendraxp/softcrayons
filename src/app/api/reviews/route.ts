@@ -9,7 +9,6 @@ export async function GET(request: NextRequest) {
     const featured = searchParams.get('featured');
     const minRating = searchParams.get('minRating');
 
-    // Validate pagination params
     if (page < 1 || limit < 1) {
       return NextResponse.json({
         success: false,
@@ -32,7 +31,6 @@ export async function GET(request: NextRequest) {
       ...(minRating && { rating: { gte: parseInt(minRating) } }),
     };
 
-    // Get total count for pagination
     const totalCount = await prisma.testimonial.count({ where: whereClause });
 
     const reviews = await prisma.testimonial.findMany({
@@ -57,7 +55,6 @@ export async function GET(request: NextRequest) {
 
     const totalPages = Math.ceil(totalCount / limit);
 
-    // Get average rating
     const avgRating = await prisma.testimonial.aggregate({
       where: { isPublic: true },
       _avg: { rating: true },

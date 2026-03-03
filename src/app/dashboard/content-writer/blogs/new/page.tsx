@@ -189,9 +189,6 @@ export default function NewBlogPage() {
         metaTitle: formData.metaTitle,
         metaDescription: formData.metaDescription,
         metaKeywords: formData.metaKeywords,
-        // Note: isPublic, isFeatured default to false (set by API)
-        // Note: authorId is set automatically from session (set by API)
-        // Note: dateOfPublish is set to today (set by API)
       };
 
       const response = await fetch("/api/content-writer/blogs", {
@@ -219,7 +216,6 @@ export default function NewBlogPage() {
 
   return (
     <div className="w-full max-w-[98%] mx-auto p-4 space-y-4">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" asChild>
@@ -246,16 +242,13 @@ export default function NewBlogPage() {
         </div>
       </div>
 
-      {/* Info Note */}
       <div className="bg-muted/50 border rounded-lg p-4 text-sm text-muted-foreground">
         <strong>Note:</strong> Your post will be saved as a draft and reviewed by an administrator before publication.
         The publish status and featured settings will be managed by admins.
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Top Section - 3 columns */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column */}
           <div className="lg:col-span-2 space-y-6">
             <Card>
               <CardHeader>
@@ -368,7 +361,6 @@ export default function NewBlogPage() {
             </Card>
           </div>
 
-          {/* Right Column - Sidebar */}
           <div className="space-y-6">
             <Card>
               <CardHeader>
@@ -534,7 +526,6 @@ export default function NewBlogPage() {
                             result.info.secure_url as string
                           );
                         }
-                        // Reset body styles to restore scrolling
                         document.body.style.overflow = "";
                         document.body.style.pointerEvents = "";
                       }}
@@ -606,7 +597,6 @@ export default function NewBlogPage() {
                             result.info.secure_url as string
                           );
                         }
-                        // Reset body styles to restore scrolling
                         document.body.style.overflow = "";
                         document.body.style.pointerEvents = "";
                       }}
@@ -643,7 +633,6 @@ export default function NewBlogPage() {
           </div>
         </div>
 
-        {/* Content Section - Full Width at Bottom */}
         <Card className="min-h-[500px]">
           <CardHeader>
             <CardTitle>Content</CardTitle>

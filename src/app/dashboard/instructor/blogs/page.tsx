@@ -67,7 +67,6 @@ export default function InstructorBlogsPage() {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
 
-  // Stats
   const totalBlogs = blogs.length;
   const publishedBlogs = blogs.filter((b) => b.isPublic).length;
   const draftBlogs = blogs.filter((b) => !b.isPublic).length;
@@ -138,7 +137,6 @@ export default function InstructorBlogsPage() {
 
   return (
     <div className="w-full max-w-[98%] mx-auto p-4 space-y-4">
-      {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">My Blogs</h1>
@@ -154,7 +152,6 @@ export default function InstructorBlogsPage() {
         </Button>
       </div>
 
-      {/* Stats Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -202,7 +199,6 @@ export default function InstructorBlogsPage() {
         </Card>
       </div>
 
-      {/* Filters */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -227,7 +223,6 @@ export default function InstructorBlogsPage() {
         </div>
       </div>
 
-      {/* Blogs Table */}
       <Card>
         <CardContent className="p-0">
           <Table>
@@ -335,7 +330,6 @@ export default function InstructorBlogsPage() {
         </CardContent>
       </Card>
 
-      {/* Info Note */}
       <Card className="bg-muted/50">
         <CardContent className="pt-6">
           <p className="text-sm text-muted-foreground">

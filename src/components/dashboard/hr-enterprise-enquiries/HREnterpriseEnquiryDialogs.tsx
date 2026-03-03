@@ -17,7 +17,6 @@ import { type EnterpriseEnquiry, type EnterpriseEnquiryStatus } from "./HREnterp
 import { cn } from "@/lib/utils";
 import { Phone, Mail, Clock, Calendar, Building2 } from "lucide-react";
 
-// View Details Dialog
 interface ViewDetailsDialogProps {
   enquiry: EnterpriseEnquiry | null;
   open: boolean;
@@ -59,7 +58,6 @@ export function HREnterpriseViewDetailsDialog({
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-6 py-4">
-          {/* Company Info */}
           <div className="space-y-3">
             <h4 className="text-sm font-semibold text-muted-foreground">Company Information</h4>
             <div className="space-y-2">
@@ -82,7 +80,6 @@ export function HREnterpriseViewDetailsDialog({
             </div>
           </div>
 
-          {/* Duration */}
           {enquiry.duration && (
             <div className="space-y-2">
               <h4 className="text-sm font-semibold text-muted-foreground">Training Duration</h4>
@@ -93,7 +90,6 @@ export function HREnterpriseViewDetailsDialog({
             </div>
           )}
 
-          {/* Message */}
           {enquiry.message && (
             <div className="space-y-2">
               <h4 className="text-sm font-semibold text-muted-foreground">Message</h4>
@@ -101,7 +97,6 @@ export function HREnterpriseViewDetailsDialog({
             </div>
           )}
 
-          {/* Status */}
           <div className="space-y-2">
             <h4 className="text-sm font-semibold text-muted-foreground">Status</h4>
             <Badge variant="outline" className={cn("font-medium", statusColors[enquiry.status])}>
@@ -109,7 +104,6 @@ export function HREnterpriseViewDetailsDialog({
             </Badge>
           </div>
 
-          {/* Notes & Remarks */}
           {(enquiry.note || enquiry.remark) && (
             <div className="space-y-3">
               {enquiry.note && (
@@ -129,7 +123,6 @@ export function HREnterpriseViewDetailsDialog({
             </div>
           )}
 
-          {/* Timestamps */}
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Calendar className="h-3 w-3" />
             <span>Created: {formatDate(enquiry.createdAt)}</span>
@@ -145,7 +138,6 @@ export function HREnterpriseViewDetailsDialog({
   );
 }
 
-// Edit Notes Dialog
 interface EditNotesDialogProps {
   enquiry: EnterpriseEnquiry | null;
   open: boolean;

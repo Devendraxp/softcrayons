@@ -35,7 +35,6 @@ export async function sendEmail({ to, subject, text, html }: SendEmailOptions) {
   }
 }
 
-
 export function getOTPEmailTemplate(otp: string, expiresInMinutes: number = 10) {
   return {
     subject: "Your Password Reset OTP - SoftCrayons",

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Enterprise Training Solutions | Softcrayons",
   description:
-    "Corporate IT training and skill development solutions by Softcrayons. Customized upskilling programs for enterprises — team training, workshops, and tech consulting across Noida, Ghaziabad & Delhi NCR.",
+    "Corporate IT training and skill development solutions by Softcrayons. Customized upskilling programs for enterprises. Team training, workshops, and tech consulting across Noida, Ghaziabad & Delhi NCR.",
   keywords: [
     "Enterprise Training Noida",
     "Corporate IT Training",

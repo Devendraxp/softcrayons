@@ -53,7 +53,6 @@ export function CloudinaryUpload({
         const info = result.info as CloudinaryUploadInfo;
         onUpload(info.secure_url, info);
       }
-      // Reset body styles to restore scrolling
       document.body.style.overflow = "";
       document.body.style.pointerEvents = "";
     },
@@ -66,7 +65,6 @@ export function CloudinaryUpload({
 
   const handleClose = useCallback(() => {
     setIsWidgetOpen(false);
-    // Force a small delay to ensure React re-renders properly after widget closes
     setTimeout(() => {
       document.body.style.overflow = "";
       document.body.style.pointerEvents = "";
@@ -153,7 +151,6 @@ export function CloudinaryUpload({
       );
     }
 
-    // Default image variant
     return (
       <button
         type="button"

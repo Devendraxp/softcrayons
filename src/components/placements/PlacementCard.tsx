@@ -18,7 +18,6 @@ export function PlacementCard({ name, course, position, company, image, packageV
 
   return (
     <Card className="group bg-card border border-border hover:border-primary/30 hover:shadow-lg transition-all duration-300 overflow-hidden h-full flex flex-col">
-      {/* Image Section */}
       <div
         className="relative h-40 w-full overflow-hidden flex items-end justify-center"
         style={{ backgroundImage: "url('https://img.freepik.com/free-vector/abstract-blue-flowing-lines-banner_1048-16396.jpg')", backgroundSize: "cover", backgroundPosition: "center" }}
@@ -52,7 +51,6 @@ export function PlacementCard({ name, course, position, company, image, packageV
            )}
       </CardContent>
 
-      {/* Bottom Bar: SoftCrayons logo | >>> | Company name */}
       <div className="flex items-center justify-between px-4 py-3 border-t border-border/60 bg-muted/30 mt-auto gap-2">
         <Image
           src="https://i.ibb.co/tphyBYTY/sc-logo.png"

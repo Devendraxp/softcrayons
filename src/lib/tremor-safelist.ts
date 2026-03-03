@@ -1,13 +1,4 @@
-/**
- * Tremor chart color safelist.
- * Tremor builds Tailwind class names dynamically (e.g. `fill-${color}-500`)
- * which Tailwind v4's scanner cannot detect. This file exists solely so
- * Tailwind's @source directive can scan it and include these classes.
- *
- * DO NOT DELETE — removing this file will break all chart/donut colors.
- */
 
-// fill utilities
 const fill = [
   "fill-blue-50", "fill-blue-100", "fill-blue-200", "fill-blue-300", "fill-blue-400", "fill-blue-500", "fill-blue-600", "fill-blue-700", "fill-blue-800", "fill-blue-900",
   "fill-cyan-50", "fill-cyan-100", "fill-cyan-200", "fill-cyan-300", "fill-cyan-400", "fill-cyan-500", "fill-cyan-600", "fill-cyan-700", "fill-cyan-800", "fill-cyan-900",
@@ -33,7 +24,6 @@ const fill = [
   "fill-rose-50", "fill-rose-100", "fill-rose-200", "fill-rose-300", "fill-rose-400", "fill-rose-500", "fill-rose-600", "fill-rose-700", "fill-rose-800", "fill-rose-900",
 ];
 
-// stroke utilities
 const stroke = [
   "stroke-blue-500", "stroke-cyan-500", "stroke-sky-500", "stroke-indigo-500", "stroke-violet-500", "stroke-purple-500", "stroke-fuchsia-500",
   "stroke-slate-500", "stroke-gray-500", "stroke-zinc-500", "stroke-neutral-500", "stroke-stone-500",
@@ -41,7 +31,6 @@ const stroke = [
   "stroke-green-500", "stroke-emerald-500", "stroke-teal-500", "stroke-pink-500", "stroke-rose-500",
 ];
 
-// text utilities
 const text = [
   "text-blue-50", "text-blue-100", "text-blue-200", "text-blue-300", "text-blue-400", "text-blue-500", "text-blue-600", "text-blue-700", "text-blue-800", "text-blue-900",
   "text-cyan-50", "text-cyan-100", "text-cyan-200", "text-cyan-300", "text-cyan-400", "text-cyan-500", "text-cyan-600", "text-cyan-700", "text-cyan-800", "text-cyan-900",
@@ -65,7 +54,6 @@ const text = [
   "text-zinc-50", "text-zinc-100", "text-zinc-200", "text-zinc-300", "text-zinc-400", "text-zinc-500", "text-zinc-600", "text-zinc-700", "text-zinc-800", "text-zinc-900",
 ];
 
-// bg utilities
 const bg = [
   "bg-blue-50", "bg-blue-100", "bg-blue-200", "bg-blue-300", "bg-blue-400", "bg-blue-500", "bg-blue-600", "bg-blue-700", "bg-blue-800", "bg-blue-900",
   "bg-cyan-50", "bg-cyan-100", "bg-cyan-200", "bg-cyan-300", "bg-cyan-400", "bg-cyan-500", "bg-cyan-600", "bg-cyan-700", "bg-cyan-800", "bg-cyan-900",
@@ -91,7 +79,6 @@ const bg = [
   "bg-stone-50", "bg-stone-100", "bg-stone-200", "bg-stone-300", "bg-stone-400", "bg-stone-500", "bg-stone-600", "bg-stone-700", "bg-stone-800", "bg-stone-900",
 ];
 
-// border utilities
 const border = [
   "border-blue-200", "border-blue-500", "border-blue-700", "border-cyan-200", "border-cyan-500", "border-cyan-700",
   "border-violet-200", "border-violet-500", "border-violet-700", "border-purple-200", "border-purple-500", "border-purple-700",
@@ -105,7 +92,6 @@ const border = [
   "border-lime-200", "border-lime-500", "border-lime-700", "border-zinc-200", "border-zinc-500", "border-zinc-700",
 ];
 
-// ring utilities
 const ring = [
   "ring-blue-300", "ring-blue-500", "ring-cyan-300", "ring-cyan-500", "ring-violet-300", "ring-violet-500",
   "ring-orange-300", "ring-orange-500", "ring-emerald-300", "ring-emerald-500", "ring-rose-300", "ring-rose-500",

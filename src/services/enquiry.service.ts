@@ -68,14 +68,12 @@ const getEnquiries = async (filters: EnquiryFilters): Promise<{ enquiries: any[]
     }
     const skip = (page - 1) * limit;
     
-    // Build where clause
     const where: any = {
         ...(courseId && { courseId }),
         ...(assignedToId && { assignedToId }),
         ...(agentId && { agentId }),
     };
 
-    // Handle status and sub-status for NEW
     if (status) {
         where.status = status;
         if (status === 'NEW' && subStatus) {
@@ -87,7 +85,6 @@ const getEnquiries = async (filters: EnquiryFilters): Promise<{ enquiries: any[]
         }
     }
 
-    // Search by name, email, or phone
     if (search) {
         where.OR = [
             { name: { contains: search } },
@@ -159,7 +156,6 @@ const getEnquiryCounts = async (): Promise<Record<string, number>> => {
     };
 }
 
-
 const assignEnquiryToCounselor = async (enquiryId: number, counselorId: string): Promise<any> => {
     const updatedEnquiry = await prisma.enquiry.update({
         where: { id: enquiryId },
@@ -205,8 +201,5 @@ const deleteEnquiry = async (enquiryId: number): Promise<any> => {
     });
     return deletedEnquiry;
 }
-
-
-
 
 export { createEnquiry, getEnquiryById, getEnquiries, getEnquiryCounts, addAgentToEnquiry, assignEnquiryToCounselor, updateEnquiryStatus, updateEnquiry, deleteEnquiry };

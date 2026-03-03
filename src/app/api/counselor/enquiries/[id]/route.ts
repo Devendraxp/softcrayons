@@ -65,7 +65,6 @@ export async function GET(
       }, { status: 404 });
     }
 
-    // Counselor can only view enquiries assigned to them
     if (enquiry.assignedToId !== session.user.id) {
       return NextResponse.json({
         success: false,
@@ -109,7 +108,6 @@ export async function PUT(
       }, { status: 400 });
     }
 
-    // First check if the enquiry exists and is assigned to this counselor
     const existingEnquiry = await prisma.enquiry.findUnique({
       where: { id: enquiryId },
       select: { assignedToId: true },
@@ -131,15 +129,12 @@ export async function PUT(
 
     const body = await request.json();
     
-    // Counselor can only update status, note, and remark
-    // They CANNOT update: assignedToId, agentId, or other fields
     const allowedFields = ['status', 'note', 'remark'];
     const dataToUpdate: any = {};
     
     for (const field of allowedFields) {
       if (body[field] !== undefined) {
         if (field === 'status') {
-          // Validate status
           const validStatuses: EnquiryStatus[] = ['NEW', 'CONTACTED', 'ENROLLED', 'DEAD', 'ARCHIVED'];
           if (!validStatuses.includes(body[field])) {
             return NextResponse.json({
@@ -152,7 +147,6 @@ export async function PUT(
       }
     }
 
-    // Check if trying to update disallowed fields
     const disallowedFields = ['assignedToId', 'agentId'];
     for (const field of disallowedFields) {
       if (body[field] !== undefined) {

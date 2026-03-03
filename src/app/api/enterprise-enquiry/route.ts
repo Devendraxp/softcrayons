@@ -6,7 +6,6 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { companyName, email, phone, duration, message } = body;
 
-    // Validate required fields
     if (!companyName || !email || !phone) {
       return NextResponse.json({
         success: false,
@@ -14,7 +13,6 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json({
@@ -23,7 +21,6 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    // Validate phone format
     const phoneRegex = /^[+]?[0-9]{10,15}$/;
     if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
       return NextResponse.json({

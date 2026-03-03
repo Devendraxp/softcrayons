@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getUserFromHeaders } from "@/lib/request-user";
 
-// GET - List blogs for the current student user only
 export async function GET() {
   try {
     const user = await getUserFromHeaders();
@@ -16,7 +15,7 @@ export async function GET() {
 
     const blogs = await prisma.blog.findMany({
       where: {
-        authorId: user.id, // Only show blogs created by this user
+        authorId: user.id,
       },
       include: {
         category: {
@@ -49,7 +48,6 @@ export async function GET() {
   }
 }
 
-// POST - Create a new blog (with restricted fields)
 export async function POST(request: NextRequest) {
   try {
     const user = await getUserFromHeaders();
@@ -63,11 +61,6 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
 
-    // Create blog with restricted fields:
-    // - authorId is always the current user
-    // - dateOfPublish is always today
-    // - isPublic defaults to false (admin must approve)
-    // - isFeatured defaults to false (admin must set)
     const blog = await prisma.blog.create({
       data: {
         title: body.title,
@@ -75,10 +68,10 @@ export async function POST(request: NextRequest) {
         description: body.description,
         content: body.content,
         categoryId: body.categoryId,
-        authorId: user.id, // Always set to current user
-        dateOfPublish: new Date(), // Always today
-        isPublic: false, // Default false, admin must approve
-        isFeatured: false, // Default false, admin must set
+        authorId: user.id,
+        dateOfPublish: new Date(),
+        isPublic: false,
+        isFeatured: false,
         readTime: body.readTime || 5,
         tags: body.tags || [],
         tableOfContents: body.tableOfContents || [],

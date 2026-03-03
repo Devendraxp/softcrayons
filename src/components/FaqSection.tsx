@@ -75,7 +75,6 @@ export function FaqSection() {
         const data = await response.json();
         if (data.success) {
           setFaqs(data.data);
-          // Open the first FAQ by default
           if (data.data.length > 0) {
             setOpenId(data.data[0].id);
           }
@@ -105,7 +104,6 @@ export function FaqSection() {
 
   return (
     <section className="py-24 bg-gray-900 dark:bg-gray-950 relative overflow-hidden">
-      {/* Subtle background pattern */}
       <div className="absolute inset-0 opacity-5">
         <div
           className="absolute inset-0"
@@ -118,7 +116,6 @@ export function FaqSection() {
 
       <div className="container relative z-10">
         <div className="max-w-3xl mx-auto">
-          {/* Header */}
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
               Frequently Asked{" "}
@@ -126,7 +123,6 @@ export function FaqSection() {
             </h2>
           </div>
 
-          {/* Accordion */}
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-6 sm:p-8">
             {faqs.map((faq) => (
               <FaqItem
@@ -140,7 +136,6 @@ export function FaqSection() {
             ))}
           </div>
 
-          {/* Bottom CTA */}
           <div className="text-center mt-10">
             <p className="text-white/50 text-sm">
               Still have questions?{" "}

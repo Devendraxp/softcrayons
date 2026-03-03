@@ -33,7 +33,6 @@ export default function CounselorLayout({ children }: { children: ReactNode }) {
       if (!isAuthenticated) {
         router.replace("/sign-in");
       } else if (user?.role !== "COUNSELOR") {
-        // Redirect to appropriate dashboard based on role
         const roleRoutes: Record<string, string> = {
           ADMIN: "/dashboard/admin",
           STUDENT: "/dashboard/student",
@@ -47,7 +46,6 @@ export default function CounselorLayout({ children }: { children: ReactNode }) {
     }
   }, [isLoading, isAuthenticated, user, router]);
 
-  // Show loading skeleton while checking auth
   if (isLoading) {
     return (
       <div className="flex min-h-screen bg-background">
@@ -68,7 +66,6 @@ export default function CounselorLayout({ children }: { children: ReactNode }) {
     );
   }
 
-  // Don't render if not authorized
   if (!isAuthenticated || user?.role !== "COUNSELOR") {
     return null;
   }

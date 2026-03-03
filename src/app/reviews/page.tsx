@@ -99,7 +99,6 @@ export default function ReviewsPage() {
 						careers with SoftCrayons
 					</p>
 
-					{/* Stats */}
 					<div className="flex items-center justify-center gap-8 mt-8">
 						<div className="text-center">
 							<div className="flex items-center justify-center gap-1 mb-1">
@@ -122,7 +121,6 @@ export default function ReviewsPage() {
 					</div>
 				) : (
 					<>
-						{/* Simple Grid Layout */}
 						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 							{testimonials.map((testimonial) => (
 								<TestimonialCard
@@ -139,7 +137,6 @@ export default function ReviewsPage() {
 							))}
 						</div>
 
-						{/* Load More Button */}
 						{hasMore && (
 							<div className="text-center mt-12">
 								<Button

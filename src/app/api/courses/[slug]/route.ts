@@ -38,7 +38,6 @@ export async function GET(
       }, { status: 404 });
     }
 
-    // Get related courses from the same category
     const relatedCourses = await prisma.course.findMany({
       where: {
         isPublic: true,

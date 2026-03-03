@@ -1,10 +1,9 @@
-import { Badge } from "@/components/ui/badge";
+
 import { MapPin, Phone, Mail, Clock, Award, BookOpen, GraduationCap, Users, Trophy } from "lucide-react";
-import Image from "next/image";
+
 import { DynamicFacultyCarousel } from "@/components/faculties/DynamicFacultyCarousel";
 import { CountUpNumber } from "@/components/CountUpNumber";
 
-// Placeholder data - update as needed
 const branches = [
     {
         id: 1,
@@ -26,8 +25,6 @@ const branches = [
     },
 ];
 
-
-
 const stats = [
     { icon: GraduationCap, value: "15+", label: "Years Experience" },
     { icon: Users, value: "10000+", label: "Students Trained" },
@@ -39,7 +36,6 @@ export default function AboutUsPage() {
     return (
         <div className="min-h-screen bg-background">
             <main>
-                {/* Hero Section */}
                 <section className="pt-32 pb-20">
                     <div className="container mx-auto px-4">
                         <div className="max-w-4xl mx-auto text-center">
@@ -53,7 +49,6 @@ export default function AboutUsPage() {
                                 that bridge the gap between academia and industry.
                             </p>
 
-                            {/* Stats - Plain like home page */}
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12">
                                 {stats.map((stat, index) => (
                                     <div key={index} className="text-center">
@@ -69,7 +64,6 @@ export default function AboutUsPage() {
                     </div>
                 </section>
 
-                {/* Branches Section */}
                 <section className="py-20 bg-muted/30">
                     <div className="container mx-auto px-4">
                         <div className="text-center mb-12">
@@ -90,7 +84,6 @@ export default function AboutUsPage() {
                                     key={branch.id}
                                     className="grid md:grid-cols-2 gap-8 items-center"
                                 >
-                                    {/* Map Placeholder */}
                                     <div className={`bg-muted rounded-2xl min-h-[300px] flex items-center justify-center ${index % 2 === 1 ? 'md:order-2' : ''}`}>
                                         <div className="text-center p-8">
                                             <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
@@ -102,7 +95,6 @@ export default function AboutUsPage() {
                                         </div>
                                     </div>
 
-                                    {/* Branch Details */}
                                     <div className={index % 2 === 1 ? 'md:order-1' : ''}>
                                         <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
                                             {index === 0 ? "Noida Branch" : "Ghaziabad Branch"}
@@ -160,7 +152,6 @@ export default function AboutUsPage() {
                     </div>
                 </section>
 
-                {/* Faculties Section */}
                 <section className="py-20">
                     <div className="container mx-auto px-4">
                         <div className="text-center mb-12">
@@ -181,8 +172,6 @@ export default function AboutUsPage() {
                     </div>
                 </section>
 
-
-                {/* Closing Section */}
                 <section className="py-20">
                     <div className="container mx-auto px-4">
                         <div className="max-w-4xl mx-auto text-center">

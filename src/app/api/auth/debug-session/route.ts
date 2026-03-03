@@ -10,7 +10,6 @@ export async function GET() {
     try {
         const headersList = await headers();
         
-        // Get session from Better Auth
         const session = await auth.api.getSession({
             headers: headersList,
         });
@@ -22,7 +21,6 @@ export async function GET() {
             }, { status: 401 });
         }
         
-        // Also get user directly from database to compare
         const dbUser = await prisma.user.findUnique({
             where: { id: session.user.id },
             select: {

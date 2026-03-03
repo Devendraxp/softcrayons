@@ -33,7 +33,6 @@ export function KPICards({ kpi }: KPICardsProps) {
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-      {/* Active Students */}
       <Card decoration="top" decorationColor="blue" className="!bg-card !ring-border/60">
         <Flex justifyContent="between" alignItems="center">
           <Text className="!text-muted-foreground">Active Students</Text>
@@ -49,7 +48,6 @@ export function KPICards({ kpi }: KPICardsProps) {
         </Flex>
       </Card>
 
-      {/* Pending Enquiries */}
       <Card decoration="top" decorationColor="orange" className="!bg-card !ring-border/60">
         <Flex justifyContent="between" alignItems="center">
           <Text className="!text-muted-foreground">Pending Enquiries</Text>
@@ -65,7 +63,6 @@ export function KPICards({ kpi }: KPICardsProps) {
         </Flex>
       </Card>
 
-      {/* Total Revenue */}
       <Card decoration="top" decorationColor="emerald" className="!bg-card !ring-border/60">
         <Flex justifyContent="between" alignItems="center">
           <Text className="!text-muted-foreground">Total Revenue (Est.)</Text>
@@ -81,7 +78,6 @@ export function KPICards({ kpi }: KPICardsProps) {
         </Flex>
       </Card>
 
-      {/* Placements */}
       <Card decoration="top" decorationColor="fuchsia" className="!bg-card !ring-border/60">
         <Flex justifyContent="between" alignItems="center">
           <Text className="!text-muted-foreground">Placements</Text>

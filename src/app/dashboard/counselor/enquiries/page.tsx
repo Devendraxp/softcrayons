@@ -15,8 +15,6 @@ import {
 import { Search, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 
-// No ASSIGNED tab - counselor only sees their assigned enquiries
-// NEW tab shows all enquiries assigned to this counselor (regardless of status)
 type StatusTab = EnquiryStatus | "ALL";
 
 const STATUS_TABS: { label: string; value: StatusTab }[] = [
@@ -38,7 +36,6 @@ export default function CounselorEnquiriesPage() {
   const [counts, setCounts] = React.useState<Record<string, number>>({});
   const pageSize = 20;
 
-  // Dialog states
   const [selectedEnquiry, setSelectedEnquiry] = React.useState<Enquiry | null>(null);
   const [viewDetailsOpen, setViewDetailsOpen] = React.useState(false);
   const [editNotesOpen, setEditNotesOpen] = React.useState(false);
@@ -67,7 +64,6 @@ export default function CounselorEnquiriesPage() {
         params.set("search", searchQuery);
       }
 
-      // Filter by status (no subStatus needed since all are assigned to this counselor)
       if (activeTab !== "ALL") {
         params.set("status", activeTab);
       }
@@ -94,12 +90,10 @@ export default function CounselorEnquiriesPage() {
     fetchCounts();
   }, [fetchEnquiries, fetchCounts]);
 
-  // Reset page when filters change
   React.useEffect(() => {
     setCurrentPage(1);
   }, [activeTab, searchQuery]);
 
-  // Action handlers
   const handleViewDetails = (enquiry: Enquiry) => {
     setSelectedEnquiry(enquiry);
     setViewDetailsOpen(true);
@@ -132,7 +126,6 @@ export default function CounselorEnquiriesPage() {
     setEditNotesOpen(true);
   };
 
-  // Confirm handlers
   const confirmEditNotes = async (enquiryId: number, note: string, remark: string) => {
     setActionLoading(true);
     try {
@@ -160,7 +153,6 @@ export default function CounselorEnquiriesPage() {
 
   const totalPages = Math.ceil(total / pageSize);
 
-  // Get count for a tab
   const getTabCount = (tab: StatusTab): number | undefined => {
     if (tab === "ALL") return counts.TOTAL;
     return counts[tab];
@@ -168,7 +160,6 @@ export default function CounselorEnquiriesPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-foreground">My Enquiries</h1>
@@ -178,7 +169,6 @@ export default function CounselorEnquiriesPage() {
         </div>
       </div>
 
-      {/* Search and Refresh */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -202,7 +192,6 @@ export default function CounselorEnquiriesPage() {
         </Button>
       </div>
 
-      {/* Status Tabs */}
       <div className="border-b border-border overflow-x-auto">
         <div className="flex min-w-max">
           {STATUS_TABS.map((tab) => {
@@ -236,7 +225,6 @@ export default function CounselorEnquiriesPage() {
         </div>
       </div>
 
-      {/* Enquiry List */}
       <div>
         <CounselorEnquiryListHeader />
         <CounselorEnquiryList
@@ -248,7 +236,6 @@ export default function CounselorEnquiriesPage() {
         />
       </div>
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-2">
           <Button
@@ -273,7 +260,6 @@ export default function CounselorEnquiriesPage() {
         </div>
       )}
 
-      {/* Dialogs */}
       <CounselorViewDetailsDialog
         enquiry={selectedEnquiry}
         open={viewDetailsOpen}

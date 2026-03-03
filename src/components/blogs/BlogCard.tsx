@@ -26,7 +26,6 @@ export function BlogCard({ blog }: BlogCardProps) {
     return (
         <Link href={`/blogs/${blog.slug || blog.id}`}>
             <article className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 h-full flex flex-col">
-                {/* Image */}
                 <div className="relative h-52 overflow-hidden">
                     <Image
                         src={blog.image}
@@ -37,9 +36,7 @@ export function BlogCard({ blog }: BlogCardProps) {
                     />
                 </div>
 
-                {/* Content */}
                 <div className="p-5 flex flex-col flex-1">
-                    {/* Category & Read Time */}
                     <div className="flex items-center justify-between mb-3">
                         <Badge
                             variant="secondary"
@@ -53,17 +50,14 @@ export function BlogCard({ blog }: BlogCardProps) {
                         </span>
                     </div>
 
-                    {/* Title */}
                     <h3 className="font-bold text-lg mb-2 line-clamp-2 group-hover:text-primary transition-colors flex-grow-0">
                         {blog.title}
                     </h3>
 
-                    {/* Description */}
                     <p className="text-muted-foreground text-sm line-clamp-2 mb-4 flex-grow">
                         {blog.description}
                     </p>
 
-                    {/* Author & Date */}
                     <div className="flex items-center gap-3 pt-4 border-t border-border mt-auto">
                         {blog.authorImage ? (
                             <Image

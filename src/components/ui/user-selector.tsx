@@ -20,8 +20,8 @@ type UserSelectorProps = {
   value?: string;
   onChange: (userId: string, user?: UserData) => void;
   placeholder?: string;
-  isActive?: boolean; // Filter by active users (!banned)
-  role?: string; // Filter by role
+  isActive?: boolean;
+  role?: string;
   className?: string;
   disabled?: boolean;
 };
@@ -30,7 +30,7 @@ export function UserSelector({
   value,
   onChange,
   placeholder = "Select a user...",
-  isActive = true, // Default to showing only active users
+  isActive = true,
   role,
   className,
   disabled = false,
@@ -42,7 +42,6 @@ export function UserSelector({
   const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
@@ -53,14 +52,12 @@ export function UserSelector({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Fetch users when search changes or dropdown opens
   useEffect(() => {
     if (isOpen) {
       fetchUsers();
     }
   }, [search, isOpen, isActive, role]);
 
-  // Fetch selected user on mount if value is provided
   useEffect(() => {
     if (value && !selectedUser) {
       fetchSelectedUser();
@@ -91,14 +88,12 @@ export function UserSelector({
 
   const fetchSelectedUser = async () => {
     try {
-      // Try to find user from already loaded users first
       const found = users.find((u) => u.id === value);
       if (found) {
         setSelectedUser(found);
         return;
       }
       
-      // Fetch all users to find the selected one
       const response = await fetch(`/api/admin/users?limit=100`);
       const data = await response.json();
       
@@ -139,7 +134,6 @@ export function UserSelector({
 
   return (
     <div ref={containerRef} className={cn("relative", className)}>
-      {/* Selected User Display / Trigger */}
       {selectedUser ? (
         <div
           className={cn(
@@ -188,10 +182,8 @@ export function UserSelector({
         </div>
       )}
 
-      {/* Dropdown */}
       {isOpen && !disabled && (
         <div className="absolute top-full left-0 right-0 z-50 mt-1 rounded-md border bg-popover shadow-lg">
-          {/* Search Input */}
           <div className="p-2 border-b">
             <div className="relative">
               <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -205,7 +197,6 @@ export function UserSelector({
             </div>
           </div>
 
-          {/* User List */}
           <div className="max-h-[250px] overflow-y-auto p-1">
             {isLoading ? (
               <div className="flex items-center justify-center py-6">

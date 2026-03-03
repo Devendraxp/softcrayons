@@ -46,7 +46,6 @@ type BlogFormData = {
   metaTitle: string;
   metaDescription: string;
   metaKeywords: string[];
-  // Read-only fields
   isPublic: boolean;
   isFeatured: boolean;
 };
@@ -234,7 +233,6 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
         metaTitle: formData.metaTitle,
         metaDescription: formData.metaDescription,
         metaKeywords: formData.metaKeywords,
-        // Note: isPublic, isFeatured, authorId, dateOfPublish cannot be modified
       };
 
       const response = await fetch(`/api/hr/blogs/${id}`, {
@@ -270,7 +268,6 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
 
   return (
     <div className="w-full max-w-[98%] mx-auto p-4 space-y-4">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" asChild>
@@ -297,7 +294,6 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
         </div>
       </div>
 
-      {/* Status Display */}
       <Card className="bg-muted/50">
         <CardContent className="pt-6">
           <div className="flex items-center gap-4">
@@ -321,9 +317,7 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
       </Card>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Top Section - 3 columns */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column */}
           <div className="lg:col-span-2 space-y-6">
             <Card>
               <CardHeader>
@@ -436,7 +430,6 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
             </Card>
           </div>
 
-          {/* Right Column - Sidebar */}
           <div className="space-y-6">
             <Card>
               <CardHeader>
@@ -602,7 +595,6 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
                             result.info.secure_url as string
                           );
                         }
-                        // Reset body styles to restore scrolling
                         document.body.style.overflow = "";
                         document.body.style.pointerEvents = "";
                       }}
@@ -674,7 +666,6 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
                             result.info.secure_url as string
                           );
                         }
-                        // Reset body styles to restore scrolling
                         document.body.style.overflow = "";
                         document.body.style.pointerEvents = "";
                       }}
@@ -711,7 +702,6 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
           </div>
         </div>
 
-        {/* Content Section - Full Width at Bottom */}
         <Card className="min-h-[500px]">
           <CardHeader>
             <CardTitle>Content</CardTitle>

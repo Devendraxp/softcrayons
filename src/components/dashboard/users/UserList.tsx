@@ -81,7 +81,6 @@ function UserRowSkeleton({ showRole }: { showRole?: boolean }) {
   );
 }
 
-// Header for the user list (optional)
 interface UserListHeaderProps {
   showRole?: boolean;
   className?: string;

@@ -39,7 +39,6 @@ export default function CourseSearch({
   const wrapperRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Fetch courses on mount and when search changes
   useEffect(() => {
     const fetchCourses = async () => {
       setLoading(true);
@@ -64,17 +63,17 @@ export default function CourseSearch({
     return () => clearTimeout(debounceTimer);
   }, [search]);
 
-  // Fetch selected course details if value is provided
   useEffect(() => {
     if (value && !selectedCourse) {
       const fetchCourseDetails = async () => {
         try {
-          const response = await fetch(`/api/courses/public`);
+          const response = await fetch(`/api/courses`);
           const data = await response.json();
           if (data.success) {
             const course = data.data.find((c: Course) => c.id === value);
             if (course) {
               setSelectedCourse(course);
+              onChange(course.id, course.title);
             }
           }
         } catch (error) {
@@ -85,7 +84,6 @@ export default function CourseSearch({
     }
   }, [value, selectedCourse]);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
@@ -112,7 +110,6 @@ export default function CourseSearch({
 
   return (
     <div ref={wrapperRef} className={`relative ${className}`}>
-      {/* Selected Course Display / Input */}
       <div className="relative">
         <BookOpen className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
         
@@ -150,7 +147,6 @@ export default function CourseSearch({
         )}
       </div>
 
-      {/* Hidden input for form validation */}
       {required && (
         <input
           type="hidden"
@@ -159,10 +155,8 @@ export default function CourseSearch({
         />
       )}
 
-      {/* Dropdown */}
       {isOpen && (
         <div className="absolute z-50 w-full mt-2 bg-card border border-border rounded-xl shadow-lg max-h-64 overflow-hidden">
-          {/* Search box inside dropdown */}
           {selectedCourse && (
             <div className="p-2 border-b border-border">
               <div className="relative">
@@ -179,7 +173,6 @@ export default function CourseSearch({
             </div>
           )}
 
-          {/* Course List */}
           <div className="max-h-52 overflow-y-auto">
             {loading ? (
               <div className="flex items-center justify-center py-8">

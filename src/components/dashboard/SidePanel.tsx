@@ -50,7 +50,6 @@ const statusStyles: Record<DashboardUser["status"], string> = {
   pending: "bg-amber-500/15 text-amber-600 dark:text-amber-300 border-amber-500/30",
 };
 
-// Separate component for nav items with sub-items to handle state properly
 function NavItemWithSub({
   item,
   pathname,
@@ -73,7 +72,6 @@ function NavItemWithSub({
     (sub) => pathname === sub.href || pathname.startsWith(`${sub.href}/`)
   ) || false;
 
-  // Handle click outside for collapsed popover
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -93,7 +91,6 @@ function NavItemWithSub({
     };
   }, [showPopover]);
 
-  // Close popover when collapsed mode changes
   useEffect(() => {
     if (!collapsed) {
       setShowPopover(false);
@@ -108,13 +105,9 @@ function NavItemWithSub({
     }
   };
 
-  // Check if a sub-item is active - exact match only to prevent multiple items highlighting
   const checkSubItemActive = (subHref: string) => {
-    // Exact match
     if (pathname === subHref) return true;
-    // Check if it's a sub-path but not matching any other subItem
     if (pathname.startsWith(`${subHref}/`)) {
-      // Make sure no other subItem is a better match
       const otherSubItems = item.subItems?.filter(s => s.href !== subHref) || [];
       const hasCloserMatch = otherSubItems.some(
         other => pathname === other.href || pathname.startsWith(`${other.href}/`)
@@ -152,7 +145,6 @@ function NavItemWithSub({
         )}
       </button>
       
-      {/* Expanded mode sub-items */}
       {isExpanded && !collapsed && item.subItems && (
         <div className="ml-10 mt-1 space-y-1 border-l border-border pl-3">
           {item.subItems.map((subItem) => {
@@ -176,7 +168,6 @@ function NavItemWithSub({
         </div>
       )}
 
-      {/* Collapsed mode popover */}
       {collapsed && showPopover && item.subItems && (
         <div
           ref={popoverRef}
@@ -217,7 +208,6 @@ export function DashboardSidePanel({ brand, navItems, user }: DashboardSidePanel
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
   const [expandedItem, setExpandedItem] = useState<string | null>(() => {
-    // Initially expand the item that matches the current path
     for (const item of navItems) {
       if (item.subItems?.some(sub => pathname === sub.href || pathname.startsWith(`${sub.href}/`))) {
         return item.title;
@@ -248,7 +238,6 @@ export function DashboardSidePanel({ brand, navItems, user }: DashboardSidePanel
       )}
     >
       <div className="flex h-full w-full flex-col gap-4 overflow-hidden px-3 py-4">
-        {/* Brand Header */}
         <div className={cn("flex items-center gap-3 px-1", collapsed && "flex-col")}>
           <div className={cn(
             "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-all duration-200",
@@ -288,7 +277,6 @@ export function DashboardSidePanel({ brand, navItems, user }: DashboardSidePanel
           </button>
         </div>
 
-        {/* User Card */}
         <div className={cn(
           "rounded-xl p-3 transition-all duration-200",
           !collapsed && "border border-border bg-muted/30",
@@ -327,7 +315,6 @@ export function DashboardSidePanel({ brand, navItems, user }: DashboardSidePanel
           </div>
         </div>
 
-        {/* Navigation */}
         <nav className="flex-1 space-y-1 overflow-y-auto overflow-x-hidden">
           {navItems.map((item) => {
             const hasSubItems = item.subItems && item.subItems.length > 0;
@@ -381,7 +368,6 @@ export function DashboardSidePanel({ brand, navItems, user }: DashboardSidePanel
           })}
         </nav>
 
-        {/* Logout Button */}
         <div className={cn("border-t border-border pt-3", collapsed && "flex justify-center")}>
           <button
             type="button"
@@ -401,7 +387,6 @@ export function DashboardSidePanel({ brand, navItems, user }: DashboardSidePanel
           </button>
         </div>
 
-        {/* Theme Toggle */}
         <div className={cn(collapsed && "flex justify-center")}>
           <button
             type="button"

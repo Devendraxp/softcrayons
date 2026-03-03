@@ -19,7 +19,6 @@ export default function CodeBlockComponent({
 }: NodeViewProps) {
   const [isCopied, setIsCopied] = useState(false);
 
-  // Added more languages for better utility
   const languages = [
     { label: "Plain Text", value: "plaintext" },
     { label: "Typescript", value: "typescript" },

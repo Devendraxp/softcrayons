@@ -26,7 +26,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type SignInMethod = "password" | "otp" | "magic-link";
 
-// Helper to check if user exists
 const checkUserExists = async (email: string): Promise<boolean> => {
   try {
     const response = await fetch("/api/auth/check-user", {
@@ -71,7 +70,6 @@ export default function SignInPage() {
     resetStates();
   };
 
-  // Password Sign In
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -83,7 +81,6 @@ export default function SignInPage() {
       });
 
       if (result.error) {
-        // Check if error is about email verification
         if (
           result.error.message?.toLowerCase().includes("email") &&
           result.error.message?.toLowerCase().includes("verif")
@@ -106,7 +103,6 @@ export default function SignInPage() {
     }
   };
 
-  // OTP Sign In
   const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) {
@@ -116,7 +112,6 @@ export default function SignInPage() {
     setIsLoading(true);
 
     try {
-      // Check if user exists first
       const exists = await checkUserExists(email);
       if (!exists) {
         showErrorToast("No account found with this email. Please contact admin.");
@@ -173,7 +168,6 @@ export default function SignInPage() {
     }
   };
 
-  // Magic Link Sign In
   const handleMagicLink = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) {
@@ -183,7 +177,6 @@ export default function SignInPage() {
     setIsLoading(true);
 
     try {
-      // Check if user exists first
       const exists = await checkUserExists(email);
       if (!exists) {
         showErrorToast("No account found with this email. Please contact admin.");
@@ -213,7 +206,6 @@ export default function SignInPage() {
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-background">
-      {/* Full Page Background Effects */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 -left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse-slow" />
         <div
@@ -227,10 +219,8 @@ export default function SignInPage() {
         />
       </div>
 
-      {/* Grid Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.3)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.3)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_40%,transparent_100%)]" />
 
-      {/* Floating Elements */}
       <div className="absolute top-20 left-[10%] animate-float hidden lg:block">
         <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-lg">
           <BookOpen className="w-7 h-7 text-white" />
@@ -261,10 +251,8 @@ export default function SignInPage() {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
         <div className="w-full max-w-md">
-          {/* Header */}
           <div className="text-center mb-8 animate-fade-up">
             <h1 className="text-3xl sm:text-4xl font-black mb-3">
               Sign In to visit your{" "}
@@ -275,7 +263,6 @@ export default function SignInPage() {
             </p>
           </div>
 
-          {/* Form Container - Fixed Height */}
           <div
             className="animate-fade-up"
             style={{ animationDelay: "0.1s" }}
@@ -309,9 +296,7 @@ export default function SignInPage() {
                 </TabsTrigger>
               </TabsList>
 
-              {/* Fixed height container for tab content */}
               <div className="min-h-[320px]">
-                {/* Password Tab */}
                 <TabsContent value="password" className="mt-0">
                   <form onSubmit={handlePasswordSubmit} className="space-y-4">
                     <div className="space-y-2">
@@ -383,7 +368,6 @@ export default function SignInPage() {
                   </form>
                 </TabsContent>
 
-                {/* OTP Tab */}
                 <TabsContent value="otp" className="mt-0">
                   <div className="space-y-4">
                     <div className="space-y-2">
@@ -486,7 +470,6 @@ export default function SignInPage() {
                   </div>
                 </TabsContent>
 
-                {/* Magic Link Tab */}
                 <TabsContent value="magic-link" className="mt-0">
                   <div className="space-y-4">
                     <div className="space-y-2">
@@ -560,7 +543,6 @@ export default function SignInPage() {
               </div>
             </Tabs>
 
-            {/* Join Now Link */}
             <div
               className="text-center mt-6 animate-fade-up"
               style={{ animationDelay: "0.2s" }}

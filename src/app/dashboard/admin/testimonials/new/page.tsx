@@ -106,7 +106,6 @@ export default function NewTestimonialPage() {
 
   return (
     <div className="w-full max-w-4xl mx-auto p-4 space-y-6">
-      {/* Header */}
       <div className="flex items-center gap-4">
         <Button variant="ghost" size="icon" asChild>
           <Link href="/dashboard/admin/testimonials">
@@ -123,9 +122,7 @@ export default function NewTestimonialPage() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column - Main Info */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Student Information */}
             <Card>
               <CardHeader>
                 <CardTitle>Testimonial Details</CardTitle>
@@ -187,7 +184,6 @@ export default function NewTestimonialPage() {
             </Card>
           </div>
 
-          {/* Right Column - Avatar */}
           <div className="space-y-6">
             <Card>
               <CardHeader>
@@ -235,7 +231,6 @@ export default function NewTestimonialPage() {
                         ) {
                           handleImageUpload(result.info.secure_url as string);
                         }
-                        // Reset body styles to restore scrolling
                         document.body.style.overflow = "";
                         document.body.style.pointerEvents = "";
                       }}
@@ -275,7 +270,6 @@ export default function NewTestimonialPage() {
           </div>
         </div>
 
-        {/* Actions */}
         <div className="flex justify-end gap-4">
           <Button type="button" variant="outline" asChild>
             <Link href="/dashboard/admin/testimonials">Cancel</Link>

@@ -18,7 +18,6 @@ import { type Enquiry, type EnquiryStatus } from "./CounselorEnquiryRow";
 import { cn } from "@/lib/utils";
 import { Phone, Mail, BookOpen, Calendar, User } from "lucide-react";
 
-// View Details Dialog (same as admin)
 interface ViewDetailsDialogProps {
   enquiry: Enquiry | null;
   open: boolean;
@@ -60,7 +59,6 @@ export function CounselorViewDetailsDialog({
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-6 py-4">
-          {/* Contact Info */}
           <div className="space-y-3">
             <h4 className="text-sm font-semibold text-muted-foreground">Contact Information</h4>
             <div className="space-y-2">
@@ -83,7 +81,6 @@ export function CounselorViewDetailsDialog({
             </div>
           </div>
 
-          {/* Course */}
           {enquiry.course && (
             <div className="space-y-2">
               <h4 className="text-sm font-semibold text-muted-foreground">Course Interest</h4>
@@ -94,7 +91,6 @@ export function CounselorViewDetailsDialog({
             </div>
           )}
 
-          {/* Message */}
           {enquiry.message && (
             <div className="space-y-2">
               <h4 className="text-sm font-semibold text-muted-foreground">Message</h4>
@@ -102,7 +98,6 @@ export function CounselorViewDetailsDialog({
             </div>
           )}
 
-          {/* Status & Agent */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <h4 className="text-sm font-semibold text-muted-foreground">Status</h4>
@@ -128,7 +123,6 @@ export function CounselorViewDetailsDialog({
             </div>
           </div>
 
-          {/* Notes & Remarks */}
           {(enquiry.note || enquiry.remark) && (
             <div className="space-y-3">
               {enquiry.note && (
@@ -148,7 +142,6 @@ export function CounselorViewDetailsDialog({
             </div>
           )}
 
-          {/* Timestamps */}
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Calendar className="h-3 w-3" />
             <span>Created: {formatDate(enquiry.createdAt)}</span>
@@ -167,7 +160,6 @@ export function CounselorViewDetailsDialog({
   );
 }
 
-// Edit Notes Dialog (same as admin)
 interface EditNotesDialogProps {
   enquiry: Enquiry | null;
   open: boolean;

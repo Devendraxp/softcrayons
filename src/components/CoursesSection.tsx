@@ -33,7 +33,6 @@ export function CoursesSection() {
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                // Fetch only featured courses
                 const response = await fetch('/api/courses?limit=12&featured=true');
                 const data = await response.json();
                 if (data.success) {
@@ -75,7 +74,6 @@ export function CoursesSection() {
         return difficulty.charAt(0) + difficulty.slice(1).toLowerCase();
     };
 
-    // Auto-slide functionality - must be before any conditional returns
     useEffect(() => {
         if (!isAutoPlaying || totalSlides <= 1) return;
 
@@ -103,7 +101,6 @@ export function CoursesSection() {
     return (
         <section id="courses" className="py-24">
             <div className="container">
-                {/* Header */}
                 <div className="text-center max-w-2xl mx-auto mb-16">
                     <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
                         Industry-Ready <span className="text-gradient">Curriculum</span>
@@ -114,20 +111,17 @@ export function CoursesSection() {
                     </p>
                 </div>
 
-                {/* Carousel Section */}
                 {courses.length > 0 && (
                 <div
                     className="relative"
                     onMouseEnter={() => setIsAutoPlaying(false)}
                     onMouseLeave={() => setIsAutoPlaying(true)}
                 >
-                    {/* Carousel Track */}
                     <div className="overflow-hidden">
                         <div
                             className="flex transition-transform duration-500 ease-in-out"
                             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
                         >
-                            {/* Slides */}
                             {Array.from({ length: totalSlides }).map((_, slideIndex) => (
                                 <div
                                     key={slideIndex}
@@ -140,7 +134,6 @@ export function CoursesSection() {
                                                 key={course.id}
                                                 className="bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-300 hover:shadow-lg flex flex-col h-full"
                                             >
-                                                {/* Course Image - No overlay */}
                                                 <div className="relative h-56 sm:h-64 overflow-hidden flex-shrink-0">
                                                     <img
                                                         src={course.thumbnailImage || course.bannerImage || 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&auto=format&fit=crop&q=80'}
@@ -149,9 +142,7 @@ export function CoursesSection() {
                                                     />
                                                 </div>
 
-                                                {/* Course Content */}
                                                 <div className="p-6 flex flex-col flex-grow">
-                                                    {/* Duration and Difficulty on same line */}
                                                     <div className="flex items-center justify-between text-sm mb-3">
                                                         <span className="flex items-center gap-1.5 text-muted-foreground">
                                                             <Clock className="w-4 h-4" />
@@ -185,7 +176,6 @@ export function CoursesSection() {
                         </div>
                     </div>
 
-                    {/* Carousel Controls */}
                     {totalSlides > 1 && (
                     <div className="flex items-center justify-center gap-4 mt-10">
                         <Button
@@ -197,7 +187,6 @@ export function CoursesSection() {
                             <ArrowLeft className="w-5 h-5" />
                         </Button>
 
-                        {/* Dots Indicator */}
                         <div className="flex items-center gap-2">
                             {Array.from({ length: totalSlides }).map((_, index) => (
                                 <button
@@ -225,7 +214,6 @@ export function CoursesSection() {
                 </div>
                 )}
 
-                {/* View All Button */}
                 <div className="text-center mt-12">
                     <Link href="/courses">
                         <Button variant="outline" size="lg">

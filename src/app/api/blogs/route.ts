@@ -11,7 +11,6 @@ export async function GET(request: NextRequest) {
     const categorySlug = searchParams.get('categorySlug');
     const featured = searchParams.get('featured');
 
-    // Validate pagination params
     if (page < 1 || limit < 1) {
       return NextResponse.json({
         success: false,
@@ -41,7 +40,6 @@ export async function GET(request: NextRequest) {
       ...(featured === 'true' && { isFeatured: true }),
     };
 
-    // Get total count for pagination
     const totalCount = await prisma.blog.count({ where: whereClause });
 
     const blogs = await prisma.blog.findMany({

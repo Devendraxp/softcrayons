@@ -23,7 +23,6 @@ export default function AgentDashboard() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-foreground">
           Welcome back, {user?.name || "Agent"}!
@@ -33,7 +32,6 @@ export default function AgentDashboard() {
         </p>
       </div>
 
-      {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -88,7 +86,6 @@ export default function AgentDashboard() {
         </Card>
       </div>
 
-      {/* Recent Activity */}
       <Card>
         <CardHeader>
           <CardTitle>Recent Referrals</CardTitle>

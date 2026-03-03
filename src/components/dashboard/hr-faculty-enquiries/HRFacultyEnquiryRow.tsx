@@ -98,7 +98,6 @@ export function HRFacultyEnquiryRow({
 }: HRFacultyEnquiryRowProps) {
   return (
     <div className="flex flex-col gap-4 p-4 rounded-xl border border-border bg-card hover:shadow-sm transition-shadow">
-      {/* Mobile Layout */}
       <div className="flex items-start gap-4 md:hidden">
         <Avatar className="h-10 w-10">
           <AvatarFallback className="bg-primary/10 text-primary font-semibold">
@@ -150,27 +149,22 @@ export function HRFacultyEnquiryRow({
         </div>
       </div>
 
-      {/* Desktop Layout */}
       <div className="hidden md:flex md:items-center md:gap-6">
-        {/* Avatar */}
         <Avatar className="h-10 w-10">
           <AvatarFallback className="bg-primary/10 text-primary font-semibold">
             {getInitials(enquiry.name)}
           </AvatarFallback>
         </Avatar>
 
-        {/* Name */}
         <div className="min-w-[150px]">
           <div className="font-semibold text-foreground">{enquiry.name}</div>
         </div>
 
-        {/* Contact */}
         <div className="min-w-[180px]">
           <div className="text-sm text-muted-foreground">{enquiry.email}</div>
           <a href={`tel:${enquiry.phone}`} className="text-sm text-muted-foreground hover:text-primary">{enquiry.phone}</a>
         </div>
 
-        {/* Resume */}
         <div className="min-w-[100px]">
           {enquiry.resume ? (
             <a 
@@ -187,7 +181,6 @@ export function HRFacultyEnquiryRow({
           )}
         </div>
 
-        {/* Available Date */}
         <div className="min-w-[100px] flex-1">
           {enquiry.availableDate ? (
             <div className="flex items-center gap-1 text-sm text-muted-foreground">
@@ -199,7 +192,6 @@ export function HRFacultyEnquiryRow({
           )}
         </div>
 
-        {/* Status - Dropdown */}
         <div className="min-w-[90px]">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -234,14 +226,11 @@ export function HRFacultyEnquiryRow({
           </DropdownMenu>
         </div>
 
-        {/* Date */}
         <div className="min-w-[100px] text-sm text-muted-foreground">
           {formatDate(enquiry.createdAt)}
         </div>
 
-        {/* Actions - Limited for HR */}
         <div className="flex items-center gap-2">
-          {/* Desktop Actions */}
           <div className="hidden lg:flex items-center gap-1">
             <Button
               variant="ghost"
@@ -261,7 +250,6 @@ export function HRFacultyEnquiryRow({
             </Button>
           </div>
 
-          {/* Mobile/Tablet Dropdown */}
           <div className="lg:hidden">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -284,7 +272,6 @@ export function HRFacultyEnquiryRow({
         </div>
       </div>
 
-      {/* Mobile Actions */}
       <div className="flex items-center gap-2 md:hidden">
         <Button
           variant="outline"

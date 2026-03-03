@@ -4,7 +4,6 @@ import { FaqSection } from "@/components/FaqSection";
 import { HeroSection } from "@/components/HeroSection";
 import { KnowledgeHub } from "@/components/KnowledgeHub";
 import { LearningPathway } from "@/components/LearningPathway";
-import { MeetYourMentors } from "@/components/MeetYourMentors";
 import { PartnersSection } from "@/components/PartnersSection";
 import { PlacementsMarquee } from "@/components/PlacementsMarquee";
 import { TestimonialsSection } from "@/components/TestimonialsSection";

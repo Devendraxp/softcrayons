@@ -161,7 +161,6 @@ export default function NewFaqPage() {
 
   return (
     <div className="w-full max-w-4xl mx-auto p-4 space-y-6">
-      {/* Header */}
       <div className="flex items-center gap-4">
         <Button variant="ghost" size="icon" asChild>
           <Link href="/dashboard/admin/faqs">
@@ -177,7 +176,6 @@ export default function NewFaqPage() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Basic Information */}
         <Card>
           <CardHeader>
             <CardTitle>Basic Information</CardTitle>
@@ -242,7 +240,6 @@ export default function NewFaqPage() {
           </CardContent>
         </Card>
 
-        {/* SEO Settings */}
         <Card>
           <CardHeader>
             <CardTitle>SEO Settings</CardTitle>
@@ -321,7 +318,6 @@ export default function NewFaqPage() {
           </CardContent>
         </Card>
 
-        {/* Actions */}
         <div className="flex justify-end gap-4">
           <Button type="button" variant="outline" asChild>
             <Link href="/dashboard/admin/faqs">Cancel</Link>

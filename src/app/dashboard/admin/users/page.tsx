@@ -42,7 +42,6 @@ export default function UsersPage() {
   const [currentPage, setCurrentPage] = React.useState(1);
   const pageSize = 20;
 
-  // Dialog states
   const [selectedUser, setSelectedUser] = React.useState<User | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
   const [banDialogOpen, setBanDialogOpen] = React.useState(false);
@@ -108,12 +107,10 @@ export default function UsersPage() {
     fetchUsers();
   }, [fetchUsers]);
 
-  // Reset to page 1 when tab or search changes
   React.useEffect(() => {
     setCurrentPage(1);
   }, [activeTab, searchQuery]);
 
-  // Action handlers
   const handleViewProfile = (user: User) => {
     setSelectedUser(user);
     setViewProfileDialogOpen(true);
@@ -143,7 +140,6 @@ export default function UsersPage() {
     setChangePasswordDialogOpen(true);
   };
 
-  // Confirm actions
   const confirmDelete = async (userId: string) => {
     setActionLoading(true);
     try {
@@ -223,7 +219,6 @@ export default function UsersPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Users</h1>
@@ -239,7 +234,6 @@ export default function UsersPage() {
         </Link>
       </div>
 
-      {/* Search and Refresh */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -255,7 +249,6 @@ export default function UsersPage() {
         </Button>
       </div>
 
-      {/* Tabs */}
       <div className="border-b border-border overflow-x-auto">
         <div className="flex min-w-max">
           {ROLES.map((role) => (
@@ -276,7 +269,6 @@ export default function UsersPage() {
         </div>
       </div>
 
-      {/* User List */}
       <div>
         <UserListHeader showRole={activeTab === "ALL"} />
         <UserList
@@ -292,7 +284,6 @@ export default function UsersPage() {
         />
       </div>
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-2">
           <Button
@@ -317,7 +308,6 @@ export default function UsersPage() {
         </div>
       )}
 
-      {/* Dialogs */}
       <ViewProfileDialog
         user={selectedUser}
         open={viewProfileDialogOpen}

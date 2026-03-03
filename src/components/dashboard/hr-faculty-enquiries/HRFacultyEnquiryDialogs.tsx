@@ -17,7 +17,6 @@ import { type FacultyEnquiry, type FacultyEnquiryStatus } from "./HRFacultyEnqui
 import { cn } from "@/lib/utils";
 import { Phone, Mail, FileText, Calendar, User } from "lucide-react";
 
-// View Details Dialog
 interface ViewDetailsDialogProps {
   enquiry: FacultyEnquiry | null;
   open: boolean;
@@ -59,7 +58,6 @@ export function HRFacultyViewDetailsDialog({
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-6 py-4">
-          {/* Contact Info */}
           <div className="space-y-3">
             <h4 className="text-sm font-semibold text-muted-foreground">Contact Information</h4>
             <div className="space-y-2">
@@ -82,7 +80,6 @@ export function HRFacultyViewDetailsDialog({
             </div>
           </div>
 
-          {/* Resume & Availability */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <h4 className="text-sm font-semibold text-muted-foreground">Resume</h4>
@@ -113,7 +110,6 @@ export function HRFacultyViewDetailsDialog({
             </div>
           </div>
 
-          {/* Message */}
           {enquiry.message && (
             <div className="space-y-2">
               <h4 className="text-sm font-semibold text-muted-foreground">Message</h4>
@@ -121,7 +117,6 @@ export function HRFacultyViewDetailsDialog({
             </div>
           )}
 
-          {/* Status */}
           <div className="space-y-2">
             <h4 className="text-sm font-semibold text-muted-foreground">Status</h4>
             <Badge variant="outline" className={cn("font-medium", statusColors[enquiry.status])}>
@@ -129,7 +124,6 @@ export function HRFacultyViewDetailsDialog({
             </Badge>
           </div>
 
-          {/* Notes & Remarks */}
           {(enquiry.note || enquiry.remark) && (
             <div className="space-y-3">
               {enquiry.note && (
@@ -149,7 +143,6 @@ export function HRFacultyViewDetailsDialog({
             </div>
           )}
 
-          {/* Timestamps */}
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Calendar className="h-3 w-3" />
             <span>Created: {formatDate(enquiry.createdAt)}</span>
@@ -165,7 +158,6 @@ export function HRFacultyViewDetailsDialog({
   );
 }
 
-// Edit Notes Dialog
 interface EditNotesDialogProps {
   enquiry: FacultyEnquiry | null;
   open: boolean;

@@ -70,7 +70,6 @@ export default function EnterprisePage() {
   if (isSuccess) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-primary/10 pt-20 relative overflow-hidden">
-        {/* Background decorative elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
@@ -100,7 +99,6 @@ export default function EnterprisePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-primary/10 pt-20 relative overflow-hidden">
-      {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
@@ -109,7 +107,6 @@ export default function EnterprisePage() {
       
       <div className="container py-16 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Left Side - Text Content */}
           <div>
             <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-6">
               Corporate - Enterprise - Team Training
@@ -157,7 +154,6 @@ export default function EnterprisePage() {
             </div>
           </div>
 
-          {/* Right Side - Form */}
           <div className="relative">
             <div className="p-8">
               <h2 className="text-2xl font-bold mb-2">
@@ -169,7 +165,6 @@ export default function EnterprisePage() {
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-5">
-                {/* Company Name */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Company / Organization Name
@@ -188,7 +183,6 @@ export default function EnterprisePage() {
                   </div>
                 </div>
 
-                {/* Email */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Official Email Address
@@ -207,7 +201,6 @@ export default function EnterprisePage() {
                   </div>
                 </div>
 
-                {/* Contact */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Business Contact Number
@@ -226,7 +219,6 @@ export default function EnterprisePage() {
                   </div>
                 </div>
 
-                {/* Duration */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Preferred Training Duration
@@ -251,7 +243,6 @@ export default function EnterprisePage() {
                   </div>
                 </div>
 
-                {/* Training Requirements */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Training Requirement Details

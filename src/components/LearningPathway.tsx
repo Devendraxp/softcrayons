@@ -81,7 +81,6 @@ const milestones = [
   },
 ];
 
-
 export function LearningPathway() {
   const sectionRef = useRef<HTMLElement>(null);
   const [progress, setProgress] = useState(0);
@@ -105,7 +104,6 @@ export function LearningPathway() {
       ref={sectionRef}
       className="relative py-24 md:py-32 bg-muted/20 overflow-hidden"
     >
-      {/* Subtle grid background */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
@@ -117,7 +115,6 @@ export function LearningPathway() {
       />
 
       <div className="container relative z-10">
-        {/* ── Header ─────────────────────────────────────────── */}
         <div className="text-center max-w-2xl mx-auto mb-20 md:mb-24">
           <span
             className="inline-block font-mono text-xs font-bold tracking-[0.25em] uppercase text-primary border border-primary/40 px-3 py-1 mb-5"
@@ -130,20 +127,17 @@ export function LearningPathway() {
             <span className="text-gradient">Learning Pathway</span>
           </h2>
           <p className="text-muted-foreground text-lg">
-            Follow the track — each milestone brings you one step closer to
+            Follow the track, each milestone brings you one step closer to
             your dream job.
           </p>
         </div>
 
-        {/* ══ DESKTOP TIMELINE (md+) ════════════════════════════ */}
         <div className="hidden md:block max-w-4xl mx-auto">
           <div className="relative">
-            {/* Track background */}
             <div
               className="absolute left-1/2 top-0 bottom-0 -translate-x-1/2"
               style={{ width: "4px", background: "hsl(var(--border))" }}
             />
-            {/* Animated orange fill */}
             <div
               className="absolute left-1/2 top-0 -translate-x-1/2 bg-primary origin-top"
               style={{ width: "4px", height: `${progress * 100}%`, transition: "none" }}
@@ -161,16 +155,13 @@ export function LearningPathway() {
                   className="relative flex items-center"
                   style={{ paddingBottom: i < milestones.length - 1 ? "72px" : "0" }}
                 >
-                  {/* Left column */}
                   <div className="flex-1 pr-12 flex justify-end">
                     {isLeft && (
                       <MilestoneCard m={m} isActive={isActive} side="left" />
                     )}
                   </div>
 
-                  {/* Node on the line */}
                   <div className="relative z-20 flex-shrink-0">
-                    {/* Horizontal connector */}
                     {isLeft ? (
                       <div
                         className="absolute right-full top-1/2 -translate-y-1/2"
@@ -193,7 +184,6 @@ export function LearningPathway() {
                       />
                     )}
 
-                    {/* Icon circle */}
                     <div
                       className="relative flex items-center justify-center rounded-full transition-all duration-500"
                       style={{
@@ -232,7 +222,6 @@ export function LearningPathway() {
                     </div>
                   </div>
 
-                  {/* Right column */}
                   <div className="flex-1 pl-12 flex justify-start">
                     {!isLeft && (
                       <MilestoneCard m={m} isActive={isActive} side="right" />
@@ -244,15 +233,12 @@ export function LearningPathway() {
           </div>
         </div>
 
-        {/* ══ MOBILE TIMELINE (< md) ════════════════════════════ */}
         <div className="md:hidden max-w-sm mx-auto">
           <div className="relative">
-            {/* Track background */}
             <div
               className="absolute top-0 bottom-0"
               style={{ left: "27px", width: "4px", background: "hsl(var(--border))" }}
             />
-            {/* Animated fill */}
             <div
               className="absolute top-0 bg-primary origin-top"
               style={{ left: "27px", width: "4px", height: `${progress * 100}%`, transition: "none" }}
@@ -269,7 +255,6 @@ export function LearningPathway() {
                   className="relative flex items-start gap-5"
                   style={{ paddingBottom: i < milestones.length - 1 ? "40px" : "0" }}
                 >
-                  {/* Node */}
                   <div
                     className="relative z-20 flex-shrink-0 flex items-center justify-center rounded-full transition-all duration-500"
                     style={{
@@ -291,7 +276,6 @@ export function LearningPathway() {
                     />
                   </div>
 
-                  {/* Card */}
                   <div
                     className="flex-1 pt-1 transition-all duration-500"
                     style={{
@@ -299,7 +283,6 @@ export function LearningPathway() {
                       transform: isActive ? "translateY(0)" : "translateY(8px)",
                     }}
                   >
-                    {/* Step label */}
                     <span
                       className="font-mono text-[9px] font-bold tracking-[0.22em] uppercase mb-1.5 block"
                       style={{ color: m.labelColor }}
@@ -307,7 +290,6 @@ export function LearningPathway() {
                       {m.label}
                     </span>
 
-                    {/* Card body */}
                     <div
                       className="rounded-sm border-2"
                       style={{
@@ -373,8 +355,6 @@ export function LearningPathway() {
   );
 }
 
-// ─── MilestoneCard (desktop) ─────────────────────────────────────────────────
-
 type Milestone = (typeof milestones)[number];
 
 function MilestoneCard({
@@ -407,7 +387,6 @@ function MilestoneCard({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Step label */}
       <span
         className={cn(
           "font-mono text-[10px] font-bold tracking-[0.25em] uppercase block mb-2",
@@ -418,7 +397,6 @@ function MilestoneCard({
         {m.label}
       </span>
 
-      {/* Card */}
       <div
         className="rounded-sm border-2 cursor-default transition-all duration-200"
         style={{
@@ -436,7 +414,6 @@ function MilestoneCard({
           transform: hovered && isActive ? "translate(-1px, -1px)" : "none",
         }}
       >
-        {/* Title + XP row */}
         <div
           className={cn(
             "flex items-start gap-3 mb-3",
@@ -469,7 +446,6 @@ function MilestoneCard({
           </span>
         </div>
 
-        {/* Badge */}
         {m.badge && isActive && (
           <div
             className={cn(
@@ -484,7 +460,6 @@ function MilestoneCard({
           </div>
         )}
 
-        {/* Divider */}
         <div
           className="mb-3"
           style={{
@@ -493,7 +468,6 @@ function MilestoneCard({
           }}
         />
 
-        {/* Skills */}
         <ul
           className={cn(
             "space-y-1.5 flex flex-col",
@@ -519,7 +493,6 @@ function MilestoneCard({
           ))}
         </ul>
 
-        {/* Finish footer */}
         {m.isFinish && isActive && (
           <div
             className="mt-3 pt-3 flex items-center justify-center gap-2"
@@ -541,4 +514,3 @@ function MilestoneCard({
     </div>
   );
 }
-

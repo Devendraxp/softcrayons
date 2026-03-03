@@ -49,7 +49,6 @@ export async function GET(
       }, { status: 404 });
     }
 
-    // HR can only view enquiries assigned to them
     if (enquiry.assignedToId !== session.user.id) {
       return NextResponse.json({
         success: false,
@@ -93,7 +92,6 @@ export async function PUT(
       }, { status: 400 });
     }
 
-    // First check if the enquiry exists and is assigned to this HR
     const existingEnquiry = await prisma.facultyEnquiry.findUnique({
       where: { id: enquiryId },
       select: { assignedToId: true },
@@ -115,15 +113,12 @@ export async function PUT(
 
     const body = await request.json();
     
-    // HR can only update status, note, and remark
-    // They CANNOT update: assignedToId or other fields
     const allowedFields = ['status', 'note', 'remark'];
     const dataToUpdate: any = {};
     
     for (const field of allowedFields) {
       if (body[field] !== undefined) {
         if (field === 'status') {
-          // Validate status
           const validStatuses: FacultyEnquiryStatus[] = ['NEW', 'CONTACTED', 'HIRED', 'CLOSED', 'ARCHIVED'];
           if (!validStatuses.includes(body[field])) {
             return NextResponse.json({
@@ -136,7 +131,6 @@ export async function PUT(
       }
     }
 
-    // Check if trying to update disallowed fields
     if (body.assignedToId !== undefined) {
       return NextResponse.json({
         success: false,

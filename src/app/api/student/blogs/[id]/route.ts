@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getUserFromHeaders } from "@/lib/request-user";
 
-// GET - Get a single blog (only if owned by current user)
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -41,7 +40,6 @@ export async function GET(
       );
     }
 
-    // Check ownership
     if (blog.authorId !== user.id) {
       return NextResponse.json(
         { success: false, error: "You can only view your own blogs" },
@@ -59,7 +57,6 @@ export async function GET(
   }
 }
 
-// PUT - Update a blog (only if owned by current user, with restricted fields)
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -77,7 +74,6 @@ export async function PUT(
     const { id } = await params;
     const blogId = parseInt(id);
 
-    // First check if blog exists and is owned by user
     const existingBlog = await prisma.blog.findUnique({
       where: { id: blogId },
     });
@@ -98,7 +94,6 @@ export async function PUT(
 
     const body = await request.json();
 
-    // Only allow updating these fields (not isPublic, isFeatured, authorId, dateOfPublish)
     const blog = await prisma.blog.update({
       where: { id: blogId },
       data: {
@@ -115,7 +110,6 @@ export async function PUT(
         metaTitle: body.metaTitle,
         metaDescription: body.metaDescription,
         metaKeywords: body.metaKeywords,
-        // Note: isPublic, isFeatured, authorId, dateOfPublish are NOT updated
       },
       include: {
         category: true,
@@ -139,7 +133,6 @@ export async function PUT(
   }
 }
 
-// DELETE - Delete a blog (only if owned by current user)
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -157,7 +150,6 @@ export async function DELETE(
     const { id } = await params;
     const blogId = parseInt(id);
 
-    // First check if blog exists and is owned by user
     const existingBlog = await prisma.blog.findUnique({
       where: { id: blogId },
     });

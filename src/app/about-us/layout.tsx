@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Us — Softcrayons Tech Solutions | Best IT Training Institute Noida",
+  title: "About Us - Softcrayons Tech Solutions | Best IT Training Institute Noida",
   description:
-    "Learn about Softcrayons Tech Solutions — the leading coding and IT training institute in Noida & Ghaziabad. Discover our mission, experienced faculty, multiple branches, and commitment to 100% placement assistance.",
+    "Learn about Softcrayons Tech Solutions, the leading coding and IT training institute in Noida & Ghaziabad. Discover our mission, experienced faculty, multiple branches, and commitment to 100% placement assistance.",
   keywords: [
     "About Softcrayons",
     "About Softcrayons Tech Solutions",
@@ -15,9 +15,9 @@ export const metadata: Metadata = {
     "Softcrayons Faculty",
   ],
   openGraph: {
-    title: "About Us — Softcrayons Tech Solutions",
+    title: "About Us - Softcrayons Tech Solutions",
     description:
-      "Discover Softcrayons — Noida's premier IT training institute with expert mentors, industry-focused curriculum, and 100% placement assistance.",
+      "Discover Softcrayons, Noida's premier IT training institute with expert mentors, industry-focused curriculum, and 100% placement assistance.",
     url: "https://softcrayons.com/about-us",
   },
   alternates: {

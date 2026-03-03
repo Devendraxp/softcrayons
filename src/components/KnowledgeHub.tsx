@@ -48,14 +48,13 @@ function KnowledgeHubCard({ blog, index }: { blog: Blog; index: number }) {
         className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 h-full flex flex-col animate-fade-up"
         style={{ animationDelay: `${index * 0.15}s` }}
       >
-        {/* Image */}
         <div className="relative h-52 overflow-hidden bg-muted">
           {image ? (
             <Image
               src={image}
               alt={blog.title}
               fill
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              className="object-cover duration-500"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
           ) : (
@@ -63,7 +62,6 @@ function KnowledgeHubCard({ blog, index }: { blog: Blog; index: number }) {
               <span className="text-4xl font-black text-primary/20">SC</span>
             </div>
           )}
-          {/* Category Pill Badge */}
           <div className="absolute top-3 left-3">
             <Badge className="bg-primary text-primary-foreground border-0 text-xs shadow-md">
               {blog.category.title}
@@ -71,25 +69,20 @@ function KnowledgeHubCard({ blog, index }: { blog: Blog; index: number }) {
           </div>
         </div>
 
-        {/* Content */}
         <div className="p-5 flex flex-col flex-1">
-          {/* Read Time */}
           <div className="flex items-center gap-1 text-xs text-muted-foreground mb-3">
             <Clock className="w-3 h-3" />
             <span>{blog.readTime} min read</span>
           </div>
 
-          {/* Title */}
           <h3 className="font-bold text-lg mb-2 line-clamp-2 group-hover:text-primary transition-colors">
             {blog.title}
           </h3>
 
-          {/* Description */}
           <p className="text-muted-foreground text-sm line-clamp-2 mb-4 flex-grow">
             {blog.description || ""}
           </p>
 
-          {/* Read More */}
           <div className="flex items-center justify-between pt-4 border-t border-border mt-auto">
             <div className="flex items-center gap-2">
               {blog.author.image ? (
@@ -158,7 +151,6 @@ export function KnowledgeHub() {
   return (
     <section className="py-24">
       <div className="container">
-        {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
             Knowledge <span className="text-gradient">Hub</span>
@@ -169,14 +161,12 @@ export function KnowledgeHub() {
           </p>
         </div>
 
-        {/* 3-column grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {blogs.map((blog, index) => (
             <KnowledgeHubCard key={blog.id} blog={blog} index={index} />
           ))}
         </div>
 
-        {/* View All */}
         <div className="text-center mt-12">
           <Link href="/blogs">
             <Button variant="outline" size="lg">

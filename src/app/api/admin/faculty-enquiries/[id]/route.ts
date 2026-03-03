@@ -9,7 +9,6 @@ type RouteContext = {
 
 export async function GET(request: NextRequest, context: RouteContext) {
   try {
-    // Check admin/HR authorization
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session?.user || (session.user.role !== 'ADMIN' && session.user.role !== 'HR')) {
       return NextResponse.json({
@@ -52,7 +51,6 @@ export async function GET(request: NextRequest, context: RouteContext) {
 
 export async function PUT(request: NextRequest, context: RouteContext) {
   try {
-    // Check admin/HR authorization
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session?.user || (session.user.role !== 'ADMIN' && session.user.role !== 'HR')) {
       return NextResponse.json({
@@ -74,7 +72,6 @@ export async function PUT(request: NextRequest, context: RouteContext) {
     const body = await request.json();
     const { assignedToId, status, note, remark } = body;
 
-    // Build update data
     const updateData: any = {};
     
     if (assignedToId !== undefined) {
@@ -111,7 +108,6 @@ export async function PUT(request: NextRequest, context: RouteContext) {
 
 export async function DELETE(request: NextRequest, context: RouteContext) {
   try {
-    // Check admin authorization only
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session?.user || session.user.role !== 'ADMIN') {
       return NextResponse.json({

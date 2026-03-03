@@ -13,7 +13,6 @@ export function FacultyCard({ name, role, experience, image }: FacultyCardProps)
   return (
     <Card className="group hover:shadow-[0_8px_30px_rgba(249,115,22,0.15)] transition-all duration-300 border border-border bg-card h-full">
       <CardContent className="p-6">
-        {/* Rounded Image Section */}
         <div className="flex justify-center mb-4">
           <div className="relative w-32 h-32 rounded-full overflow-hidden ring-4 ring-primary/10 group-hover:ring-primary/30 transition-all duration-300">
             <Image
@@ -25,7 +24,6 @@ export function FacultyCard({ name, role, experience, image }: FacultyCardProps)
           </div>
         </div>
 
-        {/* Content Section */}
         <div className="text-center">
           <h3 className="text-xl font-bold text-foreground mb-1 group-hover:text-primary transition-colors duration-300">
             {name}

@@ -44,7 +44,6 @@ export default function FaqsPage() {
     useEffect(() => {
         async function fetchData() {
             try {
-                // Fetch all FAQs using pagination (API max limit is 50)
                 let allFaqs: Faq[] = [];
                 let page = 1;
                 let hasMore = true;
@@ -78,7 +77,6 @@ export default function FaqsPage() {
         fetchData();
     }, []);
 
-    // Group FAQs by category
     const faqsByCategory = faqs.reduce((acc, faq) => {
         const categoryTitle = faq.category.title;
         if (!acc[categoryTitle]) {
@@ -105,17 +103,12 @@ export default function FaqsPage() {
     return (
         <div className="min-h-screen bg-background">
             <main>
-                {/* Hero Section with Background Effect */}
                 <section className="relative pt-32 pb-20 overflow-hidden isolate">
-                    {/* Background Pattern - Subtle Grid */}
                     <div className="absolute inset-0 -z-20 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
 
-                    {/* Blurry Light Effects - Primary Color Only */}
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] -z-10 pointer-events-none">
-                        {/* Large diffuse glow from top center */}
                         <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-primary/5 rounded-full blur-[120px]"></div>
                         
-                        {/* Slightly more concentrated glow behind the heading */}
                         <div className="absolute top-[10%] left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-primary/10 rounded-full blur-[100px]"></div>
                     </div>
 
@@ -132,7 +125,6 @@ export default function FaqsPage() {
                     </div>
                 </section>
 
-                {/* FAQ Section */}
                 <section className="pb-20">
                     <div className="container mx-auto px-4 max-w-4xl">
                         {categoryTitles.length === 0 ? (
@@ -182,7 +174,6 @@ export default function FaqsPage() {
                     </div>
                 </section>
 
-                {/* Contact CTA Section */}
                 <section className="py-20 bg-muted/30 relative overflow-hidden">
                     <div className="absolute inset-0 bg-primary/5 -z-10 [mask-image:radial-gradient(ellipse_at_center,black,transparent)]"></div>
                     <div className="container mx-auto px-4">

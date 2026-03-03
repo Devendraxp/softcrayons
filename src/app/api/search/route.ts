@@ -5,7 +5,7 @@ export async function GET(request: NextRequest) {
     try {
         const { searchParams } = new URL(request.url);
         const query = searchParams.get("q") || "";
-        const type = searchParams.get("type") || "all"; // all, blogs, courses
+        const type = searchParams.get("type") || "all";
         const limit = Math.min(parseInt(searchParams.get("limit") || "10"), 50);
 
         if (!query || query.trim().length < 2) {
@@ -19,14 +19,12 @@ export async function GET(request: NextRequest) {
             });
         }
 
-        // Prepare search term for PostgreSQL full-text search
-        // Split query into words and join with & for AND search, or | for OR search
         const searchTerms = query
             .trim()
             .split(/\s+/)
             .filter(term => term.length > 0)
-            .map(term => `${term}:*`) // Add prefix matching
-            .join(" | "); // OR search for flexibility
+            .map(term => `${term}:*`)
+            .join(" | ");
 
         const results: {
             blogs: any[];
@@ -36,7 +34,6 @@ export async function GET(request: NextRequest) {
             courses: [],
         };
 
-        // Search Blogs using PostgreSQL full-text search
         if (type === "all" || type === "blogs") {
             const blogs = await prisma.$queryRaw<any[]>`
                 SELECT 
@@ -91,7 +88,6 @@ export async function GET(request: NextRequest) {
             }));
         }
 
-        // Search Courses using PostgreSQL full-text search
         if (type === "all" || type === "courses") {
             const courses = await prisma.$queryRaw<any[]>`
                 SELECT 

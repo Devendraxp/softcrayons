@@ -87,7 +87,6 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     }
   }, [isLoading, isAuthenticated, user, router]);
 
-  // Show loading skeleton while checking auth
   if (isLoading) {
     return (
       <div className="flex min-h-screen bg-background">
@@ -108,7 +107,6 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     );
   }
 
-  // Don't render if not authorized
   if (!isAuthenticated || user?.role !== "ADMIN") {
     return null;
   }

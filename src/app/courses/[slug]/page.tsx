@@ -1,7 +1,77 @@
+import type { Metadata } from "next";
 import { Clock, BarChart, BookOpen, IndianRupee, ArrowLeft, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { prisma } from "@/lib/prisma";
+
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+    const { slug } = await params;
+
+    try {
+        const course = await prisma.course.findUnique({
+            where: { slug, isPublic: true },
+            select: {
+                title: true,
+                metaTitle: true,
+                metaDescription: true,
+                metaKeywords: true,
+                description: true,
+                bannerImage: true,
+                thumbnailImage: true,
+                category: { select: { title: true } },
+            },
+        });
+
+        if (!course) {
+            return {
+                title: "Course Not Found",
+            };
+        }
+
+        const title = course.metaTitle || course.title;
+        const description =
+            course.metaDescription ||
+            course.description ||
+            `Learn ${course.title} at Softcrayons. Hands-on training with placement assistance.`;
+        const image = course.bannerImage || course.thumbnailImage;
+        const keywords = Array.isArray(course.metaKeywords)
+            ? (course.metaKeywords.filter(Boolean) as string[])
+            : [];
+
+        return {
+            title,
+            description,
+            ...(keywords.length > 0 && { keywords }),
+            openGraph: {
+                title,
+                description,
+                url: `https://softcrayons.com/courses/${slug}`,
+                type: "website",
+                ...(image && {
+                    images: [{ url: image, alt: course.title }],
+                }),
+            },
+            twitter: {
+                card: "summary_large_image",
+                title,
+                description,
+                ...(image && { images: [image] }),
+            },
+            alternates: {
+                canonical: `https://softcrayons.com/courses/${slug}`,
+            },
+        };
+    } catch {
+        return {
+            title: "Course",
+        };
+    }
+}
 
 interface Course {
     id: number;
@@ -74,11 +144,9 @@ function formatPrice(fees: number): string {
     return `₹${fees.toLocaleString('en-IN')}`;
 }
 
-// Function to render HTML content safely
 function renderContent(content: string | null) {
     if (!content) return null;
     
-    // Check if content looks like HTML
     if (content.includes('<') && content.includes('>')) {
         return (
             <div 
@@ -88,7 +156,6 @@ function renderContent(content: string | null) {
         );
     }
     
-    // Otherwise, render as markdown-like content
     return (
         <div className="course-content">
             {content.split("\n").map((line, index) => {
@@ -175,7 +242,6 @@ export default async function CourseDetailPage({
     return (
         <div className="min-h-screen bg-background pt-24 pb-16">
             <div className="container">
-                {/* Back Button */}
                 <Link
                     href="/courses"
                     className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8"
@@ -185,24 +251,19 @@ export default async function CourseDetailPage({
                 </Link>
 
                 <div className="flex flex-col lg:flex-row gap-10">
-                    {/* Left Side - Course Content */}
                     <div className="flex-1">
-                        {/* Category Badge */}
                         <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
                             {course.category.title}
                         </span>
 
-                        {/* Title */}
                         <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
                             {course.title}
                         </h1>
 
-                        {/* Description */}
                         <p className="text-muted-foreground text-lg mb-8">
                             {course.description}
                         </p>
 
-                        {/* About This Course */}
                         <div className="bg-card border border-border rounded-2xl p-6 md:p-8">
                             <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
                                 <BookOpen className="w-6 h-6 text-primary" />
@@ -212,11 +273,9 @@ export default async function CourseDetailPage({
                         </div>
                     </div>
 
-                    {/* Right Side - Course Info Card */}
                     <div className="w-full lg:w-96 flex-shrink-0">
                         <div className="lg:sticky lg:top-24">
                             <div className="bg-card border border-border rounded-2xl overflow-hidden">
-                                {/* Course Banner Image */}
                                 <div className="relative h-40 sm:h-50">
                                     <img
                                         src={course.bannerImage || course.thumbnailImage || 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&auto=format&fit=crop&q=80'}
@@ -225,9 +284,7 @@ export default async function CourseDetailPage({
                                     />
                                 </div>
 
-                                {/* Course Details */}
                                 <div className="p-6">
-                                    {/* Fees */}
                                     {course.fees != null && course.fees > 0 && (
                                         <div className="flex items-center justify-between mb-6">
                                             <span className="text-muted-foreground">Course Fees</span>
@@ -255,7 +312,6 @@ export default async function CourseDetailPage({
                                         </div>
                                     )}
 
-                                    {/* Info Grid */}
                                     <div className="space-y-4 mb-6">
                                         <div className="flex items-center justify-between py-3 border-b border-border">
                                             <span className="flex items-center gap-2 text-muted-foreground">
@@ -295,8 +351,7 @@ export default async function CourseDetailPage({
                                         )}
                                     </div>
 
-                                    {/* Join Now Button */}
-                                    <Link href="/query">
+                                    <Link href={`/query?id=${course.id}`}>
                                         <Button className="w-full" size="lg">
                                             Join Now
                                         </Button>
@@ -304,13 +359,12 @@ export default async function CourseDetailPage({
                                 </div>
                             </div>
 
-                            {/* Help Card */}
                             <div className="bg-card border border-border rounded-2xl p-5 mt-4">
                                 <h3 className="font-bold mb-2">Need Help?</h3>
                                 <p className="text-sm text-muted-foreground mb-4">
                                     Have questions about this course? We're here to help!
                                 </p>
-                                <Link href="/query">
+                                <Link href={`/query?id=${course.id}`}>
                                     <Button variant="outline" className="w-full">
                                         Contact Us
                                     </Button>
@@ -320,7 +374,6 @@ export default async function CourseDetailPage({
                     </div>
                 </div>
 
-                {/* Related Courses */}
                 {relatedCourses.length > 0 && (
                     <div className="mt-16">
                         <h2 className="text-2xl font-bold mb-6">Related Courses</h2>

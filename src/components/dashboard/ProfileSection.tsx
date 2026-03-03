@@ -59,7 +59,6 @@ export function ProfileSection({
 }: ProfileSectionProps) {
   const { user, isLoading: authLoading, refresh } = useAuth();
 
-  // Profile form state
   const [isUpdatingProfile, setIsUpdatingProfile] = React.useState(false);
   const [profileForm, setProfileForm] = React.useState({
     name: "",
@@ -69,7 +68,6 @@ export function ProfileSection({
   });
   const [profileErrors, setProfileErrors] = React.useState<Record<string, string>>({});
 
-  // Password form state
   const [isUpdatingPassword, setIsUpdatingPassword] = React.useState(false);
   const [passwordForm, setPasswordForm] = React.useState({
     currentPassword: "",
@@ -83,12 +81,10 @@ export function ProfileSection({
     confirm: false,
   });
 
-  // Sessions state
   const [sessions, setSessions] = React.useState<Session[]>([]);
   const [isLoadingSessions, setIsLoadingSessions] = React.useState(true);
   const [revokingSessionId, setRevokingSessionId] = React.useState<string | null>(null);
 
-  // Initialize profile form with user data
   React.useEffect(() => {
     if (user) {
       setProfileForm({
@@ -100,7 +96,6 @@ export function ProfileSection({
     }
   }, [user]);
 
-  // Fetch sessions
   const fetchSessions = React.useCallback(async () => {
     if (!user?.id) return;
     
@@ -125,7 +120,6 @@ export function ProfileSection({
     fetchSessions();
   }, [fetchSessions]);
 
-  // Profile form handlers
   const validateProfileForm = () => {
     const newErrors: Record<string, string> = {};
 
@@ -176,7 +170,6 @@ export function ProfileSection({
     }
   };
 
-  // Password form handlers
   const validatePasswordForm = () => {
     const newErrors: Record<string, string> = {};
 
@@ -237,7 +230,6 @@ export function ProfileSection({
     }
   };
 
-  // Session handlers
   const handleRevokeSession = async (sessionToken: string) => {
     setRevokingSessionId(sessionToken);
     try {
@@ -275,7 +267,6 @@ export function ProfileSection({
     }
   };
 
-  // Helper functions
   const getDeviceIcon = (userAgent: string | null | undefined) => {
     if (!userAgent) return <Globe className="h-5 w-5" />;
     const ua = userAgent.toLowerCase();
@@ -292,7 +283,6 @@ export function ProfileSection({
     let device = "Desktop";
     let browser = "Unknown Browser";
 
-    // Detect device
     if (ua.includes("iphone")) device = "iPhone";
     else if (ua.includes("ipad")) device = "iPad";
     else if (ua.includes("android")) device = "Android";
@@ -300,7 +290,6 @@ export function ProfileSection({
     else if (ua.includes("windows")) device = "Windows";
     else if (ua.includes("linux")) device = "Linux";
 
-    // Detect browser
     if (ua.includes("chrome") && !ua.includes("edg")) browser = "Chrome";
     else if (ua.includes("firefox")) browser = "Firefox";
     else if (ua.includes("safari") && !ua.includes("chrome")) browser = "Safari";
@@ -338,14 +327,12 @@ export function ProfileSection({
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-foreground">{title}</h1>
         <p className="text-sm text-muted-foreground">{description}</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        {/* Profile Information */}
         <Card>
           <CardHeader>
             <CardTitle>Profile Information</CardTitle>
@@ -355,7 +342,6 @@ export function ProfileSection({
           </CardHeader>
           <CardContent>
             <form onSubmit={handleProfileSubmit} className="space-y-6">
-              {/* Profile Image */}
               <div className="space-y-2">
                 <Label>Profile Image</Label>
                 <div className="flex items-center gap-4">
@@ -389,7 +375,6 @@ export function ProfileSection({
                         if (result.info && typeof result.info === "object" && "secure_url" in result.info) {
                           handleProfileChange("image", result.info.secure_url as string);
                         }
-                        // Reset body styles to restore scrolling
                         document.body.style.overflow = "";
                         document.body.style.pointerEvents = "";
                       }}
@@ -426,7 +411,6 @@ export function ProfileSection({
                 </div>
               </div>
 
-              {/* Name */}
               <div className="space-y-2">
                 <Label htmlFor="name">
                   Name <span className="text-destructive">*</span>
@@ -443,7 +427,6 @@ export function ProfileSection({
                 )}
               </div>
 
-              {/* Email (read-only for display) */}
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -458,7 +441,6 @@ export function ProfileSection({
                 </p>
               </div>
 
-              {/* Phone */}
               <div className="space-y-2">
                 <Label htmlFor="phone">Phone</Label>
                 <Input
@@ -489,7 +471,6 @@ export function ProfileSection({
           </CardContent>
         </Card>
 
-        {/* Change Password */}
         <Card>
           <CardHeader>
             <CardTitle>Change Password</CardTitle>
@@ -499,7 +480,6 @@ export function ProfileSection({
           </CardHeader>
           <CardContent>
             <form onSubmit={handlePasswordSubmit} className="space-y-6">
-              {/* Current Password */}
               <div className="space-y-2">
                 <Label htmlFor="currentPassword">
                   Current Password <span className="text-destructive">*</span>
@@ -526,7 +506,6 @@ export function ProfileSection({
                 )}
               </div>
 
-              {/* New Password */}
               <div className="space-y-2">
                 <Label htmlFor="newPassword">
                   New Password <span className="text-destructive">*</span>
@@ -553,7 +532,6 @@ export function ProfileSection({
                 )}
               </div>
 
-              {/* Confirm Password */}
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword">
                   Confirm New Password <span className="text-destructive">*</span>
@@ -595,7 +573,6 @@ export function ProfileSection({
         </Card>
       </div>
 
-      {/* Active Sessions */}
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">

@@ -77,7 +77,6 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="space-y-8">
-      {/* Header */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10">
@@ -105,10 +104,8 @@ export default function AdminDashboardPage() {
         </div>
       </div>
 
-      {/* ── 1. KPI Cards ───────────────────────────── */}
       <KPICards kpi={data.kpi} />
 
-      {/* ── 2. CRM & Sales ─────────────────────────── */}
       <SectionHeader
         title="CRM & Sales"
         description="Enquiry pipeline & agent performance"
@@ -122,7 +119,6 @@ export default function AdminDashboardPage() {
         <LeadSourceChart crm={data.crm} />
       </div>
 
-      {/* ── 3. Course Performance ──────────────────── */}
       <SectionHeader
         title="Course & Product Performance"
         description="What's driving the business"
@@ -135,7 +131,6 @@ export default function AdminDashboardPage() {
         <CourseDifficultyDistribution data={data.coursePerformance} />
       </div>
 
-      {/* ── 4. HR & Faculty ────────────────────────── */}
       <SectionHeader
         title="HR & Faculty Management"
         description="Recruitment pipeline & faculty performance"
@@ -145,7 +140,6 @@ export default function AdminDashboardPage() {
         <TopFaculty hr={data.hr} />
       </div>
 
-      {/* ── 5. Content & Marketing ─────────────────── */}
       <SectionHeader
         title="Content & Marketing"
         description="Blog & testimonial activity"
@@ -155,7 +149,6 @@ export default function AdminDashboardPage() {
         <ContentStats content={data.content} />
       </div>
 
-      {/* ── 6. System Health ───────────────────────── */}
       <SectionHeader
         title="System Health & Security"
         description="Live sessions & user trends"
@@ -191,7 +184,6 @@ function SectionHeader({
 function DashboardSkeleton() {
   return (
     <div className="space-y-8">
-      {/* Header skeleton */}
       <div className="flex items-center justify-between">
         <div className="space-y-2">
           <Skeleton className="h-6 w-48" />
@@ -200,7 +192,6 @@ function DashboardSkeleton() {
         <Skeleton className="h-9 w-24" />
       </div>
 
-      {/* KPI cards skeleton */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {Array.from({ length: 4 }).map((_, i) => (
           <div
@@ -214,7 +205,6 @@ function DashboardSkeleton() {
         ))}
       </div>
 
-      {/* Chart skeletons */}
       <div className="grid gap-6 lg:grid-cols-2">
         {Array.from({ length: 4 }).map((_, i) => (
           <div

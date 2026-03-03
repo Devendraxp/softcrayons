@@ -1,6 +1,8 @@
 "use client";
 
-import { Filter } from "lucide-react";
+import { useState } from "react";
+import { Filter, ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface Category {
     id: string;
@@ -19,19 +21,46 @@ export function CourseSidebar({
     selectedCategory,
     onCategoryChange,
 }: CourseSidebarProps) {
+    const [isExpanded, setIsExpanded] = useState(false);
+    const selectedName = categories.find((c) => c.id === selectedCategory)?.name || "All Courses";
+
+    const handleSelect = (categoryId: string) => {
+        onCategoryChange(categoryId);
+        setIsExpanded(false);
+    };
+
     return (
         <aside className="w-full lg:w-72 flex-shrink-0">
             <div className="lg:sticky lg:top-24">
                 <div className="bg-card border border-border rounded-2xl p-5">
-                    <div className="flex items-center gap-2 mb-5">
+                    {/* Mobile: collapsible header */}
+                    <button
+                        onClick={() => setIsExpanded(!isExpanded)}
+                        className="flex items-center justify-between w-full lg:hidden"
+                    >
+                        <div className="flex items-center gap-2">
+                            <Filter className="w-5 h-5 text-primary" />
+                            <span className="text-lg font-bold">Categories</span>
+                            <span className="text-sm text-primary font-medium ml-1">- {selectedName}</span>
+                        </div>
+                        <ChevronDown className={cn("w-5 h-5 text-muted-foreground transition-transform duration-200", isExpanded && "rotate-180")} />
+                    </button>
+
+                    {/* Desktop: always-visible header */}
+                    <div className="hidden lg:flex items-center gap-2 mb-5">
                         <Filter className="w-5 h-5 text-primary" />
                         <h2 className="text-lg font-bold">Categories</h2>
                     </div>
-                    <ul className="space-y-1.5">
+
+                    {/* Category list: collapsible on mobile, always visible on desktop */}
+                    <ul className={cn(
+                        "space-y-1.5 overflow-hidden transition-all duration-300 lg:!max-h-none lg:!mt-0 lg:!opacity-100",
+                        isExpanded ? "max-h-[600px] opacity-100 mt-4" : "max-h-0 opacity-0 lg:opacity-100"
+                    )}>
                         {categories.map((category) => (
                             <li key={category.id}>
                                 <button
-                                    onClick={() => onCategoryChange(category.id)}
+                                    onClick={() => handleSelect(category.id)}
                                     className={`w-full flex items-center justify-between px-4 py-2.5 rounded-xl transition-all duration-200 ${
                                         selectedCategory === category.id
                                             ? "bg-primary text-primary-foreground"

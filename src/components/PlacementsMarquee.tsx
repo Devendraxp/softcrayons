@@ -23,9 +23,7 @@ interface Placement {
 function PlacementMarqueeCard({ placement }: { placement: Placement }) {
   return (
     <div className="relative w-[280px] sm:w-[320px] flex-shrink-0 bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-300">
-      {/* Top Section with Avatar and Info */}
       <div className="p-4 flex items-center gap-4">
-        {/* Avatar */}
         <div className="relative w-14 h-14 rounded-full overflow-hidden flex-shrink-0 bg-muted">
           {placement.avatar ? (
             <img
@@ -40,7 +38,6 @@ function PlacementMarqueeCard({ placement }: { placement: Placement }) {
           )}
         </div>
 
-        {/* Student Info */}
         <div className="flex-1 min-w-0">
           <h4 className="font-bold text-sm truncate">{placement.studentName}</h4>
           <div className="flex items-center gap-1.5 text-xs text-muted-foreground mt-0.5">
@@ -49,7 +46,6 @@ function PlacementMarqueeCard({ placement }: { placement: Placement }) {
           </div>
         </div>
 
-        {/* Package Badge */}
         {placement.packageOffered && (
           <div className="bg-secondary text-white text-[10px] font-bold px-2 py-1 rounded-full">
             {placement.packageOffered}
@@ -57,7 +53,6 @@ function PlacementMarqueeCard({ placement }: { placement: Placement }) {
         )}
       </div>
 
-      {/* Company Info */}
       <div className="px-4 pb-4">
         <div className="bg-muted/50 rounded-xl p-3 flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -80,7 +75,6 @@ export function PlacementsMarquee() {
   useEffect(() => {
     const fetchPlacements = async () => {
       try {
-        // Fetch all placements (not just featured)
         const response = await fetch("/api/placements?limit=50");
         const data = await response.json();
         if (data.success) {
@@ -109,7 +103,6 @@ export function PlacementsMarquee() {
     return null;
   }
 
-  // Split placements into two rows
   const midpoint = Math.ceil(placements.length / 2);
   const firstRow = placements.slice(0, midpoint);
   const secondRow = placements.slice(midpoint);
@@ -117,7 +110,6 @@ export function PlacementsMarquee() {
   return (
     <section className="py-24 overflow-hidden">
       <div className="container mb-12">
-        {/* Header */}
         <div className="text-center max-w-4xl mx-auto">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
             Students <span className="text-gradient">Placed </span>Successfully
@@ -128,16 +120,13 @@ export function PlacementsMarquee() {
         </div>
       </div>
 
-      {/* Marquee Rows */}
       <div className="space-y-6">
-        {/* First Row - Moving Left */}
         <Marquee pauseOnHover duration={60} className="[--gap:1.5rem]">
           {firstRow.map((placement) => (
             <PlacementMarqueeCard key={placement.id} placement={placement} />
           ))}
         </Marquee>
 
-        {/* Second Row - Moving Right (Reverse) */}
         <Marquee pauseOnHover reverse duration={60} className="[--gap:1.5rem]">
           {secondRow.map((placement) => (
             <PlacementMarqueeCard key={placement.id} placement={placement} />
@@ -145,7 +134,6 @@ export function PlacementsMarquee() {
         </Marquee>
       </div>
 
-      {/* View All Button */}
       <div className="text-center mt-12">
         <Link href="/placements">
           <Button variant="outline" size="lg">

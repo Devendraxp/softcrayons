@@ -55,12 +55,10 @@ const getEnterpriseEnquiries = async (filters: EnterpriseEnquiryFilters): Promis
     }
     const skip = (page - 1) * limit;
 
-    // Build where clause
     const where: any = {
         ...(assignedToId && { assignedToId }),
     };
 
-    // Handle status and sub-status for NEW
     if (status) {
         where.status = status;
         if (status === 'NEW' && subStatus) {
@@ -72,7 +70,6 @@ const getEnterpriseEnquiries = async (filters: EnterpriseEnquiryFilters): Promis
         }
     }
 
-    // Search by company name, email, or phone
     if (search) {
         where.OR = [
             { companyName: { contains: search } },

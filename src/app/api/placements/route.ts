@@ -11,7 +11,6 @@ export async function GET(request: NextRequest) {
     const company = searchParams.get('company');
     const course = searchParams.get('course');
 
-    // Validate pagination params
     if (page < 1 || limit < 1) {
       return NextResponse.json({
         success: false,
@@ -43,7 +42,6 @@ export async function GET(request: NextRequest) {
       }),
     };
 
-    // Get total count for pagination
     const totalCount = await prisma.placement.count({ where: whereClause });
 
     const placements = await prisma.placement.findMany({
@@ -70,7 +68,6 @@ export async function GET(request: NextRequest) {
 
     const totalPages = Math.ceil(totalCount / limit);
 
-    // Get unique companies count
     const uniqueCompanies = await prisma.placement.groupBy({
       by: ['companyName'],
       where: { isPublic: true, companyName: { not: null } },

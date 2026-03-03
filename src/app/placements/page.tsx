@@ -95,7 +95,6 @@ export default function PlacementsPage() {
 	return (
 		<div className="min-h-screen bg-background pt-24 pb-16">
 			<div className="container">
-				{/* Header Section */}
 				<div className="max-w-3xl mb-12">
 					<span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
 						Success Stories
@@ -111,7 +110,6 @@ export default function PlacementsPage() {
 					</p>
 				</div>
 
-				{/* Stats Row */}
 				<div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20">
 					{[
 						{ icon: Users, value: `500+`, label: "Total Placed" },
@@ -132,7 +130,6 @@ export default function PlacementsPage() {
 					))}
 				</div>
 
-				{/* Featured Section */}
 				{featuredPlacements.length > 0 && (
 				<section className="mb-20">
 					<div className="flex items-center justify-between mb-8">
@@ -159,7 +156,6 @@ export default function PlacementsPage() {
 				</section>
 				)}
 
-				{/* Recent Placements Section */}
 				{normalPlacements.length > 0 && (
 				<section>
 					<div className="flex items-center justify-between mb-8">

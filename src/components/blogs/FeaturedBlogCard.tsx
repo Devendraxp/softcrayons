@@ -28,7 +28,6 @@ export function FeaturedBlogCard({ blog, variant = "default" }: FeaturedBlogCard
         return (
             <Link href={`/blogs/${blog.slug || blog.id}`} className="block h-full">
                 <article className="group relative bg-card border border-border rounded-3xl overflow-hidden hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 h-full min-h-[480px]">
-                    {/* Background Image */}
                     <div className="absolute inset-0">
                         <Image
                             src={blog.image}
@@ -41,12 +40,9 @@ export function FeaturedBlogCard({ blog, variant = "default" }: FeaturedBlogCard
                         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                     </div>
 
-                    {/* Featured Badge */}
                     <div className="absolute top-4 left-4 z-10 flex gap-2">
                     </div>
 
-
-                    {/* Content */}
                     <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
                         <Badge
                             variant="secondary"
@@ -99,7 +95,6 @@ export function FeaturedBlogCard({ blog, variant = "default" }: FeaturedBlogCard
         return (
             <Link href={`/blogs/${blog.slug || blog.id}`}>
                 <article className="group flex flex-col sm:flex-row bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 h-full">
-                    {/* Image */}
                     <div className="relative w-full sm:w-66 md:w-84 h-48 sm:h-auto shrink-0 overflow-hidden">
                         <Image
                             src={blog.image}
@@ -112,7 +107,6 @@ export function FeaturedBlogCard({ blog, variant = "default" }: FeaturedBlogCard
                         </div>
                     </div>
 
-                    {/* Content */}
                     <div className="flex-1 p-5 flex flex-col justify-between">
                         <div>
                             <Badge
@@ -145,18 +139,15 @@ export function FeaturedBlogCard({ blog, variant = "default" }: FeaturedBlogCard
         );
     }
 
-    // Default variant
     return (
         <Link href={`/blogs/${blog.slug || blog.id}`}>
             <article className="group relative bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 h-full">
-                {/* Featured Badge */}
                 <div className="absolute top-3 right-3 z-10">
                     <Badge className="bg-gradient-to-r from-orange-500 to-red-500 text-white border-0">
                         Featured
                     </Badge>
                 </div>
 
-                {/* Image */}
                 <div className="relative h-56 overflow-hidden">
                     <Image
                         src={blog.image}
@@ -167,9 +158,7 @@ export function FeaturedBlogCard({ blog, variant = "default" }: FeaturedBlogCard
                     />
                 </div>
 
-                {/* Content */}
                 <div className="p-5">
-                    {/* Category */}
                     <Badge
                         variant="secondary"
                         className="bg-muted text-muted-foreground border-0 mb-3 text-xs"
@@ -177,7 +166,6 @@ export function FeaturedBlogCard({ blog, variant = "default" }: FeaturedBlogCard
                         {blog.categoryName}
                     </Badge>
 
-                    {/* Tags */}
                     <div className="flex flex-wrap gap-2 mb-3">
                         {blog.tags.slice(0, 3).map((tag) => (
                             <span
@@ -189,17 +177,14 @@ export function FeaturedBlogCard({ blog, variant = "default" }: FeaturedBlogCard
                         ))}
                     </div>
 
-                    {/* Title */}
                     <h3 className="font-bold text-xl mb-2 line-clamp-2 group-hover:text-primary transition-colors">
                         {blog.title}
                     </h3>
 
-                    {/* Description */}
                     <p className="text-muted-foreground text-sm line-clamp-2 mb-4">
                         {blog.description}
                     </p>
 
-                    {/* Meta */}
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4 text-xs text-muted-foreground">
                             <div className="flex items-center gap-1">

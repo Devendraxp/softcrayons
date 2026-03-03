@@ -7,10 +7,6 @@ export interface RequestUser {
   role: string;
 }
 
-/**
- * Get user information from request headers set by the proxy
- * These headers are set by the proxy.ts file after validating the session
- */
 export async function getUserFromHeaders(): Promise<RequestUser | null> {
   const headersList = await headers();
   
@@ -31,18 +27,12 @@ export async function getUserFromHeaders(): Promise<RequestUser | null> {
   };
 }
 
-/**
- * Check if the current user has one of the allowed roles
- */
 export async function hasRole(allowedRoles: string[]): Promise<boolean> {
   const user = await getUserFromHeaders();
   if (!user) return false;
   return allowedRoles.includes(user.role);
 }
 
-/**
- * Require a specific role, throws if not authorized
- */
 export async function requireRole(allowedRoles: string[]): Promise<RequestUser> {
   const user = await getUserFromHeaders();
   if (!user) {

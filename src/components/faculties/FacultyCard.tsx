@@ -28,7 +28,6 @@ export function FacultyCard({ faculty }: FacultyCardProps) {
   return (
     <Card className="group bg-card border border-border hover:border-primary/30 hover:shadow-xl transition-all duration-300 h-full">
       <CardContent className="p-6 flex flex-col items-center">
-        {/* Rounded Image Section */}
         <div className="mb-4">
           <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-border group-hover:border-primary/30 transition-colors duration-300">
             {faculty.avatar ? (
@@ -48,7 +47,6 @@ export function FacultyCard({ faculty }: FacultyCardProps) {
           </div>
         </div>
 
-        {/* Content Section */}
         <div className="text-center w-full">
           <h3 className="text-xl font-bold text-foreground mb-1 group-hover:text-primary transition-colors duration-300">
             {faculty.name}

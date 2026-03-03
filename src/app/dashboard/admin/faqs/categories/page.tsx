@@ -52,7 +52,6 @@ export default function FaqCategoriesPage() {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
 
-  // Stats
   const totalCategories = categories.length;
   const publicCategories = categories.filter((c) => c.isPublic).length;
 
@@ -76,7 +75,6 @@ export default function FaqCategoriesPage() {
   };
 
   const handleTogglePublic = async (id: number, currentValue: boolean) => {
-    // Optimistic update
     setCategories((prev) =>
       prev.map((category) =>
         category.id === id ? { ...category, isPublic: !currentValue } : category
@@ -95,7 +93,6 @@ export default function FaqCategoriesPage() {
       }
     } catch (error) {
       console.error("Update failed:", error);
-      // Revert on error
       setCategories((prev) =>
         prev.map((category) =>
           category.id === id ? { ...category, isPublic: currentValue } : category
@@ -146,7 +143,6 @@ export default function FaqCategoriesPage() {
 
   return (
     <div className="w-full max-w-[98%] mx-auto p-4 space-y-4">
-      {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">FAQ Categories</h1>
@@ -169,7 +165,6 @@ export default function FaqCategoriesPage() {
         </div>
       </div>
 
-      {/* Stats Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -206,7 +201,6 @@ export default function FaqCategoriesPage() {
         </Card>
       </div>
 
-      {/* Search */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -219,7 +213,6 @@ export default function FaqCategoriesPage() {
         </div>
       </div>
 
-      {/* Categories Table */}
       <Card>
         <CardContent className="p-0">
           <Table>

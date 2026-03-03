@@ -39,7 +39,6 @@ export default function ContentWriterLayout({ children }: { children: ReactNode 
       if (!isAuthenticated) {
         router.replace("/sign-in");
       } else if (user?.role !== "CONTENT_WRITER") {
-        // Redirect to appropriate dashboard based on role
         const roleRoutes: Record<string, string> = {
           ADMIN: "/dashboard/admin",
           STUDENT: "/dashboard/student",
@@ -53,7 +52,6 @@ export default function ContentWriterLayout({ children }: { children: ReactNode 
     }
   }, [isLoading, isAuthenticated, user, router]);
 
-  // Show loading skeleton while checking auth
   if (isLoading) {
     return (
       <div className="flex min-h-screen bg-background">
@@ -74,7 +72,6 @@ export default function ContentWriterLayout({ children }: { children: ReactNode 
     );
   }
 
-  // Don't render if not authorized
   if (!isAuthenticated || user?.role !== "CONTENT_WRITER") {
     return null;
   }

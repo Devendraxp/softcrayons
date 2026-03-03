@@ -29,7 +29,6 @@ export const FeaturedFacultyCard = ({ faculty, index }: FeaturedFacultyCardProps
 
   return (
     <div className="group relative bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300">
-      {/* Featured Badge */}
       <div className="absolute top-4 right-4 z-10">
         <span className="bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1.5">
           <Star className="w-3 h-3 fill-current" />
@@ -38,9 +37,7 @@ export const FeaturedFacultyCard = ({ faculty, index }: FeaturedFacultyCardProps
       </div>
 
       <div className={`grid md:grid-cols-5 ${isReversed ? "md:grid-flow-dense" : ""}`}>
-        {/* Image Section - 2 columns */}
         <div className={`relative md:col-span-2 min-h-[280px] md:min-h-[380px] bg-muted/30 ${isReversed ? "md:col-start-4" : ""}`}>
-          {/* Simple Pattern Background */}
           <div 
             className="absolute inset-0 opacity-50"
             style={{
@@ -49,7 +46,6 @@ export const FeaturedFacultyCard = ({ faculty, index }: FeaturedFacultyCardProps
             }}
           />
 
-          {/* Avatar */}
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="relative">
               {faculty.avatar ? (
@@ -69,7 +65,6 @@ export const FeaturedFacultyCard = ({ faculty, index }: FeaturedFacultyCardProps
                   </span>
                 </div>
               )}
-              {/* Status */}
               <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-green-500 text-white text-[10px] font-medium px-2.5 py-0.5 rounded-full flex items-center gap-1">
                 <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
                 Available
@@ -78,9 +73,7 @@ export const FeaturedFacultyCard = ({ faculty, index }: FeaturedFacultyCardProps
           </div>
         </div>
 
-        {/* Content Section - 3 columns */}
         <div className={`md:col-span-3 p-6 md:p-8 ${isReversed ? "md:col-start-1 md:row-start-1" : ""}`}>
-          {/* Domain / Specialization */}
           {faculty.domain && (
             <span className="inline-block text-primary text-xs font-semibold tracking-wider uppercase mb-2">
               {faculty.domain}
@@ -98,7 +91,6 @@ export const FeaturedFacultyCard = ({ faculty, index }: FeaturedFacultyCardProps
             </p>
           )}
 
-          {/* Stats */}
           <div className="grid grid-cols-4 gap-2 mb-6">
             {[
               { icon: Briefcase, value: faculty.experience || "—", label: "Years" },
@@ -114,7 +106,6 @@ export const FeaturedFacultyCard = ({ faculty, index }: FeaturedFacultyCardProps
             ))}
           </div>
 
-          {/* Skills */}
           {skills.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mb-6">
               {skills.map((skill, idx) => (
@@ -128,7 +119,6 @@ export const FeaturedFacultyCard = ({ faculty, index }: FeaturedFacultyCardProps
             </div>
           )}
 
-          {/* Footer */}
           <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-border">
             {faculty.locations && (
               <div className="flex items-center gap-1.5 text-muted-foreground text-sm">

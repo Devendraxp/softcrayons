@@ -56,12 +56,10 @@ const getFacultyEnquiries = async (filters: FacultyEnquiryFilters): Promise<{ en
     }
     const skip = (page - 1) * limit;
 
-    // Build where clause
     const where: any = {
         ...(assignedToId && { assignedToId }),
     };
 
-    // Handle status and sub-status for NEW
     if (status) {
         where.status = status;
         if (status === 'NEW' && subStatus) {
@@ -73,7 +71,6 @@ const getFacultyEnquiries = async (filters: FacultyEnquiryFilters): Promise<{ en
         }
     }
 
-    // Search by name, email, or phone
     if (search) {
         where.OR = [
             { name: { contains: search } },

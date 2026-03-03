@@ -2,10 +2,6 @@ import { NextResponse } from 'next/server';
 import { getBlogById, updateBlog, deleteBlog } from '@/services/blog.service';
 import { getUserFromHeaders } from '@/lib/request-user';
 
-/**
- * GET /api/hr/blogs/[id]
- * Get a specific blog - HR can only access their own blogs
- */
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -38,7 +34,6 @@ export async function GET(
       }, { status: 404 });
     }
 
-    // Check if the blog belongs to the current user
     if (blog.authorId !== user.id) {
       return NextResponse.json({
         success: false,
@@ -59,15 +54,6 @@ export async function GET(
   }
 }
 
-/**
- * PUT /api/hr/blogs/[id]
- * Update a blog - HR have limited control:
- * - Cannot modify isPublic
- * - Cannot modify isFeatured
- * - Cannot change author
- * - Cannot change publish date
- * - Can only update their own blogs
- */
 export async function PUT(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -91,7 +77,6 @@ export async function PUT(
       }, { status: 400 });
     }
 
-    // Check if blog exists and belongs to user
     const existingBlog = await getBlogById(id);
     if (!existingBlog) {
       return NextResponse.json({
@@ -109,7 +94,6 @@ export async function PUT(
 
     const body = await request.json();
 
-    // Filter out restricted fields
     const allowedFields = ['title', 'description', 'content', 'categoryId', 'slug', 'bannerImage', 'thumbnailImage', 'readTime', 'tags', 'tableOfContents', 'metaTitle', 'metaDescription', 'metaKeywords'];
     
     const updateData: Record<string, unknown> = {};
@@ -135,10 +119,6 @@ export async function PUT(
   }
 }
 
-/**
- * DELETE /api/hr/blogs/[id]
- * Delete a blog - HR can only delete their own blogs
- */
 export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -162,7 +142,6 @@ export async function DELETE(
       }, { status: 400 });
     }
 
-    // Check if blog exists and belongs to user
     const existingBlog = await getBlogById(id);
     if (!existingBlog) {
       return NextResponse.json({

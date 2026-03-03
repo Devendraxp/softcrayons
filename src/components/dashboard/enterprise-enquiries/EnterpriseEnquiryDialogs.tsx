@@ -37,7 +37,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-// View Details Dialog
 interface ViewDetailsDialogProps {
   enquiry: EnterpriseEnquiry | null;
   open: boolean;
@@ -79,7 +78,6 @@ export function ViewEnterpriseDetailsDialog({
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-6 py-4">
-          {/* Company Info */}
           <div className="space-y-3">
             <h4 className="text-sm font-semibold text-muted-foreground">Company Information</h4>
             <div className="space-y-2">
@@ -102,7 +100,6 @@ export function ViewEnterpriseDetailsDialog({
             </div>
           </div>
 
-          {/* Duration */}
           {enquiry.duration && (
             <div className="space-y-2">
               <h4 className="text-sm font-semibold text-muted-foreground">Training Duration</h4>
@@ -113,7 +110,6 @@ export function ViewEnterpriseDetailsDialog({
             </div>
           )}
 
-          {/* Message */}
           {enquiry.message && (
             <div className="space-y-2">
               <h4 className="text-sm font-semibold text-muted-foreground">Message</h4>
@@ -121,7 +117,6 @@ export function ViewEnterpriseDetailsDialog({
             </div>
           )}
 
-          {/* Status & Assignment */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <h4 className="text-sm font-semibold text-muted-foreground">Status</h4>
@@ -150,7 +145,6 @@ export function ViewEnterpriseDetailsDialog({
             </div>
           </div>
 
-          {/* Notes & Remarks */}
           {(enquiry.note || enquiry.remark) && (
             <div className="space-y-3">
               {enquiry.note && (
@@ -170,7 +164,6 @@ export function ViewEnterpriseDetailsDialog({
             </div>
           )}
 
-          {/* Timestamps */}
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Calendar className="h-3 w-3" />
             <span>Created: {formatDate(enquiry.createdAt)}</span>
@@ -186,7 +179,6 @@ export function ViewEnterpriseDetailsDialog({
   );
 }
 
-// Assign User Dialog (HR or Counselor)
 interface AssignUserDialogProps {
   enquiry: EnterpriseEnquiry | null;
   open: boolean;
@@ -236,7 +228,7 @@ export function AssignEnterpriseUserDialog({
             <Label>Role</Label>
             <Select value={selectedRole} onValueChange={(value) => {
               setSelectedRole(value as "HR" | "COUNSELOR");
-              setUserId(""); // Reset user selection when role changes
+              setUserId("");
             }}>
               <SelectTrigger>
                 <SelectValue placeholder="Select role..." />
@@ -250,7 +242,7 @@ export function AssignEnterpriseUserDialog({
           <div className="space-y-2">
             <Label>Select {selectedRole === "HR" ? "HR" : "Counselor"}</Label>
             <UserSelector
-              key={selectedRole} // Force re-render when role changes
+              key={selectedRole}
               value={userId}
               onChange={(id) => setUserId(id)}
               role={selectedRole}
@@ -271,7 +263,6 @@ export function AssignEnterpriseUserDialog({
   );
 }
 
-// Edit Notes Dialog
 interface EditNotesDialogProps {
   enquiry: EnterpriseEnquiry | null;
   open: boolean;
@@ -351,7 +342,6 @@ export function EditEnterpriseNotesDialog({
   );
 }
 
-// Delete Enterprise Enquiry Dialog
 interface DeleteEnterpriseEnquiryDialogProps {
   enquiry: EnterpriseEnquiry | null;
   open: boolean;

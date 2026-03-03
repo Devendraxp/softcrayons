@@ -6,7 +6,6 @@ import { EnterpriseEnquiryStatus } from '../../../../../generated/prisma/client'
 
 export async function GET(request: NextRequest) {
   try {
-    // Check HR authorization
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session?.user || session.user.role !== 'HR') {
       return NextResponse.json({
@@ -24,7 +23,6 @@ export async function GET(request: NextRequest) {
     const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : 20;
     const getCounts = searchParams.get('counts') === 'true';
 
-    // If counts requested, return counts only (for this HR's assigned enterprise enquiries)
     if (getCounts) {
       const [newCount, contacted, completed, closed, archived] = await Promise.all([
         prisma.enterpriseEnquiry.count({ where: { assignedToId: hrId, status: 'NEW' } }),
@@ -47,17 +45,14 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // Build where clause - ALWAYS filter by assigned to this HR
     const where: any = {
       assignedToId: hrId,
     };
 
-    // Handle status filter
     if (status) {
       where.status = status;
     }
 
-    // Search by company name, email, or phone
     if (search) {
       where.OR = [
         { companyName: { contains: search } },

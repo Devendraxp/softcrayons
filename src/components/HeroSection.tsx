@@ -26,8 +26,6 @@ const TECH_CHIPS = [
 
 const FLOAT_ANIMS = ["float-drift-1", "float-drift-2", "float-drift-3", "float-drift-4", "float-drift-5"];
 
-
-
 function CircuitLines() {
   return (
     <svg
@@ -212,8 +210,9 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.15)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.15)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_110%_90%_at_15%_0%,#000_55%,transparent_95%)]" />
 
       <div className="container relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="text-center lg:text-left">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-center">
+          {/* Heading block - first on both mobile and desktop */}
+          <div className="text-center lg:text-left order-1 lg:col-start-1 lg:row-start-1">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8 animate-fade-up backdrop-blur-sm">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
@@ -241,9 +240,48 @@ export function HeroSection() {
                 />
               </span>
             </h1>
+          </div>
 
+          {/* Image - second on mobile, right column on desktop spanning both rows */}
+          <div
+            className="relative animate-fade-up order-2 lg:col-start-2 lg:row-start-1 lg:row-span-2"
+            style={{ animationDelay: "0.3s" }}
+          >
+            <div className="relative max-w-md mx-auto lg:max-w-none">
+              <div
+                className="absolute -inset-4 rounded-3xl blur-[60px] opacity-60"
+                style={{
+                  background:
+                    "linear-gradient(135deg, rgba(255,140,0,0.25) 0%, rgba(37,99,235,0.15) 100%)",
+                }}
+              />
+
+              <div className="relative rounded-3xl border border-white/10 bg-white/5 dark:bg-white/[0.03] backdrop-blur-xl p-3 shadow-2xl">
+
+                <img
+                  src="https://res.cloudinary.com/dbrxgmnyn/image/upload/v1772445831/faculty-avatars/lt7xi0km2ovj0f7jwbeb.png"
+                  alt="SoftCrayons instructors"
+                  className="w-full h-auto rounded-2xl relative z-[8]"
+                  style={{
+                    filter: "contrast(1.05) saturate(1.1)",
+                    clipPath: "inset(0 0 0 0 round 1rem)",
+                  }}
+                />
+
+                <div className="absolute -top-6 -left-6 -right-6 -bottom-6 z-0 pointer-events-none hidden lg:block">
+                  <div className="absolute top-0 left-1/4 w-20 h-[2px] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+                  <div className="absolute bottom-0 right-1/4 w-20 h-[2px] bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
+                  <div className="absolute left-0 top-1/4 h-20 w-[2px] bg-gradient-to-b from-transparent via-primary/30 to-transparent" />
+                  <div className="absolute right-0 bottom-1/4 h-20 w-[2px] bg-gradient-to-b from-transparent via-blue-500/30 to-transparent" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Content block - third on mobile, below heading on desktop left column */}
+          <div className="text-center lg:text-left order-3 lg:col-start-1 lg:row-start-2">
             <p
-              className="text-lg sm:text-xl text-muted-foreground max-w-xl mb-10 animate-fade-up"
+              className="text-lg sm:text-xl text-muted-foreground max-w-xl mb-10 animate-fade-up mx-auto lg:mx-0"
               style={{ animationDelay: "0.2s" }}
             >
               At SoftCrayons, education goes far beyond textbooks and theory. We
@@ -257,7 +295,7 @@ export function HeroSection() {
             >
               <Link href="/query">
                 <ShimmerButton className="group w-full sm:w-auto cursor-pointer">
-                  Start Learning
+                  Take Admission Now
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </ShimmerButton>
               </Link>
@@ -291,41 +329,6 @@ export function HeroSection() {
                     </span>
                   ))}
                 </Marquee>
-              </div>
-            </div>
-          </div>
-
-          <div
-            className="relative animate-fade-up hidden lg:block"
-            style={{ animationDelay: "0.3s" }}
-          >
-            <div className="relative">
-              <div
-                className="absolute -inset-4 rounded-3xl blur-[60px] opacity-60"
-                style={{
-                  background:
-                    "linear-gradient(135deg, rgba(255,140,0,0.25) 0%, rgba(37,99,235,0.15) 100%)",
-                }}
-              />
-
-              <div className="relative rounded-3xl border border-white/10 bg-white/5 dark:bg-white/[0.03] backdrop-blur-xl p-3 shadow-2xl">
-
-                <img
-                  src="https://res.cloudinary.com/dbrxgmnyn/image/upload/v1772445831/faculty-avatars/lt7xi0km2ovj0f7jwbeb.png"
-                  alt="SoftCrayons instructors"
-                  className="w-full h-auto rounded-2xl relative z-[8]"
-                  style={{
-                    filter: "contrast(1.05) saturate(1.1)",
-                    clipPath: "inset(0 0 0 0 round 1rem)",
-                  }}
-                />
-
-                <div className="absolute -top-6 -left-6 -right-6 -bottom-6 z-0 pointer-events-none">
-                  <div className="absolute top-0 left-1/4 w-20 h-[2px] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-                  <div className="absolute bottom-0 right-1/4 w-20 h-[2px] bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
-                  <div className="absolute left-0 top-1/4 h-20 w-[2px] bg-gradient-to-b from-transparent via-primary/30 to-transparent" />
-                  <div className="absolute right-0 bottom-1/4 h-20 w-[2px] bg-gradient-to-b from-transparent via-blue-500/30 to-transparent" />
-                </div>
               </div>
             </div>
           </div>
