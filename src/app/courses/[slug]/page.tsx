@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Clock, BarChart, BookOpen, IndianRupee, ArrowLeft, CheckCircle } from "lucide-react";
+import { Clock, BarChart, BookOpen, IndianRupee, ArrowLeft, CheckCircle, BadgeCheck, Briefcase, Share2, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -404,6 +404,77 @@ export default async function CourseDetailPage({
                         </div>
                     </div>
                 )}
+
+                {/* Certificate Section */}
+                <div className="mt-20 rounded-2xl border border-border bg-card overflow-hidden">
+                    <div className="flex flex-col lg:flex-row items-center gap-0">
+                        {/* Left: Content */}
+                        <div className="flex-1 p-8 md:p-12 lg:p-14">
+                            <span
+                                className="inline-block font-mono text-xs font-bold tracking-[0.25em] uppercase text-primary border border-primary/40 px-3 py-1 mb-6"
+                                style={{ boxShadow: "2px 2px 0px #F97316" }}
+                            >
+                                Industry Recognised
+                            </span>
+
+                            <h2 className="text-3xl sm:text-4xl font-black mb-4 leading-tight">
+                                Get Officially{" "}
+                                <span className="text-gradient">Certified</span>{" "}
+                                in {course.title}
+                            </h2>
+
+                            <p className="text-muted-foreground text-base mb-8 leading-relaxed">
+                                Upon successful completion, earn a{" "}
+                                <span className="font-semibold text-foreground">Softcrayons Certificate of Achievement</span>{" "}
+                                that validates your expertise and stands out to top employers across the industry.
+                            </p>
+
+                            <ul className="space-y-4 mb-8">
+                                {[
+                                    { icon: BadgeCheck, text: "Government & Industry Recognised Certificate", sub: "Accepted by 500+ hiring partners nationwide" },
+                                    { icon: Briefcase, text: "Boost Your Hiring Potential", sub: "Certificate holders get 3× more interview callbacks" },
+                                    { icon: Share2, text: "Share on LinkedIn & Resume", sub: "Downloadable, verifiable, and shareable instantly" },
+                                    { icon: Shield, text: "Lifetime Validity", sub: "Your achievement never expires - it's yours forever" },
+                                ].map(({ icon: Icon, text, sub }) => (
+                                    <li key={text} className="flex items-start gap-3">
+                                        <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                            <Icon className="w-4.5 h-4.5 text-primary" style={{ width: "18px", height: "18px" }} />
+                                        </div>
+                                        <div>
+                                            <p className="font-semibold text-sm text-foreground">{text}</p>
+                                            <p className="text-xs text-muted-foreground mt-0.5">{sub}</p>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <Link href={`/query?id=${course.id}`}>
+                                <Button size="lg" className="gap-2">
+                                    <BadgeCheck className="w-4 h-4" />
+                                    Enroll & Get Certified
+                                </Button>
+                            </Link>
+                        </div>
+
+                        {/* Right: Certificate Image */}
+                        <div className="w-full lg:w-[480px] flex-shrink-0 bg-muted/30 flex items-center justify-center p-8 lg:p-10 lg:border-l border-t lg:border-t-0 border-border">
+                            <div
+                                className="relative w-full rounded-xl overflow-hidden"
+                                style={{ boxShadow: "8px 8px 0px hsl(var(--border))" }}
+                            >
+                                <img
+                                    src="https://res.cloudinary.com/dbrxgmnyn/image/upload/v1773047279/blog-banners/impuhtwg9sr9thyo62l1.png"
+                                    alt="Softcrayons Certificate of Achievement"
+                                    className="w-full h-auto object-contain"
+                                />
+                                <div
+                                    className="absolute inset-0 rounded-xl border-2 border-primary/20 pointer-events-none"
+                                    style={{ boxShadow: "inset 0 0 32px rgba(var(--primary-rgb, 234 88 12)/0.06)" }}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useEditor, EditorContent, ReactNodeViewRenderer } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import ImageResize from "tiptap-extension-resize-image";
@@ -25,6 +26,8 @@ export default function BlogEditor({
   onChange,
   placeholder = "Start writing your blog content...",
 }: BlogEditorProps) {
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -73,9 +76,19 @@ export default function BlogEditor({
   });
 
   return (
-    <div className="blog-editor overflow-hidden rounded-lg border border-border bg-card">
-      <EditorToolbar editor={editor} />
-      <div className="min-h-[400px] p-4">
+    <div
+      className={
+        isFullscreen
+          ? "fixed inset-0 z-50 flex flex-col bg-card"
+          : "blog-editor overflow-hidden rounded-lg border border-border bg-card"
+      }
+    >
+      <EditorToolbar
+        editor={editor}
+        isFullscreen={isFullscreen}
+        onToggleFullscreen={() => setIsFullscreen((prev) => !prev)}
+      />
+      <div className={isFullscreen ? "flex-1 overflow-y-auto p-4" : "min-h-[400px] p-4"}>
         <EditorContent editor={editor} />
       </div>
     </div>

@@ -25,6 +25,8 @@ import {
   Link as LinkIcon,
   Unlink,
   Check,
+  Maximize2,
+  Minimize2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -74,9 +76,11 @@ function ToolbarDivider() {
 
 type EditorToolbarProps = {
   editor: Editor | null;
+  isFullscreen?: boolean;
+  onToggleFullscreen?: () => void;
 };
 
-export default function EditorToolbar({ editor }: EditorToolbarProps) {
+export default function EditorToolbar({ editor, isFullscreen, onToggleFullscreen }: EditorToolbarProps) {
   const [, setTick] = useState(0);
   const [linkUrl, setLinkUrl] = useState("");
   const [isLinkPopoverOpen, setIsLinkPopoverOpen] = useState(false);
@@ -138,7 +142,7 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
   ];
 
   return (
-    <div className="flex flex-wrap items-center gap-0.5 border-b border-border bg-muted/40 p-2">
+    <div className="flex flex-wrap items-center gap-0.5 border-b border-border bg-muted/40 p-2 sticky top-0 z-10">
       <ToolbarButton
         onClick={() => editor.chain().focus().undo().run()}
         disabled={!editor.can().undo()}
@@ -374,6 +378,24 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
           </ToolbarButton>
         )}
       </CldUploadWidget>
+
+      {onToggleFullscreen && (
+        <>
+          <ToolbarDivider />
+          <div className="ml-auto">
+            <ToolbarButton
+              onClick={onToggleFullscreen}
+              title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+            >
+              {isFullscreen ? (
+                <Minimize2 className="h-4 w-4" />
+              ) : (
+                <Maximize2 className="h-4 w-4" />
+              )}
+            </ToolbarButton>
+          </div>
+        </>
+      )}
     </div>
   );
 }
