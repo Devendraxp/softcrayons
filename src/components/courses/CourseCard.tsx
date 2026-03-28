@@ -28,7 +28,7 @@ const levelColors = {
 export function CourseCard({ course }: CourseCardProps) {
     return (
         <div className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/30 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
-            <div className="relative h-56 sm:h-64 overflow-hidden flex-shrink-0">
+            <div className="relative aspect-[4/3] overflow-hidden flex-shrink-0">
                 <img
                     src={course.image}
                     alt={course.title}

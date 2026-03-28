@@ -48,7 +48,7 @@ function KnowledgeHubCard({ blog, index }: { blog: Blog; index: number }) {
         className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 h-full flex flex-col animate-fade-up"
         style={{ animationDelay: `${index * 0.15}s` }}
       >
-        <div className="relative h-52 overflow-hidden bg-muted">
+        <div className="relative aspect-[4/3] overflow-hidden bg-muted">
           {image ? (
             <Image
               src={image}

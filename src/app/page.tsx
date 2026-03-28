@@ -16,11 +16,11 @@ export default function Home() {
       <main>
         <HeroSection />
         <TrustSection />
-        <LearningPathway />
+        <PlacementsMarquee />
         <CoursesSection />
+        <LearningPathway />
         <WhyChooseUs />
         <PartnersSection />
-        <PlacementsMarquee />
         <KnowledgeHub />
         <TestimonialsSection />
         <FaqSection />

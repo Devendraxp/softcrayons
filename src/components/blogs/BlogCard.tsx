@@ -26,7 +26,7 @@ export function BlogCard({ blog }: BlogCardProps) {
     return (
         <Link href={`/blogs/${blog.slug || blog.id}`}>
             <article className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 h-full flex flex-col">
-                <div className="relative h-52 overflow-hidden">
+                <div className="relative aspect-[4/3] overflow-hidden">
                     <Image
                         src={blog.image}
                         alt={blog.title}

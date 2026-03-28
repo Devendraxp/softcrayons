@@ -1,42 +1,62 @@
-import { ArrowRight, Sparkles } from 'lucide-react';
+"use client";
+
+import { ArrowRight, PhoneCall, CheckCircle2, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+
 export function CTASection() {
   return (
-    <section id="community" className="py-24 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-card to-background" />
+    <section className="py-24 relative overflow-hidden bg-background">
+      <div className="container relative z-10">        
+          {/* Subtle Background Glows & Grid Pattern strictly using CSS variables */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.3)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.3)_1px,transparent_1px)] bg-[size:2rem_2rem] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black_20%,transparent_80%)] opacity-30 pointer-events-none" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/10 rounded-full blur-[100px] pointer-events-none" />
+          <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[80px] pointer-events-none" />
 
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />
+          <div className="relative px-6 py-20 md:py-24 text-center max-w-4xl mx-auto flex flex-col items-center">
 
-      <div className="container relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-black mb-6 text-foreground tracking-tight">
+              Don't Just Learn. <br className="hidden sm:block" />
+              <span className="text-gradient">Get Hired.</span>
+            </h2>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-6">
-            Ready to <span className="text-gradient">Level Up</span>
-            <br />
-            Your Career?
-          </h2>
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
+              Join thousands of successful alumni who have transformed their careers. Get hands-on experience, expert mentorship, and dedicated placement assistance.
+            </p>
 
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
-            Join thousands of developers who have transformed their careers with our
-            industry-focused curriculum and expert mentorship.
-          </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+              <Link href="/contact" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-base group">
+                  Start Learning for Free
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+              <Link href="/query" className="w-full sm:w-auto">
+                <Button variant="outline" size="lg" className="w-full sm:w-auto h-14 px-8 text-base bg-background/50 hover:bg-primary/5 hover:text-primary transition-all">
+                  <PhoneCall className="mr-2 w-5 h-5" />
+                  Talk to a Counselor
+                </Button>
+              </Link>
+            </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/query">
-              <Button size={'lg'} className="group w-full sm:w-auto">
-                Start Your Journey
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </Link>
+            {/* Institute Trust Markers (Replaces the generic SaaS text) */}
+            <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-sm font-medium text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-4.5 h-4.5 text-primary" />
+                <span>Live Projects</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-4.5 h-4.5 text-primary" />
+                <span>Industry Expert Trainers</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-4.5 h-4.5 text-primary" />
+                <span>100% Placement Support</span>
+              </div>
+            </div>
+
           </div>
-
-          <p className="mt-8 text-sm text-muted-foreground">
-            ✓ Free trial &nbsp;&nbsp; ✓ Beginner friendly &nbsp;&nbsp;  ✓ 100% satisfaction guarantee
-          </p>
         </div>
-      </div>
     </section>
   );
 }

@@ -63,21 +63,22 @@
   --muted: 0 0% 96.1%;
   --muted-foreground: 0 0% 45.1%;
 
-
-  --primary: 25 95% 53%;
+  /* Tech Blue Theme - Light Mode */
+  --primary: 221 83% 53%; /* #2563eb */
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 220 50% 37%;
-  --secondary-foreground: 0 0% 100%;
+  --secondary: 222 47% 11%; /* Deep Navy */
+  --secondary-foreground: 210 40% 98%;
 
-  --accent: 220 50% 37%;
-  --accent-foreground: 0 0% 100%;
+  --accent: 214 32% 91%; /* Soft UI Blue */
+  --accent-foreground: 222 47% 11%;
 
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 0 0% 98%;
-  --ring: 25 95% 53%;
+  
+  --ring: 221 83% 53%;
 
-  --gradient-orange: linear-gradient(135deg, hsl(25, 95%, 53%) 0%, hsl(35, 100%, 55%) 100%);
+  --gradient-primary: linear-gradient(135deg, hsl(221, 83%, 53%) 0%, hsl(214, 97%, 59%) 100%);
 }
 
 .dark {
@@ -94,23 +95,24 @@
   --input: 0 0% 14.9%;
   
   --muted: 0 0% 14.9%;
-  --muted-foreground: 0 0% 63.9%;
+  --muted-foreground: 0 0% 70%; /* Bumped up from 63.9% for better readability */
 
-
-  --primary: 25 95% 53%;
+  /* Tech Blue Theme - Dark Mode */
+  --primary: 217 91% 60%; /* Vibrant Blue for Dark Mode */
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 220 50% 37%;
-  --secondary-foreground: 0 0% 100%;
+  --secondary: 217 33% 17%; /* Soft Slate */
+  --secondary-foreground: 210 40% 98%;
 
-  --accent: 220 50% 37%;
-  --accent-foreground: 0 0% 100%;
+  --accent: 217 33% 17%;
+  --accent-foreground: 210 40% 98%;
 
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 0 0% 98%;
-  --ring: 25 95% 53%;
+  
+  --ring: 217 91% 60%;
 
-  --gradient-orange: linear-gradient(135deg, hsl(25, 95%, 53%) 0%, hsl(35, 100%, 55%) 100%);
+  --gradient-primary: linear-gradient(135deg, hsl(217, 91%, 60%) 0%, hsl(210, 100%, 65%) 100%);
 }
 
 @layer base {
@@ -138,8 +140,6 @@
   }
 }
 
-/* Keep the rest of your custom layers and animations here... */
-
 @layer components {
   .container {
     @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
@@ -149,11 +149,12 @@
 @layer utilities {
   .text-gradient {
     @apply bg-clip-text text-transparent;
-    background-image: var(--gradient-orange);
+    background-image: var(--gradient-primary);
   }
 
-  .bg-gradient-orange {
-    background-image: var(--gradient-orange);
+  /* Renamed from bg-gradient-orange */
+  .bg-gradient-primary {
+    background-image: var(--gradient-primary);
   }
 
   .animate-float {
@@ -277,6 +278,7 @@
   animation: marquee-vertical-reverse linear infinite;
 }
 
+/* Course Content Styles */
 .course-content {
   @apply text-foreground;
 }
@@ -505,6 +507,7 @@
   color: hsl(var(--muted-foreground));
 }
 
+/* TipTap Editor Styles */
 .tiptap {
   @apply min-h-[350px] outline-none;
 }

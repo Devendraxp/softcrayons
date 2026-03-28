@@ -134,7 +134,7 @@ export function CoursesSection() {
                                                 key={course.id}
                                                 className="bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-300 hover:shadow-lg flex flex-col h-full"
                                             >
-                                                <div className="relative h-56 sm:h-64 overflow-hidden flex-shrink-0">
+                                                <div className="relative aspect-[4/3] overflow-hidden flex-shrink-0">
                                                     <img
                                                         src={course.thumbnailImage || course.bannerImage || 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&auto=format&fit=crop&q=80'}
                                                         alt={course.title}

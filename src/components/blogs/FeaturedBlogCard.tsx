@@ -95,7 +95,7 @@ export function FeaturedBlogCard({ blog, variant = "default" }: FeaturedBlogCard
         return (
             <Link href={`/blogs/${blog.slug || blog.id}`}>
                 <article className="group flex flex-col sm:flex-row bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 h-full">
-                    <div className="relative w-full sm:w-66 md:w-84 h-48 sm:h-auto shrink-0 overflow-hidden">
+                    <div className="relative aspect-[4/3] w-full sm:w-66 md:w-84 shrink-0 overflow-hidden">
                         <Image
                             src={blog.image}
                             alt={blog.title}
@@ -148,7 +148,7 @@ export function FeaturedBlogCard({ blog, variant = "default" }: FeaturedBlogCard
                     </Badge>
                 </div>
 
-                <div className="relative h-56 overflow-hidden">
+                <div className="relative aspect-[4/3] overflow-hidden">
                     <Image
                         src={blog.image}
                         alt={blog.title}

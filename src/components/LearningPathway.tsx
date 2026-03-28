@@ -7,76 +7,55 @@ import {
   FolderCode,
   MessageSquare,
   Trophy,
-  Flag,
-  MapPin,
-  Star,
+  CheckCircle2,
+  Briefcase
 } from "lucide-react";
 
 const milestones = [
   {
     icon: UserPlus,
-    title: "Enroll",
-    label: "START",
-    side: "left" as const,
-    xp: "+5 XP",
-    badge: null as string | null,
-    skills: ["Take Admission", "Start Learning"],
+    title: "Enroll & Onboard",
+    label: "PHASE 1",
+    side: "top" as const,
+    description: "Start your journey.",
+    skills: ["Career Counseling", "Batch Allocation", "Tool Setup"],
     isFinish: false,
-    iconBg: "#3B82F6",
-    shadowColor: "#3B82F6",
-    labelColor: "#3B82F6",
   },
   {
     icon: BookOpen,
-    title: "Master Skills",
-    label: "LEVEL 1",
-    side: "right" as const,
-    xp: "+10 Skills XP",
-    badge: null as string | null,
-    skills: ["Java / Python", "AWS & Cloud", "Marketing", "Data Analysis"],
+    title: "Master Core Skills",
+    label: "PHASE 2",
+    side: "bottom" as const,
+    description: "Learn from industry experts.",
+    skills: ["Hands-on Coding", "Live Assignments", "Doubt Clearing"],
     isFinish: false,
-    iconBg: "#8B5CF6",
-    shadowColor: "#8B5CF6",
-    labelColor: "#8B5CF6",
   },
   {
     icon: FolderCode,
-    title: "Build Projects",
-    label: "LEVEL 2",
-    side: "left" as const,
-    xp: "+10 Portfolio XP",
-    badge: "Portfolio XP",
-    skills: ["Real-world Projects"],
+    title: "Build Real Projects",
+    label: "PHASE 3",
+    side: "top" as const,
+    description: "Apply your knowledge.",
+    skills: ["Industry Use-cases", "GitHub Portfolio", "Code Reviews"],
     isFinish: false,
-    iconBg: "#F97316",
-    shadowColor: "#F97316",
-    labelColor: "#F97316",
   },
   {
     icon: MessageSquare,
-    title: "Mock Interviews",
-    label: "LEVEL 3",
-    side: "right" as const,
-    xp: "Interview Ready",
-    badge: "Interview Readiness 100%",
-    skills: ["HR & Communication", "Technical Rounds", "Resume Polish"],
+    title: "Interview Prep",
+    label: "PHASE 4",
+    side: "bottom" as const,
+    description: "Get ready for the real world.",
+    skills: ["Resume Polish", "Mock Interviews", "Aptitude Tests"],
     isFinish: false,
-    iconBg: "#22C55E",
-    shadowColor: "#22C55E",
-    labelColor: "#22C55E",
   },
   {
     icon: Trophy,
     title: "Get Hired!",
     label: "FINISH",
-    side: "left" as const,
-    xp: "+100 Career XP",
-    badge: null as string | null,
-    skills: ["Dream Job"],
+    side: "top" as const,
+    description: "Launch your career.",
+    skills: ["Placement Drives", "Offer Negotiation", "Dream Job"],
     isFinish: true,
-    iconBg: "#F97316",
-    shadowColor: "#F97316",
-    labelColor: "#F97316",
   },
 ];
 
@@ -89,10 +68,13 @@ export function LearningPathway() {
       if (!sectionRef.current) return;
       const rect = sectionRef.current.getBoundingClientRect();
       const wh = window.innerHeight;
-      const start = wh * 0.9;
-      const end = -rect.height * 0.15;
-      setProgress(Math.min(Math.max((start - rect.top) / (start - end), 0), 1));
+      const start = wh * 0.8; // Start filling when section enters 80% of screen
+      const end = -rect.height * 0.2; // Finish when section is 20% past top
+      
+      const newProgress = Math.min(Math.max((start - rect.top) / (start - end), 0), 1);
+      setProgress(newProgress);
     };
+    
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
@@ -101,393 +83,189 @@ export function LearningPathway() {
   return (
     <section
       ref={sectionRef}
-      className="relative py-24 md:py-32 bg-muted/20 overflow-hidden"
+      className="relative py-24 md:py-32 bg-background overflow-hidden border-t border-border/40"
     >
+      {/* Clean, subtle background grid using theme variables */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
-          backgroundImage:
-            "linear-gradient(rgba(var(--primary-rgb,234 88 12)/0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(var(--primary-rgb,234 88 12)/0.04) 1px, transparent 1px)",
+          backgroundImage: `linear-gradient(hsl(var(--primary) / 0.03) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary) / 0.03) 1px, transparent 1px)`,
           backgroundSize: "40px 40px",
         }}
       />
 
       <div className="container relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-20 md:mb-24">
-          <span
-            className="inline-block font-mono text-xs font-bold tracking-[0.25em] uppercase text-primary border border-primary/40 px-3 py-1 mb-5"
-            style={{ boxShadow: "2px 2px 0px #F97316" }}
-          >
-            Your Journey
-          </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
-            Your{" "}
-            <span className="text-gradient">Learning Pathway</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 text-foreground">
+            Path of Your Next{" "}
+            <span className="text-gradient">Job</span>
           </h2>
-          <p className="text-muted-foreground text-lg">
-            Follow the track, each milestone brings you one step closer to
-            your dream job.
+          <p className="text-muted-foreground text-lg leading-relaxed">
+            Follow our structured learning track. Every phase is meticulously designed to transform you from a beginner into a job-ready professional.
           </p>
         </div>
 
-        <div className="hidden md:block max-w-6xl mx-auto">
-          {/* Top cards — milestones with side="left" sit above the track */}
-          <div className="flex items-end">
+        <div className="hidden md:block max-w-6xl mx-auto relative">
+          
+          <div className="flex items-end pb-8">
             {milestones.map((m, i) => {
               const isActive = progress >= (i / (milestones.length - 1)) * 0.88;
               return (
-                <div key={`top-${i}`} className="flex-1 flex flex-col items-center px-2">
-                  {m.side === "left" ? <HCard m={m} isActive={isActive} direction="down" /> : null}
+                <div key={`top-${i}`} className="flex-1 flex flex-col items-center px-4">
+                  {m.side === "top" ? <PathwayCard m={m} isActive={isActive} /> : null}
                 </div>
               );
             })}
           </div>
 
-          {/* Top connectors */}
-          <div className="flex">
-            {milestones.map((m, i) => {
-              const isActive = progress >= (i / (milestones.length - 1)) * 0.88;
-              return (
-                <div key={`ctop-${i}`} className="flex-1 flex justify-center">
-                  <div
-                    style={{
-                      width: "2px",
-                      height: m.side === "left" ? "20px" : "0px",
-                      background: isActive ? m.iconBg : "hsl(var(--border))",
-                      transition: "background 0.4s",
-                    }}
-                  />
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Horizontal track + icon nodes */}
-          <div className="relative flex items-center py-2">
-            {/* Background track — spans between first and last icon centers */}
+          {/* Central Track & Nodes */}
+          <div className="relative flex items-center py-4">
+            {/* Background Track */}
+            <div className="absolute top-1/2 -translate-y-1/2 left-[10%] right-[10%] h-[2px] bg-border" />
+            
+            {/* Active Glow Track */}
             <div
-              className="absolute top-1/2 -translate-y-1/2"
-              style={{ left: "10%", right: "10%", height: "4px", background: "hsl(var(--border))" }}
-            />
-            {/* Progress fill */}
-            <div
-              className="absolute top-1/2 -translate-y-1/2 bg-primary"
-              style={{ left: "10%", height: "4px", width: `${progress * 80}%`, transition: "none" }}
+              className="absolute top-1/2 -translate-y-1/2 bg-primary shadow-[0_0_10px_hsl(var(--primary)/0.5)] transition-all duration-300 ease-out"
+              style={{ left: "10%", height: "2px", width: `${progress * 80}%` }}
             />
 
+            {/* Nodes */}
             {milestones.map((m, i) => {
               const isActive = progress >= (i / (milestones.length - 1)) * 0.88;
               const Icon = m.icon;
               return (
-                <div key={`icon-${i}`} className="flex-1 flex justify-center relative z-10">
+                <div key={`node-${i}`} className="flex-1 flex justify-center relative z-10">
                   <div
-                    className="relative flex items-center justify-center rounded-full transition-all duration-500"
-                    style={{
-                      width: m.isFinish ? "68px" : "56px",
-                      height: m.isFinish ? "68px" : "56px",
-                      background: isActive ? m.iconBg : "hsl(var(--muted))",
-                      border: "4px solid hsl(var(--background))",
-                      boxShadow: isActive
-                        ? `4px 4px 0px ${m.shadowColor}`
-                        : "4px 4px 0px hsl(var(--border))",
-                    }}
+                    className={`relative flex items-center justify-center rounded-full transition-all duration-500 border-[3px] ${
+                      isActive 
+                        ? "bg-primary border-primary/20 shadow-[0_0_20px_hsl(var(--primary)/0.4)] scale-110" 
+                        : "bg-card border-border text-muted-foreground"
+                    }`}
+                    style={{ width: "48px", height: "48px" }}
                   >
-                    <Icon
-                      style={{
-                        width: m.isFinish ? "28px" : "22px",
-                        height: m.isFinish ? "28px" : "22px",
-                        color: isActive ? "#fff" : "hsl(var(--muted-foreground))",
-                      }}
-                    />
-                    {(i === 0 || m.isFinish) && isActive && (
-                      <div className="absolute -top-2 -right-1 z-10">
-                        {m.isFinish ? (
-                          <Flag className="w-4 h-4 fill-current" style={{ color: m.iconBg }} />
-                        ) : (
-                          <MapPin className="w-4 h-4 fill-current" style={{ color: m.iconBg }} />
-                        )}
+                    <Icon className={`w-5 h-5 transition-colors duration-500 ${isActive ? "text-primary-foreground" : ""}`} />
+                    
+                    {/* Active Tick Indicator */}
+                    {isActive && !m.isFinish && (
+                      <div className="absolute -top-1 -right-1 bg-background rounded-full">
+                        <CheckCircle2 className="w-4 h-4 text-primary" />
                       </div>
                     )}
                   </div>
-                </div>
-              );
-            })}
-          </div>
 
-          {/* Bottom connectors */}
-          <div className="flex">
-            {milestones.map((m, i) => {
-              const isActive = progress >= (i / (milestones.length - 1)) * 0.88;
-              return (
-                <div key={`cbot-${i}`} className="flex-1 flex justify-center">
-                  <div
-                    style={{
-                      width: "2px",
-                      height: m.side === "right" ? "20px" : "0px",
-                      background: isActive ? m.iconBg : "hsl(var(--border))",
-                      transition: "background 0.4s",
-                    }}
+                  {/* Vertical Connectors */}
+                  <div 
+                    className={`absolute w-[2px] transition-all duration-500 ${m.side === 'top' ? 'bottom-full mb-2' : 'top-full mt-2'} ${isActive ? 'bg-primary/50' : 'bg-transparent'}`}
+                    style={{ height: "24px" }}
                   />
                 </div>
               );
             })}
           </div>
 
-          {/* Bottom cards — milestones with side="right" sit below the track */}
-          <div className="flex items-start">
+          {/* Bottom Row Cards */}
+          <div className="flex items-start pt-8">
             {milestones.map((m, i) => {
               const isActive = progress >= (i / (milestones.length - 1)) * 0.88;
               return (
-                <div key={`bot-${i}`} className="flex-1 flex flex-col items-center px-2">
-                  {m.side === "right" ? <HCard m={m} isActive={isActive} direction="up" /> : null}
+                <div key={`bottom-${i}`} className="flex-1 flex flex-col items-center px-4">
+                  {m.side === "bottom" ? <PathwayCard m={m} isActive={isActive} /> : null}
                 </div>
               );
             })}
           </div>
         </div>
 
-        <div className="md:hidden max-w-sm mx-auto">
-          <div className="relative">
-            <div
-              className="absolute top-0 bottom-0"
-              style={{ left: "27px", width: "4px", background: "hsl(var(--border))" }}
-            />
-            <div
-              className="absolute top-0 bg-primary origin-top"
-              style={{ left: "27px", width: "4px", height: `${progress * 100}%`, transition: "none" }}
-            />
+        {/* --- MOBILE LAYOUT --- */}
+        <div className="md:hidden max-w-sm mx-auto relative pl-4">
+          {/* Vertical Track Background */}
+          <div className="absolute top-0 bottom-0 left-[35px] w-[2px] bg-border" />
+          
+          {/* Vertical Track Fill */}
+          <div
+            className="absolute top-0 left-[35px] w-[2px] bg-primary shadow-[0_0_10px_hsl(var(--primary)/0.5)] origin-top transition-all duration-300 ease-out"
+            style={{ height: `${progress * 100}%` }}
+          />
 
-            {milestones.map((m, i) => {
-              const threshold = i / (milestones.length - 1);
-              const isActive = progress >= threshold * 0.88;
-              const Icon = m.icon;
+          {milestones.map((m, i) => {
+            const threshold = i / (milestones.length - 1);
+            const isActive = progress >= threshold * 0.88;
+            const Icon = m.icon;
 
-              return (
-                <div
-                  key={m.title}
-                  className="relative flex items-start gap-5"
-                  style={{ paddingBottom: i < milestones.length - 1 ? "40px" : "0" }}
-                >
+            return (
+              <div
+                key={m.title}
+                className="relative flex items-start gap-6 pb-12 last:pb-0"
+              >
+                {/* Mobile Node */}
+                <div className="relative z-20 flex-shrink-0 mt-1">
                   <div
-                    className="relative z-20 flex-shrink-0 flex items-center justify-center rounded-full transition-all duration-500"
-                    style={{
-                      width: "54px",
-                      height: "54px",
-                      background: isActive ? m.iconBg : "hsl(var(--muted))",
-                      border: "4px solid hsl(var(--background))",
-                      boxShadow: isActive
-                        ? `3px 3px 0px ${m.shadowColor}`
-                        : "3px 3px 0px hsl(var(--border))",
-                    }}
+                    className={`flex items-center justify-center rounded-full transition-all duration-500 border-[3px] ${
+                      isActive 
+                        ? "bg-primary border-primary/20 shadow-[0_0_15px_hsl(var(--primary)/0.4)] scale-110" 
+                        : "bg-card border-border text-muted-foreground"
+                    }`}
+                    style={{ width: "40px", height: "40px" }}
                   >
-                    <Icon
-                      style={{
-                        width: "20px",
-                        height: "20px",
-                        color: isActive ? "#fff" : "hsl(var(--muted-foreground))",
-                      }}
-                    />
-                  </div>
-
-                  <div
-                    className="flex-1 pt-1 transition-all duration-500"
-                    style={{
-                      opacity: isActive ? 1 : 0.35,
-                      transform: isActive ? "translateY(0)" : "translateY(8px)",
-                    }}
-                  >
-                    <span
-                      className="font-mono text-[9px] font-bold tracking-[0.22em] uppercase mb-1.5 block"
-                      style={{ color: m.labelColor }}
-                    >
-                      {m.label}
-                    </span>
-
-                    <div
-                      className="rounded-sm border-2"
-                      style={{
-                        borderColor: isActive ? m.iconBg : "hsl(var(--border))",
-                        boxShadow: isActive ? `4px 4px 0px ${m.shadowColor}` : "none",
-                        background: "hsl(var(--card))",
-                        padding: "14px 16px",
-                      }}
-                    >
-                      <div className="flex items-center justify-between mb-2 gap-2">
-                        <h3 className="font-black text-sm text-foreground leading-tight">
-                          {m.title}
-                        </h3>
-                        <span
-                          className="font-mono text-[9px] font-bold px-1.5 py-0.5 rounded-sm whitespace-nowrap flex-shrink-0"
-                          style={{
-                            background: `${m.iconBg}20`,
-                            color: m.labelColor,
-                            border: `1px solid ${m.iconBg}50`,
-                          }}
-                        >
-                          {m.xp}
-                        </span>
-                      </div>
-
-                      {m.badge && isActive && (
-                        <div className="mb-2">
-                          <span className="inline-flex items-center gap-1 text-[9px] font-bold px-1.5 py-0.5 rounded-sm bg-yellow-400/15 text-yellow-600 border border-yellow-400/40">
-                            <Star className="w-2 h-2 fill-yellow-500 text-yellow-500" />
-                            {m.badge}
-                          </span>
-                        </div>
-                      )}
-
-                      <div
-                        className="mb-2"
-                        style={{ height: "1px", background: isActive ? `${m.iconBg}30` : "hsl(var(--border))" }}
-                      />
-
-                      <ul className="space-y-1">
-                        {m.skills.map((s) => (
-                          <li
-                            key={s}
-                            className="flex items-center gap-1.5 text-[10px] text-muted-foreground"
-                          >
-                            <span
-                              className="w-1.5 h-1.5 rounded-sm flex-shrink-0"
-                              style={{ background: isActive ? m.iconBg : "hsl(var(--muted-foreground))" }}
-                            />
-                            {s}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    <Icon className={`w-4 h-4 transition-colors duration-500 ${isActive ? "text-primary-foreground" : ""}`} />
                   </div>
                 </div>
-              );
-            })}
-          </div>
+
+                {/* Mobile Card */}
+                <div className="flex-1">
+                  <PathwayCard m={m} isActive={isActive} />
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
   );
 }
 
+// Sub-component for the cards to keep code clean
 type Milestone = (typeof milestones)[number];
 
-function HCard({
-  m,
-  isActive,
-  direction = "down",
-}: {
-  m: Milestone;
-  isActive: boolean;
-  direction?: "down" | "up";
-}) {
-  const [hovered, setHovered] = useState(false);
-
+function PathwayCard({ m, isActive }: { m: Milestone; isActive: boolean }) {
   return (
     <div
-      className="w-full transition-all duration-500"
-      style={{
-        opacity: isActive ? 1 : 0.3,
-        transform: isActive
-          ? "translateY(0)"
-          : direction === "down"
-          ? "translateY(10px)"
-          : "translateY(-10px)",
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      className={`w-full bg-card rounded-xl border transition-all duration-500 overflow-hidden ${
+        isActive 
+          ? "border-primary/40 shadow-lg shadow-primary/5 translate-y-0 opacity-100" 
+          : "border-border/50 shadow-sm translate-y-4 opacity-40 grayscale-[0.5]"
+      }`}
     >
-      <span
-        className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase block mb-1.5 text-center"
-        style={{ color: isActive ? m.labelColor : "hsl(var(--muted-foreground))" }}
-      >
-        {m.label}
-      </span>
-
-      <div
-        className="rounded-sm border-2 cursor-default transition-all duration-200"
-        style={{
-          borderColor: isActive ? m.iconBg : "hsl(var(--border))",
-          boxShadow: isActive
-            ? hovered
-              ? `5px 5px 0px ${m.shadowColor}`
-              : `3px 3px 0px ${m.shadowColor}`
-            : "none",
-          background:
-            m.isFinish && isActive
-              ? `linear-gradient(135deg, ${m.iconBg}18, ${m.iconBg}08)`
-              : "hsl(var(--card))",
-          padding: "12px 14px",
-          transform: hovered && isActive ? "translate(-1px, -1px)" : "none",
-        }}
-      >
-        <div className="flex items-center justify-between mb-2 gap-1">
-          <h3
-            className="font-black text-sm leading-tight"
-            style={{
-              color: isActive
-                ? m.isFinish
-                  ? m.labelColor
-                  : "hsl(var(--foreground))"
-                : "hsl(var(--muted-foreground))",
-            }}
-          >
-            {m.title}
-          </h3>
+      <div className={`p-4 ${isActive && m.isFinish ? "bg-primary/5" : ""}`}>
+        <div className="flex items-center justify-between mb-3">
           <span
-            className="font-mono text-[8px] font-bold px-1.5 py-0.5 rounded-sm whitespace-nowrap flex-shrink-0"
-            style={{
-              background: isActive ? `${m.iconBg}20` : "transparent",
-              color: isActive ? m.labelColor : "hsl(var(--muted-foreground))",
-              border: `1px solid ${isActive ? m.iconBg + "50" : "hsl(var(--border))"}`,
-            }}
+            className={`font-mono text-[10px] font-bold tracking-wider uppercase ${
+              isActive ? "text-primary" : "text-muted-foreground"
+            }`}
           >
-            {m.xp}
+            {m.label}
           </span>
         </div>
 
-        {m.badge && isActive && (
-          <div className="mb-2">
-            <span className="inline-flex items-center gap-1 text-[8px] font-bold px-1.5 py-0.5 rounded-sm bg-yellow-400/15 text-yellow-600 border border-yellow-400/40">
-              <Star className="w-2 h-2 fill-yellow-500 text-yellow-500" />
-              {m.badge}
-            </span>
-          </div>
-        )}
+        <h3 className={`font-bold text-base leading-tight mb-1 ${isActive ? "text-foreground" : "text-muted-foreground"}`}>
+          {m.title}
+        </h3>
+        
+        <p className="text-xs text-muted-foreground mb-4">
+          {m.description}
+        </p>
 
-        <div
-          className="mb-2"
-          style={{ height: "1px", background: isActive ? `${m.iconBg}30` : "hsl(var(--border))" }}
-        />
+        <div className="h-px w-full bg-border/50 mb-3" />
 
-        <ul className="space-y-1">
-          {m.skills.map((s) => (
-            <li
-              key={s}
-              className="flex items-center gap-1.5 text-[10px] text-muted-foreground"
-            >
-              <span
-                className="w-1.5 h-1.5 rounded-sm flex-shrink-0"
-                style={{ background: isActive ? m.iconBg : "hsl(var(--muted-foreground))" }}
-              />
-              {s}
+        <ul className="space-y-2">
+          {m.skills.map((skill) => (
+            <li key={skill} className="flex items-start gap-2 text-[11px] text-muted-foreground">
+              <div className={`mt-[3px] w-1.5 h-1.5 rounded-full flex-shrink-0 ${isActive ? "bg-primary" : "bg-muted-foreground/30"}`} />
+              {skill}
             </li>
           ))}
         </ul>
-
-        {m.isFinish && isActive && (
-          <div
-            className="mt-3 pt-2.5 flex items-center justify-center gap-1.5"
-            style={{ borderTop: `1px solid ${m.iconBg}35` }}
-          >
-            <span
-              className="font-mono font-black text-[8px] tracking-widest uppercase"
-              style={{ color: m.labelColor }}
-            >
-              Career Launch Ready
-            </span>
-            <Flag className="w-3 h-3" style={{ color: m.labelColor, fill: m.labelColor }} />
-          </div>
-        )}
       </div>
     </div>
   );

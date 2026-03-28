@@ -221,36 +221,6 @@ export default function SignInPage() {
 
       <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.3)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.3)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_40%,transparent_100%)]" />
 
-      <div className="absolute top-20 left-[10%] animate-float hidden lg:block">
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-lg">
-          <BookOpen className="w-7 h-7 text-white" />
-        </div>
-      </div>
-      <div
-        className="absolute bottom-32 left-[15%] animate-float hidden lg:block"
-        style={{ animationDelay: "1s" }}
-      >
-        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-lg">
-          <Code className="w-6 h-6 text-white" />
-        </div>
-      </div>
-      <div
-        className="absolute top-40 right-[12%] animate-float hidden lg:block"
-        style={{ animationDelay: "2s" }}
-      >
-        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center shadow-lg">
-          <Rocket className="w-8 h-8 text-white" />
-        </div>
-      </div>
-      <div
-        className="absolute bottom-40 right-[18%] animate-float hidden lg:block"
-        style={{ animationDelay: "0.5s" }}
-      >
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-lg">
-          <Zap className="w-5 h-5 text-white" />
-        </div>
-      </div>
-
       <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="text-center mb-8 animate-fade-up">
@@ -345,7 +315,7 @@ export default function SignInPage() {
                     </div>
                     <Button
                       type="submit"
-                      className="w-full bg-gradient-orange hover:opacity-90 transition-opacity"
+                      className="w-full bg-primary hover:opacity-90 transition-opacity"
                       disabled={isLoading}
                     >
                       {isLoading ? (
@@ -419,7 +389,7 @@ export default function SignInPage() {
                         <Button
                           type="button"
                           onClick={handleVerifyOtp}
-                          className="w-full bg-gradient-orange hover:opacity-90 transition-opacity"
+                          className="w-full bg-primary hover:opacity-90 transition-opacity"
                           disabled={isLoading || otp.length !== 6}
                         >
                           {isLoading ? (
@@ -449,7 +419,7 @@ export default function SignInPage() {
                         <Button
                           type="button"
                           onClick={handleSendOtp}
-                          className="w-full bg-gradient-orange hover:opacity-90 transition-opacity"
+                          className="w-full bg-primary hover:opacity-90 transition-opacity"
                           disabled={isLoading || !email}
                         >
                           {isLoading ? (
@@ -518,7 +488,7 @@ export default function SignInPage() {
                         <Button
                           type="button"
                           onClick={handleMagicLink}
-                          className="w-full bg-gradient-orange hover:opacity-90 transition-opacity"
+                          className="w-full bg-primary hover:opacity-90 transition-opacity"
                           disabled={isLoading || !email}
                         >
                           {isLoading ? (
