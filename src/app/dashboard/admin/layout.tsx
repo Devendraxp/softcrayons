@@ -50,6 +50,18 @@ const navItems: DashboardNavItem[] = [
     ]
   },
   { 
+    title: "Tutorials", 
+    href: "/dashboard/admin/tutorials", 
+    icon: BookOpen,
+    subItems: [
+      { title: "Overview", href: "/dashboard/admin/tutorials" },
+      { title: "Categories", href: "/dashboard/admin/tutorials/categories" },
+      { title: "Topics", href: "/dashboard/admin/tutorials/topics" },
+      { title: "Subtopics", href: "/dashboard/admin/tutorials/subtopics" },
+      { title: "Lessons", href: "/dashboard/admin/tutorials/lessons" },
+    ]
+  },
+  { 
     title: "FAQs", 
     href: "/dashboard/admin/faqs", 
     icon: HelpCircle,

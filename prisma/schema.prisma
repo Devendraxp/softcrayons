@@ -328,3 +328,90 @@ model Verification {
   @@index([identifier])
   @@map("verification")
 }
+
+model TutorialsCategory {
+  id              Int              @id @default(autoincrement())
+  title           String
+  description     String?
+  slug            String           @unique
+  position        Int              @unique
+  isPublic        Boolean          @default(false)
+  isFeatured      Boolean          @default(false)
+  logo            String?
+  metaTitle       String?
+  metaDescription String?
+  metaKeywords    Json?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  topics          TutorialsTopic[]
+}
+
+model TutorialsTopic {
+  id              Int                 @id @default(autoincrement())
+  title           String
+  description     String?
+  slug            String              @unique
+  category        TutorialsCategory   @relation(fields: [categoryId], references: [id])
+  categoryId      Int
+  position        Int
+  isPublic        Boolean             @default(false)
+  isFeatured      Boolean             @default(false)
+  logo            String?
+  metaTitle       String?
+  metaDescription String?
+  metaKeywords    Json?
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  subtopics       TutorialsSubTopic[]
+
+  @@unique([categoryId, position])
+}
+
+model TutorialsSubTopic {
+  id              Int               @id @default(autoincrement())
+  title           String
+  description     String?
+  slug            String            @unique
+  topic           TutorialsTopic    @relation(fields: [topicId], references: [id])
+  topicId         Int
+  position        Int
+  isPublic        Boolean           @default(false)
+  isFeatured      Boolean           @default(false)
+  logo            String?
+  metaTitle       String?
+  metaDescription String?
+  metaKeywords    Json?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  lessons         TutorialsLesson[]
+
+  @@unique([topicId, position])
+}
+
+model TutorialsLesson {
+  id              Int               @id @default(autoincrement())
+  title           String
+  description     String?
+  slug            String            @unique
+  position        Int
+  content         String
+  tableOfContent  Json?
+  nextLink        String?
+  previousLink    String?
+  homeLink        String?
+  subtopic        TutorialsSubTopic @relation(fields: [subtopicId], references: [id])
+  subtopicId      Int
+  isPublic        Boolean           @default(false)
+  isFeatured      Boolean           @default(false)
+  logo            String?
+  metaTitle       String?
+  metaDescription String?
+  metaKeywords    Json?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@unique([subtopicId, position])
+}
+
+
+

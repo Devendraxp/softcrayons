@@ -157,7 +157,7 @@ export function HeroSection() {
                   <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
-              <Link href="/contact">
+              <Link href="/query">
                 <Button
                   variant="outline"
                   size="lg"
