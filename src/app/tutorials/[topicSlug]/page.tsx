@@ -95,13 +95,13 @@ export default async function TopicPage({ params }: TopicPageParams) {
     .sort((a, b) => (a.position ?? 0) - (b.position ?? 0))[0];
 
   return (
-    <div className="container py-10">
-      <div className="grid gap-10 lg:grid-cols-[260px_1fr]">
-        <TutorialSidebar topicSlug={topic.slug} subtopics={navSubtopics} />
+    <div className="flex min-h-screen bg-background">
+      <TutorialSidebar topicSlug={topic.slug} subtopics={navSubtopics} />
 
-        <div className="space-y-8">
-          <header className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-            <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+      <main className="flex-1">
+        <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-10 py-12 space-y-10">
+          <header className="space-y-4">
+            <div className="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
               <Link href="/tutorials" className="hover:text-foreground">Tutorials</Link>
               <span>•</span>
               {topic.category && (
@@ -110,47 +110,53 @@ export default async function TopicPage({ params }: TopicPageParams) {
                 </Link>
               )}
             </div>
-            <h1 className="mt-3 text-3xl font-black leading-tight">{topic.title}</h1>
-            {topic.description && (
-              <p className="mt-3 text-lg text-muted-foreground">{topic.description}</p>
-            )}
+            <div className="space-y-3">
+              <h1 className="text-4xl font-black leading-tight text-foreground">{topic.title}</h1>
+              {topic.description && (
+                <p className="text-lg text-muted-foreground max-w-3xl">{topic.description}</p>
+              )}
+            </div>
             {firstLesson && (
-              <div className="mt-6">
-                <Button asChild size="lg">
-                  <Link href={`/tutorials/${topic.slug}/${firstLesson.slug}`} className="inline-flex items-center gap-2">
+              <div className="flex flex-wrap gap-3">
+                <Button asChild size="lg" className="gap-2 shadow-sm">
+                  <Link href={`/tutorials/${topic.slug}/${firstLesson.slug}`}>
                     Start learning
                     <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+                <Button asChild variant="ghost" size="lg" className="gap-2 text-muted-foreground">
+                  <Link href="#subtopics">
+                    Browse outline
+                    <Layers className="h-4 w-4" />
                   </Link>
                 </Button>
               </div>
             )}
           </header>
 
-          <section className="space-y-4">
+          <section id="subtopics" className="space-y-4">
             <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
               <Layers className="h-4 w-4" /> Subtopics & Lessons
             </div>
-            <div className="space-y-4">
+            <div className="space-y-3 rounded-2xl bg-card/30 p-4 shadow-sm backdrop-blur-sm">
               {topic.subtopics.map((subtopic) => (
-                <div key={subtopic.id} className="rounded-xl border border-border bg-muted/40 p-4">
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="space-y-1">
-                      <p className="text-sm font-semibold text-muted-foreground">Subtopic</p>
-                      <h3 className="text-lg font-semibold">{subtopic.title}</h3>
-                      {subtopic.description && (
-                        <p className="text-sm text-muted-foreground">{subtopic.description}</p>
-                      )}
-                    </div>
+                <div key={subtopic.id} className="rounded-xl p-3 transition-colors hover:bg-primary/5">
+                  <div className="space-y-1">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Subtopic</p>
+                    <h3 className="text-lg font-semibold text-foreground">{subtopic.title}</h3>
+                    {subtopic.description && (
+                      <p className="text-sm text-muted-foreground leading-relaxed">{subtopic.description}</p>
+                    )}
                   </div>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {subtopic.lessons.length === 0 && (
-                      <Badge variant="outline">Lessons coming soon</Badge>
+                      <Badge variant="secondary" className="bg-muted text-muted-foreground">Lessons coming soon</Badge>
                     )}
                     {subtopic.lessons.map((lesson) => (
                       <Link
                         key={lesson.id}
                         href={`/tutorials/${topic.slug}/${lesson.slug}`}
-                        className="group inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-sm hover:border-primary/40 hover:text-primary"
+                        className="group inline-flex items-center gap-2 rounded-full bg-muted/70 px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-primary/10 hover:text-primary"
                       >
                         <BookOpen className="h-4 w-4" />
                         {lesson.title}
@@ -163,7 +169,7 @@ export default async function TopicPage({ params }: TopicPageParams) {
             </div>
           </section>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

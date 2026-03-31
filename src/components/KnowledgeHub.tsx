@@ -45,7 +45,7 @@ function KnowledgeHubCard({ blog, index }: { blog: Blog; index: number }) {
   return (
     <Link href={`/blogs/${blog.slug || blog.id}`}>
       <article
-        className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 h-full flex flex-col animate-fade-up"
+        className="group bg-gradient-to-b from-card to-background/60 rounded-2xl overflow-hidden shadow-md hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 h-full flex flex-col animate-fade-up"
         style={{ animationDelay: `${index * 0.15}s` }}
       >
         <div className="relative aspect-[4/3] overflow-hidden bg-muted">
@@ -83,7 +83,7 @@ function KnowledgeHubCard({ blog, index }: { blog: Blog; index: number }) {
             {blog.description || ""}
           </p>
 
-          <div className="flex items-center justify-between pt-4 border-t border-border mt-auto">
+          <div className="flex items-center justify-between pt-4 mt-auto">
             <div className="flex items-center gap-2">
               {blog.author.image ? (
                 <Image

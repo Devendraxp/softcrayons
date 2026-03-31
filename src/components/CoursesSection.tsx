@@ -60,13 +60,13 @@ export function CoursesSection() {
     const getLevelColor = (level: string) => {
         switch (level) {
             case 'BEGINNER':
-                return 'bg-green-500/20 text-green-600 dark:text-green-400 border border-green-500/30';
+                return 'bg-green-500/15 text-green-600 dark:text-green-400';
             case 'INTERMEDIATE':
-                return 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 border border-yellow-500/30';
+                return 'bg-yellow-500/15 text-yellow-600 dark:text-yellow-400';
             case 'ADVANCED':
-                return 'bg-red-500/20 text-red-600 dark:text-red-400 border border-red-500/30';
+                return 'bg-red-500/15 text-red-600 dark:text-red-400';
             default:
-                return 'bg-primary/20 text-primary border border-primary/30';
+                return 'bg-primary/15 text-primary';
         }
     };
 
@@ -132,7 +132,7 @@ export function CoursesSection() {
                                         .map((course) => (
                                             <div
                                                 key={course.id}
-                                                className="bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-300 hover:shadow-lg flex flex-col h-full"
+                                                className="bg-gradient-to-b from-card to-background/60 rounded-2xl overflow-hidden shadow-md transition-all duration-300 hover:shadow-xl flex flex-col h-full"
                                             >
                                                 <div className="relative aspect-[4/3] overflow-hidden flex-shrink-0">
                                                     <img

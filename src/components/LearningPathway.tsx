@@ -83,7 +83,7 @@ export function LearningPathway() {
   return (
     <section
       ref={sectionRef}
-      className="relative py-24 md:py-32 bg-background overflow-hidden border-t border-border/40"
+      className="relative py-24 md:py-32 bg-background overflow-hidden"
     >
       {/* Clean, subtle background grid using theme variables */}
       <div

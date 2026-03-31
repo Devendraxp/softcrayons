@@ -36,7 +36,7 @@ export function TutorialContent({ content, tableOfContent }: ContentProps) {
       </article>
 
       {hasToc && (
-        <aside className="rounded-xl border border-border bg-muted/50 p-4 text-sm shadow-sm">
+        <aside className="rounded-xl bg-muted/30 p-4 text-sm shadow-sm lg:sticky lg:top-24">
           <div className="mb-3 flex items-center gap-2 text-muted-foreground font-semibold uppercase tracking-wide">
             <List className="h-4 w-4" />
             Contents
@@ -46,7 +46,7 @@ export function TutorialContent({ content, tableOfContent }: ContentProps) {
               <li key={item.id}>
                 <a
                   href={`#${item.id}`}
-                  className="block rounded-md px-2 py-1 text-foreground hover:bg-primary/10"
+                  className="block rounded-md px-2 py-1 text-foreground transition-colors hover:bg-primary/10"
                 >
                   {item.text}
                 </a>
@@ -127,13 +127,13 @@ function CodeBlock({ code, language }: { code: string; language: string }) {
   const langLabel = language || "plaintext";
 
   return (
-    <div className="relative my-6 overflow-hidden rounded-lg border border-border">
-      <div className="flex items-center justify-between border-b border-border bg-muted/60 px-4 py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+    <div className="relative my-6 overflow-hidden rounded-lg bg-card shadow-sm">
+      <div className="flex items-center justify-between bg-muted/60 px-4 py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
         <span>{langLabel}</span>
         <button
           type="button"
           onClick={handleCopy}
-          className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-muted-foreground hover:bg-primary/10 hover:text-foreground"
+          className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-muted-foreground transition-colors hover:bg-primary/10 hover:text-foreground"
         >
           {copied ? <Check className="h-3.5 w-3.5 text-green-500" /> : <Copy className="h-3.5 w-3.5" />}
           {copied ? "Copied" : "Copy"}

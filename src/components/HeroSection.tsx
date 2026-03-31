@@ -110,7 +110,7 @@ export function HeroSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
           
           <div className="text-center lg:text-left order-1">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-6 animate-fade-up backdrop-blur-sm">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 mb-6 animate-fade-up backdrop-blur-sm shadow-sm">
               <span className="text-xs font-bold uppercase tracking-wider text-primary">
                 Noida's #1 Tech Institute
               </span>
@@ -191,7 +191,7 @@ export function HeroSection() {
         </div>
       </div>
 
-      <div className="relative z-10 mt-16 lg:mt-24 border-t border-border/50 bg-muted/20 backdrop-blur-sm py-6">
+      <div className="relative z-10 mt-16 lg:mt-24 bg-gradient-to-r from-background via-muted/30 to-background backdrop-blur-sm py-6 shadow-[0_-10px_40px_rgba(0,0,0,0.04)]">
         <div className="container flex flex-col lg:flex-row items-center gap-6">
           <p className="text-sm font-semibold text-muted-foreground whitespace-nowrap">
             Technologies you'll master:
@@ -201,7 +201,7 @@ export function HeroSection() {
               {TECH_CHIPS.map((tech) => (
                 <div
                   key={tech.name}
-                  className="group flex items-center gap-2 px-4 py-2 mx-2 rounded-lg bg-background border border-border hover:border-primary/50 transition-all duration-300 cursor-default shadow-sm"
+                  className="group flex items-center gap-2 px-4 py-2 mx-2 rounded-lg bg-card/80 shadow-sm transition-all duration-300 cursor-default"
                 >
                   <img 
                     src={tech.src} 

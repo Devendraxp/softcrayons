@@ -123,12 +123,12 @@ export default async function LessonPage({ params }: LessonPageParams) {
   const homeHref = lesson.homeLink || "/tutorials";
 
   return (
-    <div className="container py-10">
-      <div className="grid gap-10 lg:grid-cols-[260px_1fr]">
-        <TutorialSidebar topicSlug={topic.slug} subtopics={navSubtopics} currentLessonSlug={lesson.slug} />
+    <div className="flex min-h-screen bg-background">
+      <TutorialSidebar topicSlug={topic.slug} subtopics={navSubtopics} currentLessonSlug={lesson.slug} />
 
-        <div className="space-y-8">
-          <header className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+      <main className="flex-1">
+        <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-10 py-12 space-y-10">
+          <header className="space-y-4 rounded-2xl bg-card/30 p-6 shadow-sm backdrop-blur-sm">
             <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
               <Link href="/tutorials" className="hover:text-foreground">Tutorials</Link>
               <span>•</span>
@@ -136,11 +136,13 @@ export default async function LessonPage({ params }: LessonPageParams) {
               <span>•</span>
               <span className="text-foreground">{lesson.subtopic.title}</span>
             </div>
-            <h1 className="mt-3 text-3xl font-black leading-tight">{lesson.title}</h1>
-            {lesson.description && (
-              <p className="mt-3 text-lg text-muted-foreground">{lesson.description}</p>
-            )}
-            <div className="mt-4 flex flex-wrap items-center gap-2">
+            <div className="space-y-3">
+              <h1 className="text-4xl font-black leading-tight">{lesson.title}</h1>
+              {lesson.description && (
+                <p className="text-lg text-muted-foreground max-w-3xl">{lesson.description}</p>
+              )}
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
               <Badge variant="secondary">{lesson.subtopic.title}</Badge>
               <Badge variant="outline">{topic.title}</Badge>
             </div>
@@ -149,11 +151,11 @@ export default async function LessonPage({ params }: LessonPageParams) {
 
           <TutorialContent content={lesson.content} tableOfContent={toc} />
 
-          <div className="rounded-2xl border border-border bg-card p-4">
+          <div className="flex flex-wrap items-center gap-3">
             <NavButtons previousHref={previousHref} nextHref={nextHref} homeHref={homeHref} />
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
