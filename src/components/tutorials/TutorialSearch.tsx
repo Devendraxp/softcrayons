@@ -35,26 +35,16 @@ type SearchResponse = {
 
 export function TutorialSearch({ variant = "default" }: { variant?: "default" | "navbar" }) {
   const [query, setQuery] = useState("");
-  const [debouncedQuery, setDebouncedQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<SearchResponse>({ topics: [], lessons: [] });
   const [error, setError] = useState<string | null>(null);
 
-  const canSearch = debouncedQuery.length >= 2;
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedQuery(query.trim());
-    }, 250);
-
-    return () => clearTimeout(timer);
-  }, [query]);
+  const canSearch = query.trim().length >= 2;
 
   useEffect(() => {
     if (!canSearch) {
       setResults({ topics: [], lessons: [] });
       setError(null);
-      setLoading(false);
       return;
     }
 
@@ -63,7 +53,7 @@ export function TutorialSearch({ variant = "default" }: { variant?: "default" | 
       try {
         setLoading(true);
         setError(null);
-        const res = await fetch(`/api/tutorials/search?q=${encodeURIComponent(debouncedQuery)}`, {
+        const res = await fetch(`/api/tutorials/search?q=${encodeURIComponent(query.trim())}`, {
           signal: controller.signal,
         });
         if (!res.ok) throw new Error("Failed to search tutorials");
@@ -85,7 +75,7 @@ export function TutorialSearch({ variant = "default" }: { variant?: "default" | 
 
     runSearch();
     return () => controller.abort();
-  }, [debouncedQuery, canSearch]);
+  }, [query, canSearch]);
 
   const totalResults = useMemo(
     () => results.topics.length + results.lessons.length,

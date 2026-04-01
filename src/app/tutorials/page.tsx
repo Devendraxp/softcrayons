@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description: "Docs for every developer. Explore categories, topics, and hands-on lessons.",
 };
 
-export const revalidate = 600;
+export const revalidate = 0;
 
 type TopicLink = {
   id: number;

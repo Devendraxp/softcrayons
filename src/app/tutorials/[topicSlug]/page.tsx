@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { unstable_cache } from "next/cache";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
@@ -14,29 +13,25 @@ type TopicPageParams = {
   params: Promise<{ topicSlug: string }>;
 };
 
-const getTopic = unstable_cache(
-  async (slug: string) => {
-    return prisma.tutorialsTopic.findFirst({
-      where: { slug, isPublic: true },
-      include: {
-        category: { select: { title: true, slug: true } },
-        subtopics: {
-          where: { isPublic: true },
-          orderBy: { position: "asc" },
-          include: {
-            lessons: {
-              where: { isPublic: true },
-              orderBy: { position: "asc" },
-              select: { id: true, title: true, slug: true, position: true },
-            },
+async function getTopic(slug: string) {
+  return prisma.tutorialsTopic.findFirst({
+    where: { slug, isPublic: true },
+    include: {
+      category: { select: { title: true, slug: true } },
+      subtopics: {
+        where: { isPublic: true },
+        orderBy: { position: "asc" },
+        include: {
+          lessons: {
+            where: { isPublic: true },
+            orderBy: { position: "asc" },
+            select: { id: true, title: true, slug: true, position: true },
           },
         },
       },
-    });
-  },
-  ["tutorial-topic-page"],
-  { revalidate },
-);
+    },
+  });
+}
 
 function toKeywords(value: any): string[] | undefined {
   if (!value) return undefined;
@@ -47,7 +42,17 @@ function toKeywords(value: any): string[] | undefined {
 
 export async function generateMetadata({ params }: TopicPageParams): Promise<Metadata> {
   const { topicSlug } = await params;
-  const topic = await getTopic(topicSlug);
+  const topic = await prisma.tutorialsTopic.findFirst({
+    where: { slug: topicSlug, isPublic: true },
+    select: {
+      title: true,
+      description: true,
+      metaTitle: true,
+      metaDescription: true,
+      metaKeywords: true,
+      slug: true,
+    },
+  });
 
   if (!topic) return {};
 

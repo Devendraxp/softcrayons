@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { unstable_cache } from "next/cache";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
@@ -16,25 +15,23 @@ type LessonPageParams = {
   params: Promise<{ topicSlug: string; lessonSlug: string }>;
 };
 
-const getLessonWithNav = unstable_cache(
-  async (slug: string) => {
-    return prisma.tutorialsLesson.findFirst({
-      where: { slug, isPublic: true },
-      include: {
-        subtopic: {
-          include: {
-            topic: {
-              include: {
-                category: { select: { title: true, slug: true } },
-                subtopics: {
-                  where: { isPublic: true },
-                  orderBy: { position: "asc" },
-                  include: {
-                    lessons: {
-                      where: { isPublic: true },
-                      orderBy: { position: "asc" },
-                      select: { id: true, title: true, slug: true, position: true },
-                    },
+async function getLessonWithNav(slug: string) {
+  return prisma.tutorialsLesson.findFirst({
+    where: { slug, isPublic: true },
+    include: {
+      subtopic: {
+        include: {
+          topic: {
+            include: {
+              category: { select: { title: true, slug: true } },
+              subtopics: {
+                where: { isPublic: true },
+                orderBy: { position: "asc" },
+                include: {
+                  lessons: {
+                    where: { isPublic: true },
+                    orderBy: { position: "asc" },
+                    select: { id: true, title: true, slug: true, position: true },
                   },
                 },
               },
@@ -42,11 +39,9 @@ const getLessonWithNav = unstable_cache(
           },
         },
       },
-    });
-  },
-  ["tutorial-lesson-page"],
-  { revalidate },
-);
+    },
+  });
+}
 
 function toTableOfContent(value: any): TocItem[] {
   if (!value) return [];
@@ -66,7 +61,23 @@ function toKeywords(value: any): string[] | undefined {
 
 export async function generateMetadata({ params }: LessonPageParams): Promise<Metadata> {
   const { topicSlug, lessonSlug } = await params;
-  const lesson = await getLessonWithNav(lessonSlug);
+  const lesson = await prisma.tutorialsLesson.findFirst({
+    where: { slug: lessonSlug, isPublic: true },
+    select: {
+      title: true,
+      description: true,
+      metaTitle: true,
+      metaDescription: true,
+      metaKeywords: true,
+      slug: true,
+      subtopic: {
+        select: {
+          title: true,
+          topic: { select: { slug: true, title: true } },
+        },
+      },
+    },
+  });
 
   if (!lesson || lesson.subtopic?.topic?.slug !== topicSlug) return {};
 

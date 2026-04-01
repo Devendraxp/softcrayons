@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
           description: true,
           category: { select: { title: true, slug: true } },
         },
-        orderBy: [{ isFeatured: "desc" }, { position: "asc" }, { title: "asc" }],
+        orderBy: [{ position: "asc" }, { title: "asc" }],
         take: limit,
       }),
       prisma.tutorialsLesson.findMany({
@@ -41,6 +41,7 @@ export async function GET(request: NextRequest) {
           OR: [
             { title: { contains: query, mode: "insensitive" } },
             { description: { contains: query, mode: "insensitive" } },
+            { content: { contains: query, mode: "insensitive" } },
           ],
         },
         select: {
@@ -57,24 +58,17 @@ export async function GET(request: NextRequest) {
             },
           },
         },
-        orderBy: [{ isFeatured: "desc" }, { position: "asc" }, { title: "asc" }],
+        orderBy: [{ position: "asc" }, { title: "asc" }],
         take: limit,
       }),
     ]);
 
-    return NextResponse.json(
-      {
-        success: true,
-        data: { topics, lessons },
-        query,
-        total: topics.length + lessons.length,
-      },
-      {
-        headers: {
-          "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
-        },
-      },
-    );
+    return NextResponse.json({
+      success: true,
+      data: { topics, lessons },
+      query,
+      total: topics.length + lessons.length,
+    });
   } catch (error: any) {
     return NextResponse.json(
       {
