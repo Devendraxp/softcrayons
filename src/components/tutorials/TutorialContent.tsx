@@ -1,61 +1,30 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Check, Copy, List } from "lucide-react";
+import { Check, Copy } from "lucide-react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
-export type TocItem = { id: string; text: string };
-
 type ContentProps = {
   content: string | null;
-  tableOfContent?: TocItem[] | null;
 };
 
-export function TutorialContent({ content, tableOfContent }: ContentProps) {
-  const hasToc = Array.isArray(tableOfContent) && tableOfContent.length > 0;
+export function TutorialContent({ content }: ContentProps) {
   const parsedSegments = useMemo(() => parseContentSegments(content || ""), [content]);
 
-  const containerClass = hasToc
-    ? "grid gap-10 lg:grid-cols-[1fr_280px]"
-    : "space-y-6";
-
   return (
-    <div className={containerClass}>
-      <article className="prose prose-slate max-w-none dark:prose-invert">
-        {parsedSegments.map((segment, index) => {
-          if (segment.type === "code") {
-            return (
-              <CodeBlock key={index} code={segment.code} language={segment.language} />
-            );
-          }
+    <article className="prose prose-slate max-w-none dark:prose-invert">
+      {parsedSegments.map((segment, index) => {
+        if (segment.type === "code") {
           return (
-            <div key={index} dangerouslySetInnerHTML={{ __html: segment.html }} />
+            <CodeBlock key={index} code={segment.code} language={segment.language} />
           );
-        })}
-      </article>
-
-      {hasToc && (
-        <aside className="rounded-xl bg-muted/30 p-4 text-sm shadow-sm lg:sticky lg:top-24">
-          <div className="mb-3 flex items-center gap-2 text-muted-foreground font-semibold uppercase tracking-wide">
-            <List className="h-4 w-4" />
-            Contents
-          </div>
-          <ul className="space-y-2">
-            {tableOfContent!.map((item) => (
-              <li key={item.id}>
-                <a
-                  href={`#${item.id}`}
-                  className="block rounded-md px-2 py-1 text-foreground transition-colors hover:bg-primary/10"
-                >
-                  {item.text}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </aside>
-      )}
-    </div>
+        }
+        return (
+          <div key={index} dangerouslySetInnerHTML={{ __html: segment.html }} />
+        );
+      })}
+    </article>
   );
 }
 

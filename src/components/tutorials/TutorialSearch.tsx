@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, Search, BookOpen, List, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type TopicResult = {
   id: number;
@@ -32,18 +33,28 @@ type SearchResponse = {
   lessons: LessonResult[];
 };
 
-export function TutorialSearch() {
+export function TutorialSearch({ variant = "default" }: { variant?: "default" | "navbar" }) {
   const [query, setQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<SearchResponse>({ topics: [], lessons: [] });
   const [error, setError] = useState<string | null>(null);
 
-  const canSearch = query.trim().length >= 2;
+  const canSearch = debouncedQuery.length >= 2;
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(query.trim());
+    }, 250);
+
+    return () => clearTimeout(timer);
+  }, [query]);
 
   useEffect(() => {
     if (!canSearch) {
       setResults({ topics: [], lessons: [] });
       setError(null);
+      setLoading(false);
       return;
     }
 
@@ -52,7 +63,7 @@ export function TutorialSearch() {
       try {
         setLoading(true);
         setError(null);
-        const res = await fetch(`/api/tutorials/search?q=${encodeURIComponent(query.trim())}`, {
+        const res = await fetch(`/api/tutorials/search?q=${encodeURIComponent(debouncedQuery)}`, {
           signal: controller.signal,
         });
         if (!res.ok) throw new Error("Failed to search tutorials");
@@ -74,7 +85,7 @@ export function TutorialSearch() {
 
     runSearch();
     return () => controller.abort();
-  }, [query, canSearch]);
+  }, [debouncedQuery, canSearch]);
 
   const totalResults = useMemo(
     () => results.topics.length + results.lessons.length,
@@ -82,20 +93,28 @@ export function TutorialSearch() {
   );
 
   return (
-    <div className="relative w-full max-w-3xl">
+    <div className={cn("relative w-full", variant === "default" && "max-w-3xl")}>
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <Search className={cn("absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground", variant === "navbar" ? "hidden" : "h-4 w-4")} />
         <Input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search tutorials, topics, or lessons"
-          className="pl-10 pr-10"
+          className={cn(
+            variant === "default" 
+              ? "pl-10 pr-10 border-0 bg-muted/40 shadow-none outline-none focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+              : "bg-transparent border-0 outline-none focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:border-0 focus-visible:ring-0 focus-visible:ring-offset-0 px-0 shadow-none h-8 text-sm"
+          )}
+          autoFocus={variant === "navbar"}
         />
         {query && (
           <button
             type="button"
             onClick={() => setQuery("")}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            className={cn(
+              "absolute top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground",
+              variant === "navbar" ? "right-2" : "right-3"
+            )}
             aria-label="Clear search"
           >
             <X className="h-4 w-4" />
@@ -104,7 +123,10 @@ export function TutorialSearch() {
       </div>
 
       {(canSearch || loading || error) && (
-        <div className="absolute z-20 mt-2 w-full rounded-xl border border-border bg-card shadow-lg">
+        <div className={cn(
+          "absolute z-20 mt-2 w-full rounded-xl border border-border bg-card shadow-lg",
+          variant === "navbar" && "w-80 -right-4"
+        )}>
           <div className="max-h-96 overflow-y-auto p-4 space-y-4">
             {loading && (
               <div className="flex items-center gap-2 text-sm text-muted-foreground">

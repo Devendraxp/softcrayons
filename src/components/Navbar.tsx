@@ -358,6 +358,15 @@ export function Navbar() {
 								</Button>
 							</Link>
 						)}
+						<Link
+							href="/tutorials"
+							className="flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 hover:bg-primary/15 transition-colors"
+						>
+							<span className="text-base font-semibold tracking-tight">
+								Tutorials
+							</span>
+							<span className="text-[9px] uppercase text-muted-foreground">Beta v0.1</span>
+						</Link>
 					</div>
 
 					<div className="flex items-center gap-2 md:hidden">
@@ -512,6 +521,14 @@ export function Navbar() {
 								</Button>
 							</Link>
 						)}
+						<Link
+							href="/tutorials"
+							onClick={() => setIsOpen(false)}
+							className="flex items-center justify-between rounded-lg border border-primary bg-primary/5 px-4 py-3"
+						>
+							<span className="text-base font-semibold tracking-tight">Tutorials</span>
+							<span className="text-[11px] uppercase text-muted-foreground">Beta v0.1</span>
+						</Link>
 					</div>
 				</div>
 			</div>

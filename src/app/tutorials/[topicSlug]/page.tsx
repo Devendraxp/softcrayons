@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { unstable_cache } from "next/cache";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
@@ -7,31 +8,35 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Layers, BookOpen } from "lucide-react";
 
-export const revalidate = 0;
+export const revalidate = 600;
 
 type TopicPageParams = {
   params: Promise<{ topicSlug: string }>;
 };
 
-async function getTopic(slug: string) {
-  return prisma.tutorialsTopic.findFirst({
-    where: { slug, isPublic: true },
-    include: {
-      category: { select: { title: true, slug: true } },
-      subtopics: {
-        where: { isPublic: true },
-        orderBy: { position: "asc" },
-        include: {
-          lessons: {
-            where: { isPublic: true },
-            orderBy: { position: "asc" },
-            select: { id: true, title: true, slug: true, position: true },
+const getTopic = unstable_cache(
+  async (slug: string) => {
+    return prisma.tutorialsTopic.findFirst({
+      where: { slug, isPublic: true },
+      include: {
+        category: { select: { title: true, slug: true } },
+        subtopics: {
+          where: { isPublic: true },
+          orderBy: { position: "asc" },
+          include: {
+            lessons: {
+              where: { isPublic: true },
+              orderBy: { position: "asc" },
+              select: { id: true, title: true, slug: true, position: true },
+            },
           },
         },
       },
-    },
-  });
-}
+    });
+  },
+  ["tutorial-topic-page"],
+  { revalidate },
+);
 
 function toKeywords(value: any): string[] | undefined {
   if (!value) return undefined;
@@ -42,17 +47,7 @@ function toKeywords(value: any): string[] | undefined {
 
 export async function generateMetadata({ params }: TopicPageParams): Promise<Metadata> {
   const { topicSlug } = await params;
-  const topic = await prisma.tutorialsTopic.findFirst({
-    where: { slug: topicSlug, isPublic: true },
-    select: {
-      title: true,
-      description: true,
-      metaTitle: true,
-      metaDescription: true,
-      metaKeywords: true,
-      slug: true,
-    },
-  });
+  const topic = await getTopic(topicSlug);
 
   if (!topic) return {};
 
@@ -95,12 +90,12 @@ export default async function TopicPage({ params }: TopicPageParams) {
     .sort((a, b) => (a.position ?? 0) - (b.position ?? 0))[0];
 
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="flex min-h-screen bg-background pt-20 md:pt-24">
       <TutorialSidebar topicSlug={topic.slug} subtopics={navSubtopics} />
 
       <main className="flex-1">
-        <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-10 py-12 space-y-10">
-          <header className="space-y-4">
+        <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-10 pb-12 space-y-10">
+          <header className="space-y-5">
             <div className="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
               <Link href="/tutorials" className="hover:text-foreground">Tutorials</Link>
               <span>•</span>
@@ -138,9 +133,9 @@ export default async function TopicPage({ params }: TopicPageParams) {
             <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
               <Layers className="h-4 w-4" /> Subtopics & Lessons
             </div>
-            <div className="space-y-3 rounded-2xl bg-card/30 p-4 shadow-sm backdrop-blur-sm">
+            <div className="space-y-3">
               {topic.subtopics.map((subtopic) => (
-                <div key={subtopic.id} className="rounded-xl p-3 transition-colors hover:bg-primary/5">
+                <div key={subtopic.id} className="rounded-xl border border-border/60 p-4 transition-colors hover:bg-muted/30">
                   <div className="space-y-1">
                     <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Subtopic</p>
                     <h3 className="text-lg font-semibold text-foreground">{subtopic.title}</h3>
@@ -156,9 +151,9 @@ export default async function TopicPage({ params }: TopicPageParams) {
                       <Link
                         key={lesson.id}
                         href={`/tutorials/${topic.slug}/${lesson.slug}`}
-                        className="group inline-flex items-center gap-2 rounded-full bg-muted/70 px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-primary/10 hover:text-primary"
+                        className="group inline-flex items-center gap-2 rounded-full bg-muted px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-primary/10 hover:text-primary"
                       >
-                        <BookOpen className="h-4 w-4" />
+                        <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground/70 transition-colors group-hover:bg-primary" />
                         {lesson.title}
                         <ArrowRight className="h-3.5 w-3.5 opacity-0 transition-opacity group-hover:opacity-100" />
                       </Link>

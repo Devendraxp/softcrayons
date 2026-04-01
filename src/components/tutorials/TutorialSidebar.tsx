@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { BookOpen, ChevronRight, Menu, X } from "lucide-react";
 
 export type TutorialNavLesson = {
   id?: number | null;
@@ -27,13 +26,12 @@ export function TutorialSidebar({ topicSlug, subtopics, currentLessonSlug }: Pro
   const [open, setOpen] = useState(false);
 
   const nav = (
-    <nav className="space-y-4">
+    <nav className="space-y-5">
       {subtopics.map((subtopic) => (
-        <div key={subtopic.slug} className="space-y-2">
-          <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground">
-            <BookOpen className="h-4 w-4" />
-            <span>{subtopic.title}</span>
-          </div>
+        <div key={subtopic.slug} className="space-y-2.5">
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+            {subtopic.title}
+          </p>
           <div className="space-y-1">
             {subtopic.lessons.map((lesson) => {
               const active = lesson.slug === currentLessonSlug;
@@ -42,19 +40,13 @@ export function TutorialSidebar({ topicSlug, subtopics, currentLessonSlug }: Pro
                   key={lesson.slug}
                   href={`/tutorials/${topicSlug}/${lesson.slug}`}
                   onClick={() => setOpen(false)}
-                  className={`group relative flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                  className={`block rounded-md px-3 py-2 text-sm leading-snug transition-colors ${
                     active
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted/60"
+                      ? "bg-primary/10 font-semibold text-foreground"
+                      : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
                   }`}
                 >
-                  <span
-                    className={`h-8 w-0.5 rounded-full transition-colors ${
-                      active ? "bg-primary" : "bg-transparent group-hover:bg-border"
-                    }`}
-                  />
-                  <ChevronRight className="h-4 w-4" />
-                  <span className="line-clamp-1">{lesson.title}</span>
+                  <span className="line-clamp-2">{lesson.title}</span>
                 </Link>
               );
             })}
@@ -65,16 +57,15 @@ export function TutorialSidebar({ topicSlug, subtopics, currentLessonSlug }: Pro
   );
 
   return (
-    <aside className="lg:sticky lg:top-24 lg:h-[calc(100vh-6rem)] lg:w-[260px] lg:flex-none lg:overflow-y-auto lg:border-r lg:border-border bg-card/70 lg:bg-card px-3 py-4 shadow-sm backdrop-blur-sm">
+    <aside className="lg:sticky lg:top-24 lg:h-[calc(100vh-6rem)] lg:w-[280px] lg:flex-none lg:overflow-y-auto lg:border-r lg:border-border/60 bg-background px-4 py-5">
       <div className="mb-4 flex items-center justify-between lg:hidden">
-        <h3 className="text-base font-semibold">Contents</h3>
+        <h3 className="text-base font-semibold">Lesson Outline</h3>
         <button
           type="button"
           onClick={() => setOpen((prev) => !prev)}
-          className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm"
+          className="rounded-lg border border-border px-3 py-2 text-sm font-medium"
         >
-          {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-          {open ? "Close" : "Browse"}
+          {open ? "Hide lessons" : "Browse lessons"}
         </button>
       </div>
 

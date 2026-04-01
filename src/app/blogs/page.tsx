@@ -307,7 +307,7 @@ export default function BlogsPage() {
                                 placeholder="Search articles..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="pl-12 pr-10 py-6 rounded-2xl bg-card border-border focus:border-primary"
+                                className="pl-12 pr-10 py-6 rounded-2xl bg-card border border-primary ring-1 ring-primary/30 focus:border-primary focus:ring-2 focus:ring-primary/60"
                             />
                             {searchQuery && (
                                 <button
