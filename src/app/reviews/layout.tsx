@@ -17,10 +17,10 @@ export const metadata: Metadata = {
     title: "Student Reviews & Testimonials | Softcrayons",
     description:
       "Read genuine reviews from our students about their learning experience at Softcrayons Tech Solutions.",
-    url: "https://softcrayons.com/reviews",
+    url: "https://softcrayons.in/reviews",
   },
   alternates: {
-    canonical: "https://softcrayons.com/reviews",
+    canonical: "https://softcrayons.in/reviews",
   },
 };
 

@@ -69,7 +69,7 @@ function QueryPageContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: formData.name,
-          email: formData.email.trim() || "test@softcrayons.com",
+          email: formData.email.trim() || "test@softcrayons.in",
           phone: formData.phone,
           courseId: formData.courseId,
           message: formData.message || undefined,

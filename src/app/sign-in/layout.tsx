@@ -8,10 +8,10 @@ export const metadata: Metadata = {
     title: "Sign In | Softcrayons Tech Solutions",
     description:
       "Sign in to your Softcrayons account to access your dashboard and learning materials.",
-    url: "https://softcrayons.com/sign-in",
+    url: "https://softcrayons.in/sign-in",
   },
   alternates: {
-    canonical: "https://softcrayons.com/sign-in",
+    canonical: "https://softcrayons.in/sign-in",
   },
   robots: {
     index: false,

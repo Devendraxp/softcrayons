@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { Menu, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export type TutorialNavLesson = {
   id?: number | null;
@@ -57,19 +59,37 @@ export function TutorialSidebar({ topicSlug, subtopics, currentLessonSlug }: Pro
   );
 
   return (
-    <aside className="lg:sticky lg:top-24 lg:h-[calc(100vh-6rem)] lg:w-[280px] lg:flex-none lg:overflow-y-auto lg:border-r lg:border-border/60 bg-background px-4 py-5">
-      <div className="mb-4 flex items-center justify-between lg:hidden">
-        <h3 className="text-base font-semibold">Lesson Outline</h3>
-        <button
-          type="button"
-          onClick={() => setOpen((prev) => !prev)}
-          className="rounded-lg border border-border px-3 py-2 text-sm font-medium"
+    <aside className="w-full bg-background lg:sticky lg:top-24 lg:h-[calc(100vh-6rem)] lg:w-[280px] lg:flex-none lg:overflow-y-auto lg:border-r lg:border-border/60 lg:px-4 lg:py-5">
+      <div className="px-4 pt-3 pb-2 lg:hidden">
+        <div className="flex items-center justify-start">
+          <button
+            type="button"
+            onClick={() => setOpen((prev) => !prev)}
+            className="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-muted transition-colors"
+            aria-label="Toggle lessons menu"
+            aria-expanded={open}
+          >
+            {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
+
+        <div
+          className={cn(
+            "transition-all duration-300 overflow-hidden rounded-xl border border-border bg-background",
+            open ? "mt-2 max-h-[60dvh] overflow-y-auto opacity-100" : "max-h-0 border-transparent opacity-0"
+          )}
         >
-          {open ? "Hide lessons" : "Browse lessons"}
-        </button>
+          <div className="p-4">
+            {subtopics.length ? (
+              nav
+            ) : (
+              <p className="text-sm text-muted-foreground">Lessons will appear here.</p>
+            )}
+          </div>
+        </div>
       </div>
 
-      <div className={`lg:block ${open ? "block" : "hidden"}`}>
+      <div className="hidden lg:block">
         {subtopics.length ? (
           nav
         ) : (

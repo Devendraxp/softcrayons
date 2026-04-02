@@ -18,10 +18,10 @@ export const metadata: Metadata = {
     title: "FAQs - Frequently Asked Questions | Softcrayons",
     description:
       "Find answers to common questions about courses, admissions, fees, and placements at Softcrayons.",
-    url: "https://softcrayons.com/faqs",
+    url: "https://softcrayons.in/faqs",
   },
   alternates: {
-    canonical: "https://softcrayons.com/faqs",
+    canonical: "https://softcrayons.in/faqs",
   },
 };
 

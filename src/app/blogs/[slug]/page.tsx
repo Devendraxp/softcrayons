@@ -51,7 +51,7 @@ export async function generateMetadata({
             openGraph: {
                 title,
                 description,
-                url: `https://softcrayons.com/blogs/${slug}`,
+                url: `https://softcrayons.in/blogs/${slug}`,
                 type: "article",
                 ...(image && {
                     images: [{ url: image, alt: blog.title }],
@@ -64,7 +64,7 @@ export async function generateMetadata({
                 ...(image && { images: [image] }),
             },
             alternates: {
-                canonical: `https://softcrayons.com/blogs/${slug}`,
+                canonical: `https://softcrayons.in/blogs/${slug}`,
             },
         };
     } catch {

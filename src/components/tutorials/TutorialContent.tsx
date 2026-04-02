@@ -10,10 +10,22 @@ type ContentProps = {
 };
 
 export function TutorialContent({ content }: ContentProps) {
+  if (!content) return null;
+
   const parsedSegments = useMemo(() => parseContentSegments(content || ""), [content]);
 
+  if (!(content.includes("<") && content.includes(">"))) {
+    return (
+      <div className="course-content max-w-full overflow-x-hidden">
+        {content.split("\n").map((line, index) => (
+          <p key={index} className="text-muted-foreground mb-4">{line}</p>
+        ))}
+      </div>
+    );
+  }
+
   return (
-    <article className="prose prose-slate max-w-none dark:prose-invert">
+    <div className="course-content max-w-full overflow-x-hidden">
       {parsedSegments.map((segment, index) => {
         if (segment.type === "code") {
           return (
@@ -24,7 +36,7 @@ export function TutorialContent({ content }: ContentProps) {
           <div key={index} dangerouslySetInnerHTML={{ __html: segment.html }} />
         );
       })}
-    </article>
+    </div>
   );
 }
 
@@ -96,32 +108,34 @@ function CodeBlock({ code, language }: { code: string; language: string }) {
   const langLabel = language || "plaintext";
 
   return (
-    <div className="relative my-6 overflow-hidden rounded-lg bg-card shadow-sm">
-      <div className="flex items-center justify-between bg-muted/60 px-4 py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-        <span>{langLabel}</span>
+    <div className="relative my-6 overflow-hidden rounded-lg border border-border">
+      <div className="flex items-center justify-between border-b border-border bg-muted/60 px-4 py-2">
+        <span className="text-xs font-medium uppercase text-muted-foreground">{langLabel}</span>
         <button
           type="button"
           onClick={handleCopy}
-          className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-muted-foreground transition-colors hover:bg-primary/10 hover:text-foreground"
+          className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
         >
           {copied ? <Check className="h-3.5 w-3.5 text-green-500" /> : <Copy className="h-3.5 w-3.5" />}
           {copied ? "Copied" : "Copy"}
         </button>
       </div>
-      <SyntaxHighlighter
-        language={langLabel}
-        style={oneDark}
-        customStyle={{
-          margin: 0,
-          borderRadius: 0,
-          fontSize: "0.9rem",
-          padding: "0.9rem 1rem",
-        }}
-        showLineNumbers={false}
-        wrapLongLines
-      >
-        {code}
-      </SyntaxHighlighter>
+      <div className="code-block-rendered">
+        <SyntaxHighlighter
+          language={langLabel}
+          style={oneDark}
+          customStyle={{
+            margin: 0,
+            borderRadius: 0,
+            fontSize: "0.875rem",
+            padding: "0.75rem 1rem",
+          }}
+          showLineNumbers={false}
+          wrapLongLines
+        >
+          {code}
+        </SyntaxHighlighter>
+      </div>
     </div>
   );
 }

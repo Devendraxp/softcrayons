@@ -72,9 +72,9 @@ export function TutorialsNavbar({ featuredTopics = [] }: TutorialsNavbarProps) {
 		<nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50">
 			<div className="mx-auto w-full px-2 sm:px-3 lg:px-4 2xl:px-6">
 				<div className="flex items-center justify-between h-16 md:h-20">
-                    <Link href="/tutorials" className="flex items-center shrink-0">
+					<Link href="/tutorials" className="flex items-center shrink-0">
 					<div className="flex items-center shrink-0">
-                            <div className="h-8 md:h-7 flex items-center">
+							<div className="hidden md:flex h-8 md:h-7 items-center">
                                 <Image
                                     src="https://i.ibb.co/tphyBYTY/sc-logo.png"
                                     alt="Soft Crayons Logo"
@@ -84,12 +84,12 @@ export function TutorialsNavbar({ featuredTopics = [] }: TutorialsNavbarProps) {
                                     priority
                                 />
                             </div>
-						<span className="mx-3 text-2xl font-light text-foreground/70 dark:text-muted-foreground select-none">|</span>
-                            <span className="text-xl md:text-2xl font-bold tracking-tight text-primary transition-colors group-hover:text-primary/80">
+						<span className="hidden md:inline mx-3 text-2xl font-light text-foreground/70 dark:text-muted-foreground select-none">|</span>
+							<span className="text-xl md:text-2xl font-bold tracking-tight text-primary transition-colors group-hover:text-primary/80">
                                 Tutorials
                             </span>
-                            <span className="text-[10px] md:text-[11px] font-bold text-[#f97316] mb-0.5 md:mb-1 tracking-wider">
-                                BETA v0.1
+							<span className="md:inline text-[10px] md:text-[11px] font-bold text-[#f97316] mb-0.5 md:mb-1 tracking-wider">
+                                BETA v0.2
                             </span>
 					</div>
                     </Link>
@@ -190,13 +190,6 @@ export function TutorialsNavbar({ featuredTopics = [] }: TutorialsNavbarProps) {
                     {/* Mobile Toggle */}
 					<div className="flex items-center gap-2 md:hidden ml-auto">
 						<button
-							onClick={toggleTheme}
-							className="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-muted transition-colors"
-							aria-label="Toggle theme"
-						>
-							{mounted && theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-						</button>
-						<button
 							onClick={() => setIsOpen(!isOpen)}
 							className="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-muted transition-colors"
 							aria-label="Toggle menu"
@@ -223,7 +216,7 @@ export function TutorialsNavbar({ featuredTopics = [] }: TutorialsNavbarProps) {
                         <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                             Featured Topics
                         </div>
-                        {featuredTopics.map((topic) => (
+						{featuredTopics.slice(0, 4).map((topic) => (
                             <Link
                                 key={topic.slug}
                                 href={`/tutorials/${topic.slug}`}

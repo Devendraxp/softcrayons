@@ -365,7 +365,7 @@ export function Navbar() {
 							<span className="text-base font-semibold tracking-tight">
 								Tutorials
 							</span>
-							<span className="text-[9px] uppercase text-muted-foreground">Beta v0.1</span>
+							<span className="text-[9px] uppercase text-muted-foreground">Beta v0.2</span>
 						</Link>
 					</div>
 
@@ -527,7 +527,7 @@ export function Navbar() {
 							className="flex items-center justify-between rounded-lg border border-primary bg-primary/5 px-4 py-3"
 						>
 							<span className="text-base font-semibold tracking-tight">Tutorials</span>
-							<span className="text-[11px] uppercase text-muted-foreground">Beta v0.1</span>
+							<span className="text-[11px] uppercase text-muted-foreground">Beta v0.2</span>
 						</Link>
 					</div>
 				</div>

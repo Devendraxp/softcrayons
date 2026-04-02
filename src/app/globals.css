@@ -296,6 +296,9 @@
 /* Course Content Styles */
 .course-content {
   @apply text-foreground;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .course-content h1 {
@@ -501,8 +504,18 @@
 
 .course-content table {
   width: 100%;
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   border-collapse: collapse;
   margin: 1.5rem 0;
+}
+
+.course-content iframe,
+.course-content video,
+.course-content canvas,
+.course-content svg {
+  max-width: 100% !important;
 }
 
 .course-content th,

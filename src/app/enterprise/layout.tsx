@@ -18,10 +18,10 @@ export const metadata: Metadata = {
     title: "Enterprise Training Solutions | Softcrayons",
     description:
       "Customized corporate IT training and upskilling programs by Softcrayons for enterprises across Delhi NCR.",
-    url: "https://softcrayons.com/enterprise",
+    url: "https://softcrayons.in/enterprise",
   },
   alternates: {
-    canonical: "https://softcrayons.com/enterprise",
+    canonical: "https://softcrayons.in/enterprise",
   },
 };
 

@@ -17,10 +17,10 @@ export const metadata: Metadata = {
     title: "Our Faculty - Expert Mentors | Softcrayons",
     description:
       "Meet Softcrayons' expert faculty. Industry professionals training the next generation of tech talent.",
-    url: "https://softcrayons.com/faculties",
+    url: "https://softcrayons.in/faculties",
   },
   alternates: {
-    canonical: "https://softcrayons.com/faculties",
+    canonical: "https://softcrayons.in/faculties",
   },
 };
 

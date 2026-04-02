@@ -11,7 +11,7 @@ const branches = [
         address: "C-6 (First Floor), Sector 2, Near Sector 15 Metro Station, Noida, Uttar Pradesh 201301",
         phone: "+91 8545012345",
         altPhone: "",
-        email: "info@softcrayons.com",
+        email: "info@softcrayons.in",
         timing: "Mon - Sun: 9:00 AM - 7:00 PM",
     },
     {
@@ -20,7 +20,7 @@ const branches = [
         address: "A-693, Vasundhara, Sector 14-A, Ghaziabad, Uttar Pradesh 201010",
         phone: "+91 8545012345",
         altPhone: "",
-        email: "info@softcrayons.com",
+        email: "info@softcrayons.in",
         timing: "Mon - Sun: 9:00 AM - 7:00 PM",
     },
 ];

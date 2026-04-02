@@ -7,10 +7,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Reset Password | Softcrayons Tech Solutions",
     description: "Set a new password for your Softcrayons account.",
-    url: "https://softcrayons.com/reset-password",
+    url: "https://softcrayons.in/reset-password",
   },
   alternates: {
-    canonical: "https://softcrayons.com/reset-password",
+    canonical: "https://softcrayons.in/reset-password",
   },
   robots: {
     index: false,

@@ -95,10 +95,10 @@ export default async function TopicPage({ params }: TopicPageParams) {
     .sort((a, b) => (a.position ?? 0) - (b.position ?? 0))[0];
 
   return (
-    <div className="flex min-h-screen bg-background pt-20 md:pt-24">
+    <div className="flex min-h-screen flex-col lg:flex-row bg-background pt-20 md:pt-24 overflow-x-hidden">
       <TutorialSidebar topicSlug={topic.slug} subtopics={navSubtopics} />
 
-      <main className="flex-1">
+      <main className="flex-1 min-w-0">
         <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-10 pb-12 space-y-10">
           <header className="space-y-5">
             <div className="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
@@ -116,22 +116,6 @@ export default async function TopicPage({ params }: TopicPageParams) {
                 <p className="text-lg text-muted-foreground max-w-3xl">{topic.description}</p>
               )}
             </div>
-            {firstLesson && (
-              <div className="flex flex-wrap gap-3">
-                <Button asChild size="lg" className="gap-2 shadow-sm">
-                  <Link href={`/tutorials/${topic.slug}/${firstLesson.slug}`}>
-                    Start learning
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button asChild variant="ghost" size="lg" className="gap-2 text-muted-foreground">
-                  <Link href="#subtopics">
-                    Browse outline
-                    <Layers className="h-4 w-4" />
-                  </Link>
-                </Button>
-              </div>
-            )}
           </header>
 
           <section id="subtopics" className="space-y-4">

@@ -18,10 +18,10 @@ export const metadata: Metadata = {
     title: "About Us - Softcrayons Tech Solutions",
     description:
       "Discover Softcrayons, Noida's premier IT training institute with expert mentors, industry-focused curriculum, and 100% placement assistance.",
-    url: "https://softcrayons.com/about-us",
+    url: "https://softcrayons.in/about-us",
   },
   alternates: {
-    canonical: "https://softcrayons.com/about-us",
+    canonical: "https://softcrayons.in/about-us",
   },
 };
 

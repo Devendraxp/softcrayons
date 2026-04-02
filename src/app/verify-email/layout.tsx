@@ -7,10 +7,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Verify Email | Softcrayons Tech Solutions",
     description: "Verify your email to activate your Softcrayons account.",
-    url: "https://softcrayons.com/verify-email",
+    url: "https://softcrayons.in/verify-email",
   },
   alternates: {
-    canonical: "https://softcrayons.com/verify-email",
+    canonical: "https://softcrayons.in/verify-email",
   },
   robots: {
     index: false,

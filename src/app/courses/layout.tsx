@@ -25,10 +25,10 @@ export const metadata: Metadata = {
     title: "Courses - Best IT & Coding Courses in Noida | Softcrayons",
     description:
       "Industry-focused IT and coding courses with hands-on training, live projects, and 100% placement assistance at Softcrayons Noida.",
-    url: "https://softcrayons.com/courses",
+    url: "https://softcrayons.in/courses",
   },
   alternates: {
-    canonical: "https://softcrayons.com/courses",
+    canonical: "https://softcrayons.in/courses",
   },
 };
 

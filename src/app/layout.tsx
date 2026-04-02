@@ -22,7 +22,7 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
 });
 
-const SITE_URL = "https://softcrayons.com";
+const SITE_URL = "https://softcrayons.in";
 const SITE_NAME = "Softcrayons Tech Solutions";
 const SITE_DESCRIPTION =
   "Softcrayons - No.1 Coding & IT Training Institute in Noida & Ghaziabad. Industry-focused courses in Full Stack Development, React, Python, Java, Data Science, Cloud Computing, DevOps, AI/ML & more. 100% placement assistance, expert mentors, live projects.";

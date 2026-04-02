@@ -16,10 +16,10 @@ export const metadata: Metadata = {
     title: "Enquiry - Get in Touch With Us | Softcrayons",
     description:
       "Have questions about our IT courses, admissions, or placements? Reach out to Softcrayons today.",
-    url: "https://softcrayons.com/query",
+    url: "https://softcrayons.in/query",
   },
   alternates: {
-    canonical: "https://softcrayons.com/query",
+    canonical: "https://softcrayons.in/query",
   },
   robots: {
     index: false,

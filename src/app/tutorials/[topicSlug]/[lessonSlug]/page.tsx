@@ -125,10 +125,10 @@ export default async function LessonPage({ params }: LessonPageParams) {
   const hasToc = toc.length > 0;
 
   return (
-    <div className="flex min-h-screen bg-background pt-20 md:pt-24">
+    <div className="flex min-h-screen flex-col lg:flex-row bg-background pt-20 md:pt-24 overflow-x-hidden">
       <TutorialSidebar topicSlug={topic.slug} subtopics={navSubtopics} currentLessonSlug={lesson.slug} />
 
-      <main className="flex-1">
+      <main className="flex-1 min-w-0">
         <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-10 pb-12 space-y-10">
           <header className="space-y-5">
             <div className={hasToc ? "grid gap-6 xl:grid-cols-[minmax(0,1fr)_260px]" : "space-y-5"}>

@@ -21,10 +21,10 @@ export const metadata: Metadata = {
     title: "Blogs - Tech Articles & Tutorials | Softcrayons",
     description:
       "Read the latest tech blogs, coding tutorials, and industry insights from Softcrayons Tech Solutions.",
-    url: "https://softcrayons.com/blogs",
+    url: "https://softcrayons.in/blogs",
   },
   alternates: {
-    canonical: "https://softcrayons.com/blogs",
+    canonical: "https://softcrayons.in/blogs",
   },
 };
 

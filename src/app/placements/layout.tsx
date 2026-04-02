@@ -19,10 +19,10 @@ export const metadata: Metadata = {
     title: "Placements - Student Success Stories | Softcrayons",
     description:
       "Explore placement records of Softcrayons students placed at top tech companies with 100% placement assistance.",
-    url: "https://softcrayons.com/placements",
+    url: "https://softcrayons.in/placements",
   },
   alternates: {
-    canonical: "https://softcrayons.com/placements",
+    canonical: "https://softcrayons.in/placements",
   },
 };
 

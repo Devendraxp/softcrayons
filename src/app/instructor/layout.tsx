@@ -16,10 +16,10 @@ export const metadata: Metadata = {
     title: "Become an Instructor | Softcrayons Tech Solutions",
     description:
       "Join Softcrayons as an instructor and help shape the next generation of tech professionals.",
-    url: "https://softcrayons.com/instructor",
+    url: "https://softcrayons.in/instructor",
   },
   alternates: {
-    canonical: "https://softcrayons.com/instructor",
+    canonical: "https://softcrayons.in/instructor",
   },
 };
 
