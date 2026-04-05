@@ -365,7 +365,7 @@ export function Navbar() {
 							<span className="text-base font-semibold tracking-tight">
 								Tutorials
 							</span>
-							<span className="text-[9px] uppercase text-muted-foreground">Beta v0.2</span>
+							<span className="text-[9px] uppercase text-muted-foreground">Beta v0.3</span>
 						</Link>
 					</div>
 
