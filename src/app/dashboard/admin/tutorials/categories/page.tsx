@@ -24,6 +24,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DeleteConfirmModal } from "@/components/ui/delete-confirm-modal";
 import { toast } from "sonner";
 import Image from "next/image";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type TutorialCategory = {
   id: number;
@@ -40,6 +47,8 @@ type TutorialCategory = {
 export default function TutorialCategoriesPage() {
   const [categories, setCategories] = useState<TutorialCategory[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<"all" | "public" | "draft">("all");
+  const [featuredFilter, setFeaturedFilter] = useState<"all" | "featured">("all");
   const [isLoading, setIsLoading] = useState(true);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
@@ -48,6 +57,17 @@ export default function TutorialCategoriesPage() {
   const publicCategories = categories.filter((c) => c.isPublic).length;
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const nextStatus = params.get("status");
+    const nextFeatured = params.get("featured");
+
+    if (nextStatus === "public" || nextStatus === "draft") {
+      setStatusFilter(nextStatus);
+    }
+    if (nextFeatured === "true") {
+      setFeaturedFilter("featured");
+    }
+
     fetchCategories();
   }, []);
 
@@ -107,10 +127,17 @@ export default function TutorialCategoriesPage() {
 
   const filteredCategories = categories.filter((category) => {
     const s = searchQuery.toLowerCase();
-    return (
+    const matchesSearch = (
       category.title.toLowerCase().includes(s) ||
       category.slug.toLowerCase().includes(s)
     );
+    const matchesStatus =
+      statusFilter === "all" ||
+      (statusFilter === "public" && category.isPublic) ||
+      (statusFilter === "draft" && !category.isPublic);
+    const matchesFeatured = featuredFilter === "all" || category.isFeatured;
+
+    return matchesSearch && matchesStatus && matchesFeatured;
   });
 
   const formatDate = (dateString: string) =>
@@ -133,30 +160,6 @@ export default function TutorialCategoriesPage() {
         </Button>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-3">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Total Categories</CardTitle>
-            <BookOpen className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent><div className="text-2xl font-bold">{totalCategories}</div></CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Public</CardTitle>
-            <BookOpen className="h-4 w-4 text-green-500" />
-          </CardHeader>
-          <CardContent><div className="text-2xl font-bold">{publicCategories}</div></CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Draft</CardTitle>
-            <BookOpen className="h-4 w-4 text-yellow-500" />
-          </CardHeader>
-          <CardContent><div className="text-2xl font-bold">{totalCategories - publicCategories}</div></CardContent>
-        </Card>
-      </div>
-
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -166,6 +169,29 @@ export default function TutorialCategoriesPage() {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-9"
           />
+        </div>
+        <div className="w-full sm:w-[170px]">
+          <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v as "all" | "public" | "draft")}>
+            <SelectTrigger>
+              <SelectValue placeholder="Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Status</SelectItem>
+              <SelectItem value="public">Public</SelectItem>
+              <SelectItem value="draft">Draft</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="w-full sm:w-[190px]">
+          <Select value={featuredFilter} onValueChange={(v) => setFeaturedFilter(v as "all" | "featured")}>
+            <SelectTrigger>
+              <SelectValue placeholder="Featured" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Items</SelectItem>
+              <SelectItem value="featured">Featured Only</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
 

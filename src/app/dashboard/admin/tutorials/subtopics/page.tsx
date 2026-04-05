@@ -25,6 +25,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { DeleteConfirmModal } from "@/components/ui/delete-confirm-modal";
 import { toast } from "sonner";
 import { SearchableSelect } from "@/components/dashboard/admin/tutorials/SearchableSelect";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type TutorialSubtopic = {
   id: number;
@@ -47,6 +54,16 @@ function TutorialSubtopicsInner() {
 
   const [filterQuery, setFilterQuery] = useState("");
   const [filterCategoryId, setFilterCategoryId] = useState("");
+  const [statusFilter, setStatusFilter] = useState<"all" | "public" | "draft">(
+    searchParams.get("status") === "public"
+      ? "public"
+      : searchParams.get("status") === "draft"
+      ? "draft"
+      : "all"
+  );
+  const [featuredFilter, setFeaturedFilter] = useState<"all" | "featured">(
+    searchParams.get("featured") === "true" ? "featured" : "all"
+  );
   // Pre-populate from ?topicId= query param (set when clicking from Topics page)
   const [filterTopicId, setFilterTopicId] = useState(searchParams.get("topicId") || "");
 
@@ -63,15 +80,33 @@ function TutorialSubtopicsInner() {
   }, []);
 
   useEffect(() => {
-    setFilterTopicId("");
-    if (!filterCategoryId) { setTopics([]); return; }
+    if (!filterCategoryId) {
+      setTopics([]);
+      return;
+    }
+
     fetch(`/api/admin/tutorial-topics?categoryId=${filterCategoryId}`)
       .then((res) => res.json())
       .then((d) => {
-        if (d.success)
-          setTopics(d.data.map((t: any) => ({ label: t.title, value: t.id.toString() })));
+        if (!d.success) return;
+        const nextTopics = d.data.map((t: any) => ({ label: t.title, value: t.id.toString() }));
+        setTopics(nextTopics);
+        setFilterTopicId((prev) =>
+          prev && nextTopics.some((topic: any) => topic.value === prev) ? prev : ""
+        );
       });
   }, [filterCategoryId]);
+
+  useEffect(() => {
+    // Keep category/topic filters in sync when opening directly with ?topicId
+    if (!filterTopicId || filterCategoryId) return;
+    fetch(`/api/admin/tutorial-topics/${filterTopicId}`)
+      .then((res) => res.json())
+      .then((d) => {
+        if (!d.success || !d.data?.categoryId) return;
+        setFilterCategoryId(d.data.categoryId.toString());
+      });
+  }, [filterTopicId, filterCategoryId]);
 
   const fetchSubtopics = async () => {
     try {
@@ -133,7 +168,14 @@ function TutorialSubtopicsInner() {
 
   const filtered = subtopics.filter((s) => {
     const q = filterQuery.toLowerCase();
-    return s.title.toLowerCase().includes(q) || s.slug.toLowerCase().includes(q);
+    const matchesSearch = s.title.toLowerCase().includes(q) || s.slug.toLowerCase().includes(q);
+    const matchesStatus =
+      statusFilter === "all" ||
+      (statusFilter === "public" && s.isPublic) ||
+      (statusFilter === "draft" && !s.isPublic);
+    const matchesFeatured = featuredFilter === "all" || s.isFeatured;
+
+    return matchesSearch && matchesStatus && matchesFeatured;
   });
 
   return (
@@ -149,8 +191,8 @@ function TutorialSubtopicsInner() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
-        <div className="relative md:col-span-2">
+      <div className="space-y-4">
+        <div className="relative">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search subtopics by title or slug..."
@@ -159,22 +201,47 @@ function TutorialSubtopicsInner() {
             className="pl-9"
           />
         </div>
-        <div>
-          <SearchableSelect
-            items={categories}
-            value={filterCategoryId}
-            onValueChange={setFilterCategoryId}
-            placeholder="Filter Category..."
-          />
-        </div>
-        <div>
-          <SearchableSelect
-            items={topics}
-            value={filterTopicId}
-            onValueChange={setFilterTopicId}
-            placeholder="Filter Topic..."
-            disabled={!filterCategoryId}
-          />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-center">
+          <div>
+            <SearchableSelect
+              items={categories}
+              value={filterCategoryId}
+              onValueChange={setFilterCategoryId}
+              placeholder="Filter Category..."
+            />
+          </div>
+          <div>
+            <SearchableSelect
+              items={topics}
+              value={filterTopicId}
+              onValueChange={setFilterTopicId}
+              placeholder="Filter Topic..."
+              disabled={!filterCategoryId}
+            />
+          </div>
+          <div>
+            <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v as "all" | "public" | "draft")}>
+              <SelectTrigger>
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Status</SelectItem>
+                <SelectItem value="public">Public</SelectItem>
+                <SelectItem value="draft">Draft</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Select value={featuredFilter} onValueChange={(v) => setFeaturedFilter(v as "all" | "featured")}>
+              <SelectTrigger>
+                <SelectValue placeholder="Featured" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Items</SelectItem>
+                <SelectItem value="featured">Featured Only</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
 

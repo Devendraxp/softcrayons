@@ -1,28 +1,28 @@
 import type { ReactNode } from "react";
 import { TutorialsNavbar } from "@/components/tutorials/TutorialsNavbar";
-import { prisma } from "@/lib/prisma";
+import { fetchServerApi } from "@/lib/server-api";
+
+type NavbarTopic = {
+  title: string;
+  slug: string;
+};
+
+type NavbarResponse = {
+  success: boolean;
+  data: NavbarTopic[];
+  error?: string;
+};
 
 async function getNavbarTopics() {
-  const featured = await prisma.tutorialsTopic.findMany({
-    where: { isPublic: true, isFeatured: true },
-    select: { title: true, slug: true },
-    orderBy: [{ position: "asc" }, { id: "asc" }],
-    take: 4,
+  const response = await fetchServerApi<NavbarResponse>("/api/tutorials/navbar-topics?limit=4", {
+    next: { revalidate: 600 },
   });
 
-  if (featured.length >= 4) return featured;
+  if (!response.success) {
+    throw new Error(response.error || "Failed to fetch tutorial navbar topics");
+  }
 
-  const fallback = await prisma.tutorialsTopic.findMany({
-    where: {
-      isPublic: true,
-      slug: { notIn: featured.map((topic) => topic.slug) },
-    },
-    select: { title: true, slug: true },
-    orderBy: [{ position: "asc" }, { id: "asc" }],
-    take: 4 - featured.length,
-  });
-
-  return [...featured, ...fallback];
+  return response.data;
 }
 
 export default async function TutorialsLayout({ children }: { children: ReactNode }) {

@@ -1,11 +1,11 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { prisma } from "@/lib/prisma";
 import { TutorialSidebar } from "@/components/tutorials/TutorialSidebar";
 import { TutorialContent } from "@/components/tutorials/TutorialContent";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, Home } from "lucide-react";
+import { fetchServerApi } from "@/lib/server-api";
 
 export const revalidate = 600;
 
@@ -15,32 +15,104 @@ type LessonPageParams = {
   params: Promise<{ topicSlug: string; lessonSlug: string }>;
 };
 
-async function getLessonWithNav(slug: string) {
-  return prisma.tutorialsLesson.findFirst({
-    where: { slug, isPublic: true },
-    include: {
-      subtopic: {
-        include: {
-          topic: {
-            include: {
-              category: { select: { title: true, slug: true } },
-              subtopics: {
-                where: { isPublic: true },
-                orderBy: { position: "asc" },
-                include: {
-                  lessons: {
-                    where: { isPublic: true },
-                    orderBy: { position: "asc" },
-                    select: { id: true, title: true, slug: true, position: true },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  });
+type TopicLesson = { id: number; title: string; slug: string; position?: number | null };
+
+type TopicSubtopic = {
+  id: number;
+  title: string;
+  slug: string;
+  position?: number | null;
+  lessons: TopicLesson[];
+};
+
+type TopicData = {
+  id: number;
+  title: string;
+  slug: string;
+  subtopics: TopicSubtopic[];
+};
+
+type TopicResponse = {
+  success: boolean;
+  data?: TopicData;
+  error?: string;
+};
+
+type LessonData = {
+  id: number;
+  title: string;
+  slug: string;
+  description?: string | null;
+  content: string;
+  tableOfContent?: unknown;
+  nextLink?: string | null;
+  previousLink?: string | null;
+  homeLink?: string | null;
+  metaTitle?: string | null;
+  metaDescription?: string | null;
+  metaKeywords?: unknown;
+  subtopic?: {
+    id: number;
+    title: string;
+    slug: string;
+    topic?: {
+      id: number;
+      title: string;
+      slug: string;
+    } | null;
+  } | null;
+};
+
+type LessonResponse = {
+  success: boolean;
+  data?: LessonData;
+  error?: string;
+};
+
+async function getLesson(slug: string) {
+  try {
+    const response = await fetchServerApi<LessonResponse>(`/api/tutorial-lessons/${encodeURIComponent(slug)}`, {
+      next: { revalidate: 600 },
+    });
+
+    if (!response.success || !response.data) {
+      return null;
+    }
+
+    return response.data;
+  } catch (error: any) {
+    if (error?.status === 404) {
+      return null;
+    }
+    throw error;
+  }
+}
+
+async function getTopicWithNav(slug: string) {
+  try {
+    const response = await fetchServerApi<TopicResponse>(`/api/tutorial-topics/${encodeURIComponent(slug)}`, {
+      next: { revalidate: 600 },
+    });
+
+    if (!response.success || !response.data) {
+      return null;
+    }
+
+    return {
+      ...response.data,
+      subtopics: [...response.data.subtopics]
+        .sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
+        .map((subtopic) => ({
+          ...subtopic,
+          lessons: [...subtopic.lessons].sort((a, b) => (a.position ?? 0) - (b.position ?? 0)),
+        })),
+    };
+  } catch (error: any) {
+    if (error?.status === 404) {
+      return null;
+    }
+    throw error;
+  }
 }
 
 function toTableOfContent(value: any): TocItem[] {
@@ -61,23 +133,7 @@ function toKeywords(value: any): string[] | undefined {
 
 export async function generateMetadata({ params }: LessonPageParams): Promise<Metadata> {
   const { topicSlug, lessonSlug } = await params;
-  const lesson = await prisma.tutorialsLesson.findFirst({
-    where: { slug: lessonSlug, isPublic: true },
-    select: {
-      title: true,
-      description: true,
-      metaTitle: true,
-      metaDescription: true,
-      metaKeywords: true,
-      slug: true,
-      subtopic: {
-        select: {
-          title: true,
-          topic: { select: { slug: true, title: true } },
-        },
-      },
-    },
-  });
+  const lesson = await getLesson(lessonSlug);
 
   if (!lesson || lesson.subtopic?.topic?.slug !== topicSlug) return {};
 
@@ -98,9 +154,9 @@ export async function generateMetadata({ params }: LessonPageParams): Promise<Me
 
 export default async function LessonPage({ params }: LessonPageParams) {
   const { topicSlug, lessonSlug } = await params;
-  const lesson = await getLessonWithNav(lessonSlug);
+  const [lesson, topic] = await Promise.all([getLesson(lessonSlug), getTopicWithNav(topicSlug)]);
 
-  if (!lesson || lesson.subtopic?.topic?.slug !== topicSlug) {
+  if (!lesson || !topic || lesson.subtopic?.topic?.slug !== topicSlug) {
     notFound();
   }
 
@@ -108,7 +164,6 @@ export default async function LessonPage({ params }: LessonPageParams) {
     notFound();
   }
 
-  const topic = lesson.subtopic.topic;
   const navSubtopics = topic.subtopics.map((sub) => ({
     id: sub.id,
     title: sub.title,
@@ -125,11 +180,12 @@ export default async function LessonPage({ params }: LessonPageParams) {
   const hasToc = toc.length > 0;
 
   return (
-    <div className="flex min-h-screen flex-col lg:flex-row bg-background pt-20 md:pt-24 overflow-x-hidden">
-      <TutorialSidebar topicSlug={topic.slug} subtopics={navSubtopics} currentLessonSlug={lesson.slug} />
+    <div className="bg-background pt-20 md:pt-24 overflow-x-hidden">
+      <div className="flex min-h-[calc(100vh-5rem)] flex-col lg:h-[calc(100vh-6rem)] lg:min-h-[calc(100vh-6rem)] lg:flex-row lg:overflow-hidden">
+        <TutorialSidebar topicSlug={topic.slug} subtopics={navSubtopics} currentLessonSlug={lesson.slug} />
 
-      <main className="flex-1 min-w-0">
-        <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-10 pb-12 space-y-10">
+        <main className="flex-1 min-w-0 lg:h-full lg:overflow-y-auto lg:overscroll-contain">
+          <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-10 pb-12 space-y-10">
           <header className="space-y-5">
             <div className={hasToc ? "grid gap-6 xl:grid-cols-[minmax(0,1fr)_260px]" : "space-y-5"}>
               <div className="space-y-5">
@@ -181,8 +237,9 @@ export default async function LessonPage({ params }: LessonPageParams) {
           <div className="flex flex-wrap items-center gap-3">
             <NavButtons previousHref={previousHref} nextHref={nextHref} homeHref={homeHref} />
           </div>
-        </div>
-      </main>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }

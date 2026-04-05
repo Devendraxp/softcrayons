@@ -330,7 +330,7 @@ export default function EnquiriesPage() {
         </div>
       </div>
 
-      <div>
+      <div className="max-w-full overflow-x-auto">
         <EnquiryListHeader />
         <EnquiryList
           enquiries={enquiries}

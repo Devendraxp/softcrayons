@@ -21,10 +21,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DeleteConfirmModal } from "@/components/ui/delete-confirm-modal";
 import { toast } from "sonner";
 import { SearchableSelect } from "@/components/dashboard/admin/tutorials/SearchableSelect";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type TutorialTopic = {
   id: number;
@@ -45,6 +52,16 @@ function TutorialTopicsInner() {
   const [topics, setTopics] = useState<TutorialTopic[]>([]);
   const [categories, setCategories] = useState<{ label: string; value: string }[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<"all" | "public" | "draft">(
+    searchParams.get("status") === "public"
+      ? "public"
+      : searchParams.get("status") === "draft"
+      ? "draft"
+      : "all"
+  );
+  const [featuredFilter, setFeaturedFilter] = useState<"all" | "featured">(
+    searchParams.get("featured") === "true" ? "featured" : "all"
+  );
   // Pre-populate from ?categoryId= query param (set when clicking from Categories page)
   const [filterCategoryId, setFilterCategoryId] = useState(
     searchParams.get("categoryId") || ""
@@ -52,6 +69,9 @@ function TutorialTopicsInner() {
   const [isLoading, setIsLoading] = useState(true);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
+
+  const totalTopics = topics.length;
+  const publicTopics = topics.filter((t) => t.isPublic).length;
 
   useEffect(() => {
     fetch("/api/admin/tutorial-categories")
@@ -123,7 +143,14 @@ function TutorialTopicsInner() {
 
   const filteredTopics = topics.filter((topic) => {
     const s = searchQuery.toLowerCase();
-    return topic.title.toLowerCase().includes(s) || topic.slug.toLowerCase().includes(s);
+    const matchesSearch = topic.title.toLowerCase().includes(s) || topic.slug.toLowerCase().includes(s);
+    const matchesStatus =
+      statusFilter === "all" ||
+      (statusFilter === "public" && topic.isPublic) ||
+      (statusFilter === "draft" && !topic.isPublic);
+    const matchesFeatured = featuredFilter === "all" || topic.isFeatured;
+
+    return matchesSearch && matchesStatus && matchesFeatured;
   });
 
   return (
@@ -139,8 +166,32 @@ function TutorialTopicsInner() {
         </Button>
       </div>
 
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-        <div className="relative flex-1">
+      <div className="grid gap-4 sm:grid-cols-3">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">Total Topics</CardTitle>
+            <Layers className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent><div className="text-2xl font-bold">{totalTopics}</div></CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">Public</CardTitle>
+            <Layers className="h-4 w-4 text-green-500" />
+          </CardHeader>
+          <CardContent><div className="text-2xl font-bold">{publicTopics}</div></CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">Draft</CardTitle>
+            <Layers className="h-4 w-4 text-yellow-500" />
+          </CardHeader>
+          <CardContent><div className="text-2xl font-bold">{totalTopics - publicTopics}</div></CardContent>
+        </Card>
+      </div>
+
+      <div className="space-y-4">
+        <div className="relative">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search topics..."
@@ -149,18 +200,45 @@ function TutorialTopicsInner() {
             className="pl-9"
           />
         </div>
-        <div className="w-full sm:w-[300px]">
-          <SearchableSelect
-            items={categories}
-            value={filterCategoryId}
-            onValueChange={setFilterCategoryId}
-            placeholder="Filter by Category..."
-          />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-center">
+          <div>
+            <SearchableSelect
+              items={categories}
+              value={filterCategoryId}
+              onValueChange={setFilterCategoryId}
+              placeholder="Filter by Category..."
+            />
+          </div>
+          <div>
+            <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v as "all" | "public" | "draft")}>
+              <SelectTrigger>
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Status</SelectItem>
+                <SelectItem value="public">Public</SelectItem>
+                <SelectItem value="draft">Draft</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Select value={featuredFilter} onValueChange={(v) => setFeaturedFilter(v as "all" | "featured")}>
+              <SelectTrigger>
+                <SelectValue placeholder="Featured" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Items</SelectItem>
+                <SelectItem value="featured">Featured Only</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
         {filterCategoryId && (
-          <Button variant="ghost" onClick={() => setFilterCategoryId("")}>
-            Clear
-          </Button>
+          <div className="flex justify-end">
+            <Button variant="ghost" onClick={() => setFilterCategoryId("")}>
+              Clear
+            </Button>
+          </div>
         )}
       </div>
 

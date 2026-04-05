@@ -7,6 +7,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   BookOpen,
   Layers,
   Type,
@@ -64,6 +71,10 @@ function StatCard({
 }) {
   const draftCount = count - publicCount;
   const publishRate = count === 0 ? 0 : Math.round((publicCount / count) * 100);
+  const withQuery = (params: Record<string, string>) => {
+    const query = new URLSearchParams(params).toString();
+    return query ? `${href}?${query}` : href;
+  };
 
   return (
     <Card className={`border-t-4 ${color} flex flex-col`}>
@@ -86,16 +97,16 @@ function StatCard({
 
         {/* Counts row */}
         <div className="flex gap-3 text-xs">
-          <span className="flex items-center gap-1 text-green-600">
+          <Link href={withQuery({ status: "public" })} className="flex items-center gap-1 text-green-600 hover:underline">
             <Globe className="h-3 w-3" /> {publicCount} public
-          </span>
-          <span className="flex items-center gap-1 text-yellow-600">
+          </Link>
+          <Link href={withQuery({ status: "draft" })} className="flex items-center gap-1 text-yellow-600 hover:underline">
             <EyeOff className="h-3 w-3" /> {draftCount} draft
-          </span>
+          </Link>
           {featuredCount > 0 && (
-            <span className="flex items-center gap-1 text-blue-600">
+            <Link href={withQuery({ featured: "true" })} className="flex items-center gap-1 text-blue-600 hover:underline">
               <Star className="h-3 w-3" /> {featuredCount} featured
-            </span>
+            </Link>
           )}
         </div>
 
@@ -159,6 +170,8 @@ export default function TutorialsDashboardPage() {
   const [topics, setTopics] = useState<Topic[]>([]);
   const [subtopics, setSubtopics] = useState<Subtopic[]>([]);
   const [lessons, setLessons] = useState<Lesson[]>([]);
+  const [recentLimit, setRecentLimit] = useState<"5" | "10" | "25">("10");
+  const [showAllRecent, setShowAllRecent] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -258,8 +271,11 @@ export default function TutorialsDashboardPage() {
       color: "purple", parent: l.subtopic?.title,
     })),
   ]
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .slice(0, 10);
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+  const visibleRecentItems = showAllRecent
+    ? recentItems
+    : recentItems.slice(0, parseInt(recentLimit, 10));
 
   const categoryBreakdown = categories.map((cat) => {
     const catTopics = topics.filter((t) => t.categoryId === cat.id);
@@ -320,7 +336,33 @@ export default function TutorialsDashboardPage() {
               <Clock className="h-4 w-4 text-muted-foreground" />
               <CardTitle className="text-base">Recent Additions</CardTitle>
             </div>
-            <Badge variant="secondary" className="text-xs">{recentItems.length} latest</Badge>
+            <div className="flex items-center gap-2">
+              <Badge variant="secondary" className="text-xs">
+                {showAllRecent
+                  ? `${recentItems.length} total`
+                  : `${Math.min(recentItems.length, parseInt(recentLimit, 10))} latest`}
+              </Badge>
+              <Select value={recentLimit} onValueChange={(v) => setRecentLimit(v as "5" | "10" | "25")}>
+                <SelectTrigger className="h-8 w-[88px]">
+                  <SelectValue placeholder="Limit" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="5">5</SelectItem>
+                  <SelectItem value="10">10</SelectItem>
+                  <SelectItem value="25">25</SelectItem>
+                </SelectContent>
+              </Select>
+              {recentItems.length > parseInt(recentLimit, 10) && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8"
+                  onClick={() => setShowAllRecent((prev) => !prev)}
+                >
+                  {showAllRecent ? "Show less" : "View all recent"}
+                </Button>
+              )}
+            </div>
           </CardHeader>
           <CardContent className="p-2">
             {recentItems.length === 0 ? (
@@ -329,7 +371,7 @@ export default function TutorialsDashboardPage() {
               </div>
             ) : (
               <div className="divide-y divide-border/50">
-                {recentItems.map((item) => (
+                {visibleRecentItems.map((item) => (
                   <RecentItemRow key={`${item.level}-${item.id}`} item={item} />
                 ))}
               </div>

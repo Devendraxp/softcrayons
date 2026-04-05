@@ -1,9 +1,8 @@
 
 import { Metadata } from "next";
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
 import { TutorialHero } from "@/components/tutorials/TutorialHero";
-import { Library, Search } from "lucide-react";
+import { fetchServerApi } from "@/lib/server-api";
 
 export const metadata: Metadata = {
   title: "Tutorials | SoftCrayons",
@@ -17,6 +16,7 @@ type TopicLink = {
   title: string;
   slug: string;
   description?: string | null;
+  position?: number | null;
   categoryId: number;
   firstLessonSlug?: string;
 };
@@ -26,63 +26,31 @@ type CategoryListing = {
   title: string;
   slug: string;
   description?: string | null;
+  position?: number | null;
   topics: TopicLink[];
 };
 
-async function getTutorialLanding(): Promise<CategoryListing[]> {
-  const [categories, topics] = await Promise.all([
-    prisma.tutorialsCategory.findMany({
-      where: { isPublic: true },
-      orderBy: { position: "asc" },
-      select: {
-        id: true,
-        title: true,
-        slug: true,
-        description: true,
-      },
-    }),
-    prisma.tutorialsTopic.findMany({
-      where: { isPublic: true },
-      orderBy: { position: "asc" },
-      select: {
-        id: true,
-        title: true,
-        slug: true,
-        description: true,
-        categoryId: true,
-        subtopics: {
-          where: { isPublic: true },
-          orderBy: { position: "asc" },
-          select: {
-            lessons: {
-              where: { isPublic: true },
-              orderBy: { position: "asc" },
-              select: { slug: true },
-              take: 1,
-            },
-          },
-          take: 3,
-        },
-      },
-    }),
-  ]);
+type LandingResponse = {
+  success: boolean;
+  data: CategoryListing[];
+  error?: string;
+};
 
-  const topicsWithFirstLesson: TopicLink[] = topics.map((topic) => {
-    const firstLessonSlug = topic.subtopics.find((sub) => sub.lessons.length > 0)?.lessons[0]?.slug;
-    return {
-      id: topic.id,
-      title: topic.title,
-      slug: topic.slug,
-      description: topic.description,
-      categoryId: topic.categoryId,
-      firstLessonSlug,
-    };
+async function getTutorialLanding(): Promise<CategoryListing[]> {
+  const response = await fetchServerApi<LandingResponse>("/api/tutorials/landing", {
+    next: { revalidate: 0 },
   });
 
-  return categories.map((category) => ({
-    ...category,
-    topics: topicsWithFirstLesson.filter((topic) => topic.categoryId === category.id),
-  }));
+  if (!response.success) {
+    throw new Error(response.error || "Failed to fetch tutorials landing data");
+  }
+
+  return [...response.data]
+    .sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
+    .map((category) => ({
+      ...category,
+      topics: [...category.topics].sort((a, b) => (a.position ?? 0) - (b.position ?? 0)),
+    }));
 }
 
 

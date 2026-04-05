@@ -1,11 +1,10 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { prisma } from "@/lib/prisma";
 import { TutorialSidebar } from "@/components/tutorials/TutorialSidebar";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Layers, BookOpen } from "lucide-react";
+import { ArrowRight, Layers } from "lucide-react";
+import { fetchServerApi } from "@/lib/server-api";
 
 export const revalidate = 600;
 
@@ -13,24 +12,65 @@ type TopicPageParams = {
   params: Promise<{ topicSlug: string }>;
 };
 
+type TopicLesson = {
+  id: number;
+  title: string;
+  slug: string;
+  position?: number | null;
+};
+
+type TopicSubtopic = {
+  id: number;
+  title: string;
+  slug: string;
+  description?: string | null;
+  position?: number | null;
+  lessons: TopicLesson[];
+};
+
+type TopicData = {
+  id: number;
+  title: string;
+  slug: string;
+  description?: string | null;
+  metaTitle?: string | null;
+  metaDescription?: string | null;
+  metaKeywords?: unknown;
+  category?: { title: string; slug: string } | null;
+  subtopics: TopicSubtopic[];
+};
+
+type TopicResponse = {
+  success: boolean;
+  data?: TopicData;
+  error?: string;
+};
+
 async function getTopic(slug: string) {
-  return prisma.tutorialsTopic.findFirst({
-    where: { slug, isPublic: true },
-    include: {
-      category: { select: { title: true, slug: true } },
-      subtopics: {
-        where: { isPublic: true },
-        orderBy: { position: "asc" },
-        include: {
-          lessons: {
-            where: { isPublic: true },
-            orderBy: { position: "asc" },
-            select: { id: true, title: true, slug: true, position: true },
-          },
-        },
-      },
-    },
-  });
+  try {
+    const response = await fetchServerApi<TopicResponse>(`/api/tutorial-topics/${encodeURIComponent(slug)}`, {
+      next: { revalidate: 600 },
+    });
+
+    if (!response.success || !response.data) {
+      return null;
+    }
+
+    return {
+      ...response.data,
+      subtopics: [...response.data.subtopics]
+        .sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
+        .map((subtopic) => ({
+          ...subtopic,
+          lessons: [...subtopic.lessons].sort((a, b) => (a.position ?? 0) - (b.position ?? 0)),
+        })),
+    };
+  } catch (error: any) {
+    if (error?.status === 404) {
+      return null;
+    }
+    throw error;
+  }
 }
 
 function toKeywords(value: any): string[] | undefined {
@@ -42,17 +82,7 @@ function toKeywords(value: any): string[] | undefined {
 
 export async function generateMetadata({ params }: TopicPageParams): Promise<Metadata> {
   const { topicSlug } = await params;
-  const topic = await prisma.tutorialsTopic.findFirst({
-    where: { slug: topicSlug, isPublic: true },
-    select: {
-      title: true,
-      description: true,
-      metaTitle: true,
-      metaDescription: true,
-      metaKeywords: true,
-      slug: true,
-    },
-  });
+  const topic = await getTopic(topicSlug);
 
   if (!topic) return {};
 
@@ -95,11 +125,12 @@ export default async function TopicPage({ params }: TopicPageParams) {
     .sort((a, b) => (a.position ?? 0) - (b.position ?? 0))[0];
 
   return (
-    <div className="flex min-h-screen flex-col lg:flex-row bg-background pt-20 md:pt-24 overflow-x-hidden">
-      <TutorialSidebar topicSlug={topic.slug} subtopics={navSubtopics} />
+    <div className="bg-background pt-20 md:pt-24 overflow-x-hidden">
+      <div className="flex min-h-[calc(100vh-5rem)] flex-col lg:h-[calc(100vh-6rem)] lg:min-h-[calc(100vh-6rem)] lg:flex-row lg:overflow-hidden">
+        <TutorialSidebar topicSlug={topic.slug} subtopics={navSubtopics} />
 
-      <main className="flex-1 min-w-0">
-        <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-10 pb-12 space-y-10">
+        <main className="flex-1 min-w-0 lg:h-full lg:overflow-y-auto lg:overscroll-contain">
+          <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-10 pb-12 space-y-10">
           <header className="space-y-5">
             <div className="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
               <Link href="/tutorials" className="hover:text-foreground">Tutorials</Link>
@@ -152,8 +183,9 @@ export default async function TopicPage({ params }: TopicPageParams) {
               ))}
             </div>
           </section>
-        </div>
-      </main>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }

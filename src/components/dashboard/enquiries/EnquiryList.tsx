@@ -91,7 +91,7 @@ export function EnquiryListHeader({ className }: EnquiryListHeaderProps) {
   return (
     <div
       className={cn(
-        "hidden md:flex items-center gap-6 px-4 py-2 text-sm font-medium text-muted-foreground",
+        "hidden md:flex md:min-w-[1272px] items-center gap-6 px-4 py-2 text-sm font-medium text-muted-foreground",
         className
       )}
     >

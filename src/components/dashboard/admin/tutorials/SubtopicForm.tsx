@@ -18,9 +18,7 @@ export function SubtopicForm({ initialData = null }: { initialData?: any }) {
   const isEditing = !!initialData;
   const [loading, setLoading] = useState(false);
 
-  const [categories, setCategories] = useState<{ label: string; value: string }[]>([]);
   const [topics, setTopics] = useState<{ label: string; value: string }[]>([]);
-  const [selCategory, setSelCategory] = useState<string>("");
 
   const [formData, setFormData] = useState({
     title: initialData?.title || "",
@@ -40,28 +38,18 @@ export function SubtopicForm({ initialData = null }: { initialData?: any }) {
   });
 
   useEffect(() => {
-    fetch("/api/admin/tutorial-categories")
+    fetch("/api/admin/tutorial-topics?limit=500")
       .then((res) => res.json())
       .then((d) => {
         if (d.success)
-          setCategories(d.data.map((c: any) => ({ label: c.title, value: c.id.toString() })));
+          setTopics(
+            d.data.map((topic: any) => ({
+              label: topic.category?.title ? `${topic.title} - ${topic.category.title}` : topic.title,
+              value: topic.id.toString(),
+            }))
+          );
       });
   }, []);
-
-  useEffect(() => {
-    setTopics([]);
-    if (!selCategory && !initialData) {
-      setFormData((prev) => ({ ...prev, topicId: "" }));
-      return;
-    }
-    if (!selCategory) return;
-    fetch(`/api/admin/tutorial-topics?categoryId=${selCategory}`)
-      .then((res) => res.json())
-      .then((d) => {
-        if (d.success)
-          setTopics(d.data.map((t: any) => ({ label: t.title, value: t.id.toString() })));
-      });
-  }, [selCategory]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -115,35 +103,14 @@ export function SubtopicForm({ initialData = null }: { initialData?: any }) {
           <Card>
             <CardHeader><CardTitle>Core Information</CardTitle></CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4 pb-4 border-b">
-                <div className="space-y-2">
-                  <Label className="text-muted-foreground">Category Filter (Optional)</Label>
-                  <SearchableSelect
-                    items={categories}
-                    value={selCategory}
-                    onValueChange={setSelCategory}
-                    placeholder="Filter topics by category..."
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label>Select Parent Topic *</Label>
-                  <SearchableSelect
-                    items={
-                      topics.length > 0
-                        ? topics
-                        : initialData?.topic
-                        ? [{ label: initialData.topic.title, value: initialData.topicId.toString() }]
-                        : []
-                    }
-                    value={formData.topicId}
-                    onValueChange={(v) => setFormData({ ...formData, topicId: v })}
-                    placeholder="Search topics..."
-                    disabled={topics.length === 0 && !initialData}
-                  />
-                  {formData.topicId && (
-                    <p className="text-xs text-green-600 mt-1">Topic ID: {formData.topicId}</p>
-                  )}
-                </div>
+              <div className="space-y-2 pb-4 border-b">
+                <Label>Select Parent Topic *</Label>
+                <SearchableSelect
+                  items={topics}
+                  value={formData.topicId}
+                  onValueChange={(v) => setFormData({ ...formData, topicId: v })}
+                  placeholder="Search topics..."
+                />
               </div>
 
               <div className="space-y-2">

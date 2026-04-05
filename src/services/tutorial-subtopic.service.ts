@@ -15,6 +15,23 @@ export const createTutorialsSubTopic = async (data: any): Promise<any> => {
 export const getTutorialsSubTopicById = async (id: number): Promise<any> => {
     return await prisma.tutorialsSubTopic.findUnique({
         where: { id },
+        include: {
+            topic: {
+                select: {
+                    id: true,
+                    title: true,
+                    slug: true,
+                    categoryId: true,
+                    category: {
+                        select: {
+                            id: true,
+                            title: true,
+                            slug: true,
+                        },
+                    },
+                },
+            },
+        },
     });
 }
 
@@ -36,7 +53,19 @@ export const getAllTutorialsSubTopics = async (filters: any): Promise<any> => {
         take: limit,
         include: {
             topic: {
-                select: { id: true, title: true, slug: true }
+                select: {
+                    id: true,
+                    title: true,
+                    slug: true,
+                    categoryId: true,
+                    category: {
+                        select: {
+                            id: true,
+                            title: true,
+                            slug: true,
+                        },
+                    },
+                }
             }
         }
     });

@@ -59,7 +59,7 @@ export function TutorialSidebar({ topicSlug, subtopics, currentLessonSlug }: Pro
   );
 
   return (
-    <aside className="w-full bg-background lg:sticky lg:top-24 lg:h-[calc(100vh-6rem)] lg:w-[280px] lg:flex-none lg:overflow-y-auto lg:border-r lg:border-border/60 lg:px-4 lg:py-5">
+    <aside className="w-full bg-background lg:h-full lg:w-[280px] lg:flex-none lg:overflow-y-auto lg:overscroll-contain lg:border-r lg:border-border/60 lg:px-4 lg:py-5">
       <div className="px-4 pt-3 pb-2 lg:hidden">
         <div className="flex items-center justify-start">
           <button

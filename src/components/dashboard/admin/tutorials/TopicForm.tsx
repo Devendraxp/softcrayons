@@ -12,6 +12,7 @@ import { Loader2, ArrowLeft } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
 import { KeywordInput } from "./KeywordInput";
+import { CldUploadWidget } from "next-cloudinary";
 
 export function TopicForm({ initialData = null }: { initialData?: any }) {
   const router = useRouter();
@@ -27,6 +28,7 @@ export function TopicForm({ initialData = null }: { initialData?: any }) {
     categoryId: initialData?.categoryId?.toString() || "",
     isPublic: initialData?.isPublic ?? false,
     isFeatured: initialData?.isFeatured ?? false,
+    logo: initialData?.logo || "",
     metaTitle: initialData?.metaTitle || "",
     metaDescription: initialData?.metaDescription || "",
     metaKeywords: Array.isArray(initialData?.metaKeywords)
@@ -191,6 +193,29 @@ export function TopicForm({ initialData = null }: { initialData?: any }) {
                   </div>
                 </>
               )}
+
+              <div className="space-y-2 pt-2">
+                <Label>Logo / Icon URL</Label>
+                <div className="flex gap-2">
+                  <Input
+                    value={formData.logo}
+                    onChange={(e) => setFormData({ ...formData, logo: e.target.value })}
+                    placeholder="https://..."
+                  />
+                  <CldUploadWidget
+                    uploadPreset="blogs_unsigned"
+                    onSuccess={(res: any) =>
+                      setFormData({ ...formData, logo: res.info.secure_url })
+                    }
+                  >
+                    {({ open }) => (
+                      <Button type="button" variant="outline" onClick={() => open()}>
+                        Upload
+                      </Button>
+                    )}
+                  </CldUploadWidget>
+                </div>
+              </div>
             </CardContent>
           </Card>
           <Button type="submit" className="w-full" disabled={loading}>

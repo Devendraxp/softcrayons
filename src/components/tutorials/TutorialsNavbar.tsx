@@ -89,7 +89,7 @@ export function TutorialsNavbar({ featuredTopics = [] }: TutorialsNavbarProps) {
                                 Tutorials
                             </span>
 							<span className="md:inline text-[10px] md:text-[11px] font-bold text-[#f97316] mb-0.5 md:mb-1 tracking-wider">
-                                BETA v0.2
+                                BETA v0.3
                             </span>
 					</div>
                     </Link>

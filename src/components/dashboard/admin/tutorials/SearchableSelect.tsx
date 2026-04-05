@@ -36,6 +36,7 @@ export function SearchableSelect({
   disabled?: boolean;
 }) {
   const [open, setOpen] = useState(false);
+  const selectedLabel = value ? items.find((item) => item.value === value)?.label : "";
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -45,15 +46,14 @@ export function SearchableSelect({
           role="combobox"
           aria-expanded={open}
           disabled={disabled}
-          className="w-full justify-between"
+          className="w-full min-w-0 justify-between"
+          title={selectedLabel || placeholder}
         >
-          {value
-            ? items.find((item) => item.value === value)?.label
-            : placeholder}
+          <span className="truncate text-left">{selectedLabel || placeholder}</span>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full p-0">
+      <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
         <Command>
           <CommandInput placeholder={searchPlaceholder} />
           <CommandList>
@@ -62,7 +62,7 @@ export function SearchableSelect({
               {items.map((item) => (
                 <CommandItem
                   key={item.value}
-                  value={item.label}
+                  value={`${item.label} ${item.value}`}
                   onSelect={() => {
                     onValueChange(item.value === value ? "" : item.value);
                     setOpen(false);
@@ -74,7 +74,7 @@ export function SearchableSelect({
                       value === item.value ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  {item.label}
+                  <span className="truncate">{item.label}</span>
                 </CommandItem>
               ))}
             </CommandGroup>

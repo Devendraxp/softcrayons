@@ -9,19 +9,19 @@ const partners = [
   },
   {
     name: "SAP",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/SAP_2011_logo.svg/512px-SAP_2011_logo.svg.png",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/5/59/SAP_2011_logo.svg",
   },
   {
     name: "Microsoft",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Microsoft_logo_%282012%29.svg/512px-Microsoft_logo_%282012%29.svg.png",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg",
   },
   {
     name: "Google Cloud",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Google_Cloud_logo.svg/512px-Google_Cloud_logo.svg.png",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg",
   },
   {
     name: "AWS",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/512px-Amazon_Web_Services_Logo.svg.png",
+    logo: "https://svgstack.com/media/img/amazon-aws-logo_1735162417.webp",
   },
   {
     name: "Kryterion",
@@ -41,11 +41,15 @@ const partners = [
   },
   {
     name: "Salesforce",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Salesforce.com_logo.svg/512px-Salesforce.com_logo.svg.png",
+    logo: "https://svgstack.com/media/img/salesforce-logo-2N6P664928.webp",
   },
   {
     name: "Oracle",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Oracle_logo.svg/512px-Oracle_logo.svg.png",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/5/50/Oracle_logo.svg",
+  },
+  {
+    name: "ISO",
+    logo: "https://cdn-icons-png.flaticon.com/512/11540/11540688.png",
   },
 ];
 

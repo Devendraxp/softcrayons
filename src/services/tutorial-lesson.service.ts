@@ -45,7 +45,24 @@ export const getAllTutorialsLessons = async (filters: any): Promise<any> => {
             createdAt: true,
             updatedAt: true,
             subtopic: {
-                select: { id: true, title: true, slug: true }
+                select: {
+                    id: true,
+                    title: true,
+                    slug: true,
+                    topicId: true,
+                    topic: {
+                        select: {
+                            id: true,
+                            title: true,
+                            category: {
+                                select: {
+                                    id: true,
+                                    title: true,
+                                },
+                            },
+                        },
+                    },
+                }
             }
         }
     });

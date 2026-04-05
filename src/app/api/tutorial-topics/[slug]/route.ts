@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { getPublicTutorialTopicBySlug } from '@/services/tutorial-public.service';
 
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
@@ -12,39 +12,7 @@ export async function GET(
       return NextResponse.json({ success: false, error: 'Slug is required' }, { status: 400 });
     }
 
-    const topic = await prisma.tutorialsTopic.findUnique({
-      where: { 
-        slug,
-        isPublic: true,
-      },
-      include: {
-        category: {
-          select: { id: true, title: true, slug: true }
-        },
-        subtopics: {
-          where: { isPublic: true },
-          orderBy: { position: 'asc' },
-          select: {
-            id: true,
-            title: true,
-            slug: true,
-            description: true,
-            position: true,
-            logo: true,
-            lessons: {
-              where: { isPublic: true },
-              orderBy: { position: 'asc' },
-              select: {
-                id: true,
-                title: true,
-                slug: true,
-                position: true,
-              }
-            }
-          }
-        }
-      }
-    });
+    const topic = await getPublicTutorialTopicBySlug(slug);
 
     if (!topic) {
       return NextResponse.json({ success: false, error: 'Topic not found' }, { status: 404 });

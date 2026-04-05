@@ -113,7 +113,7 @@ export function EnquiryRow({
   onDelete,
 }: EnquiryRowProps) {
   return (
-    <div className="flex flex-col gap-4 p-4 rounded-xl border border-border bg-card hover:shadow-sm transition-shadow">
+    <div className="flex flex-col gap-4 p-4 rounded-xl border border-border bg-card hover:shadow-sm transition-shadow md:min-w-[1272px]">
       <div className="flex items-start gap-4 md:hidden">
         <Avatar className="h-10 w-10">
           <AvatarFallback className="bg-primary/10 text-primary font-semibold">
@@ -257,7 +257,7 @@ export function EnquiryRow({
           {formatDate(enquiry.createdAt)}
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="w-[140px] shrink-0 flex items-center justify-end gap-2">
           <div className="hidden lg:flex items-center gap-1">
             <Button
               variant="ghost"

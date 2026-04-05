@@ -72,11 +72,7 @@ export function LessonForm({
       : [],
   });
 
-  const [categories, setCategories] = useState<{ label: string; value: string }[]>([]);
-  const [topics, setTopics] = useState<{ label: string; value: string }[]>([]);
   const [subtopics, setSubtopics] = useState<{ label: string; value: string }[]>([]);
-  const [selCategory, setSelCategory] = useState<string>("");
-  const [selTopic, setSelTopic] = useState<string>("");
 
   // Auto-generate slug from title on create
   useEffect(() => {
@@ -92,33 +88,20 @@ export function LessonForm({
   }, [formData.title, isEditing, formData.slug]);
 
   useEffect(() => {
-    fetch("/api/admin/tutorial-categories")
+    fetch("/api/admin/tutorial-subtopics?limit=500")
       .then((res) => res.json())
       .then((d) => {
         if (d.success)
-          setCategories(d.data.map((c: any) => ({ label: c.title, value: c.id.toString() })));
+          setSubtopics(
+            d.data.map((subtopic: any) => ({
+              label: subtopic.topic?.title
+                ? `${subtopic.title} - ${subtopic.topic.title}${subtopic.topic.category?.title ? ` - ${subtopic.topic.category.title}` : ""}`
+                : subtopic.title,
+              value: subtopic.id.toString(),
+            }))
+          );
       });
   }, []);
-
-  useEffect(() => {
-    if (!selCategory) return;
-    fetch(`/api/admin/tutorial-topics?categoryId=${selCategory}`)
-      .then((res) => res.json())
-      .then((d) => {
-        if (d.success)
-          setTopics(d.data.map((t: any) => ({ label: t.title, value: t.id.toString() })));
-      });
-  }, [selCategory]);
-
-  useEffect(() => {
-    if (!selTopic) return;
-    fetch(`/api/admin/tutorial-subtopics?topicId=${selTopic}`)
-      .then((res) => res.json())
-      .then((d) => {
-        if (d.success)
-          setSubtopics(d.data.map((s: any) => ({ label: s.title, value: s.id.toString() })));
-      });
-  }, [selTopic]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -219,26 +202,7 @@ export function LessonForm({
                 {/* Hierarchy cascade */}
                 <div className="pt-4 border-t space-y-4">
                   <h4 className="font-semibold text-sm text-muted-foreground">Hierarchy Placement</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="space-y-2">
-                      <Label>Category Filter</Label>
-                      <SearchableSelect
-                        items={categories}
-                        value={selCategory}
-                        onValueChange={setSelCategory}
-                        placeholder="Pick Category..."
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Topic Filter</Label>
-                      <SearchableSelect
-                        items={topics}
-                        value={selTopic}
-                        onValueChange={setSelTopic}
-                        placeholder="Pick Topic..."
-                        disabled={!selCategory}
-                      />
-                    </div>
+                  <div className="grid grid-cols-1 gap-4">
                     <div className="space-y-2">
                       <Label>Select Subtopic *</Label>
                       <SearchableSelect
@@ -246,11 +210,7 @@ export function LessonForm({
                         value={formData.subtopicId}
                         onValueChange={(v: string) => setFormData({ ...formData, subtopicId: v })}
                         placeholder="Pick Subtopic..."
-                        disabled={!selTopic && subtopics.length === 0}
                       />
-                      {formData.subtopicId && (
-                        <p className="text-xs text-green-600">Subtopic ID: {formData.subtopicId}</p>
-                      )}
                     </div>
                   </div>
                 </div>

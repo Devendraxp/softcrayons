@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { getPublicTutorialSearch } from "@/services/tutorial-public.service";
 
 export async function GET(request: NextRequest) {
   try {
@@ -16,58 +16,13 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    const [topics, lessons] = await Promise.all([
-      prisma.tutorialsTopic.findMany({
-        where: {
-          isPublic: true,
-          OR: [
-            { title: { contains: query, mode: "insensitive" } },
-            { description: { contains: query, mode: "insensitive" } },
-          ],
-        },
-        select: {
-          id: true,
-          title: true,
-          slug: true,
-          description: true,
-          category: { select: { title: true, slug: true } },
-        },
-        orderBy: [{ position: "asc" }, { title: "asc" }],
-        take: limit,
-      }),
-      prisma.tutorialsLesson.findMany({
-        where: {
-          isPublic: true,
-          OR: [
-            { title: { contains: query, mode: "insensitive" } },
-            { description: { contains: query, mode: "insensitive" } },
-            { content: { contains: query, mode: "insensitive" } },
-          ],
-        },
-        select: {
-          id: true,
-          title: true,
-          slug: true,
-          description: true,
-          position: true,
-          subtopic: {
-            select: {
-              title: true,
-              slug: true,
-              topic: { select: { title: true, slug: true } },
-            },
-          },
-        },
-        orderBy: [{ position: "asc" }, { title: "asc" }],
-        take: limit,
-      }),
-    ]);
+    const data = await getPublicTutorialSearch(query, limit);
 
     return NextResponse.json({
       success: true,
-      data: { topics, lessons },
+      data,
       query,
-      total: topics.length + lessons.length,
+      total: data.topics.length + data.lessons.length,
     });
   } catch (error: any) {
     return NextResponse.json(
