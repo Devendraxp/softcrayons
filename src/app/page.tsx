@@ -4,6 +4,7 @@ import { FaqSection } from "@/components/FaqSection";
 import { HeroSection } from "@/components/HeroSection";
 import { KnowledgeHub } from "@/components/KnowledgeHub";
 import { LearningPathway } from "@/components/LearningPathway";
+import AppleCardsCarouselDemo from "@/components/apple-cards-carousel-demo";
 import { PartnersSection } from "@/components/PartnersSection";
 import { PlacementsMarquee } from "@/components/PlacementsMarquee";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
@@ -23,6 +24,7 @@ export default function Home() {
         <PartnersSection />
         <KnowledgeHub />
         <TestimonialsSection />
+        <AppleCardsCarouselDemo />
         <FaqSection />
         <CTASection />
       </main>

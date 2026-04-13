@@ -440,7 +440,10 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${dmSans.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans`}>
+      <body
+        suppressHydrationWarning
+        className={`${dmSans.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
