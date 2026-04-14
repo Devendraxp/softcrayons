@@ -1,96 +1,52 @@
-const features = [
-	{
-		title: 'Industry-Focused Curriculum',
-		description:
-			'Learn skills that companies actually need with input from top hiring managers.',
-		titleBg: 'bg-orange-200 dark:bg-orange-500/30',
-		span: 'md:col-span-2',
-	},
-	{
-		title: 'Real-World Projects',
-		description: 'Build 10+ production-grade projects for your portfolio.',
-		titleBg: 'bg-blue-200 dark:bg-blue-500/30',
-		span: 'md:col-span-1',
-	},
-	{
-		title: '1-on-1 Mentorship',
-		description: 'Get personalized guidance from experienced FAANG developers.',
-		titleBg: 'bg-purple-200 dark:bg-purple-500/30',
-		span: 'md:col-span-1',
-	},
-	{
-		title: 'Active Community',
-		description: 'Join 50,000+ learners in our Discord community.',
-		titleBg: 'bg-green-200 dark:bg-green-500/30',
-		span: 'md:col-span-1',
-	},
-	{
-		title: 'Lifetime Access',
-		description: 'Access all course materials forever with free updates.',
-		titleBg: 'bg-pink-200 dark:bg-pink-500/30',
-		span: 'md:col-span-2',
-	},
-	{
-		title: 'Certified Courses',
-		description: 'Earn industry-recognized certificates upon completion.',
-		titleBg: 'bg-yellow-200 dark:bg-yellow-500/30',
-		span: 'md:col-span-1',
-	},
-	{
-		title: 'Placement Support',
-		description: 'Get job referrals and interview preparation assistance.',
-		titleBg: 'bg-teal-200 dark:bg-teal-500/30',
-		span: 'md:col-span-1',
-	},
-	{
-		title: 'Flexible Learning',
-		description: 'Learn at your own pace with self-paced modules.',
-		titleBg: 'bg-indigo-200 dark:bg-indigo-500/30',
-		span: 'md:col-span-1',
-	},
-	{
-		title: '24/7 Support',
-		description: 'Get help anytime with our dedicated support team.',
-		titleBg: 'bg-rose-200 dark:bg-rose-500/30',
-		span: 'md:col-span-2',
-	},
+import Link from "next/link";
+import { ArrowRight, Phone, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+const highlights = [
+  "100% Placement Assistance",
+  "15+ Years Industry Expert Trainers",
+  "Hands-On Projects & Real-World Use Cases",
+  "AI-Personalized Learning Paths",
+  "40+ Industry-Relevant Courses",
+  "Global Certifications",
 ];
 
 export function WhyChooseUs() {
-	return (
-		<section className="py-24 bg-muted/30">
-			<div className="container">
-				<div className="text-center max-w-2xl mx-auto mb-16">
-					<h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
-						Built for Your{' '}
-						<span className="text-gradient">Success</span>
-					</h2>
-					<p className="text-muted-foreground text-lg">
-						We don't just teach, we provide an environment designed for your growth. With real-world projects, personalized mentorship, and an active community, we are fully committed to your success.
-					</p>
-				</div>
+  return (
+    <section className="py-24 bg-muted/35 overflow-hidden">
+      <div className="container">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-10 items-center max-w-6xl mx-auto">
+          <div className="relative flex items-center justify-center animate-fade-up min-h-[320px] sm:min-h-[420px]">
+            <img
+                src="https://img.freepik.com/free-photo/young-girl-with-book-isolated-white-background_93675-131667.jpg"
+                alt="Softcrayons learner"
+                className="w-[78%] max-w-[360px] sm:max-w-[430px] h-auto object-contain"
+              />
+          </div>
 
-				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 max-w-6xl mx-auto">
-					{features.map((feature, index) => (
-						<div
-							key={feature.title}
-							className={`group relative rounded-3xl p-6 bg-card hover:shadow-xl transition-all duration-300 animate-fade-up flex flex-col justify-end ${feature.span}`}
-							style={{ animationDelay: `${index * 0.05}s`, minHeight: '160px' }}
-						>
-							<div>
-								<h3
-									className={`inline-block px-3 py-1.5 rounded-md text-sm font-semibold mb-2 text-foreground ${feature.titleBg}`}
-								>
-									{feature.title}
-								</h3>
-								<p className="text-muted-foreground text-sm leading-relaxed">
-									{feature.description}
-								</p>
-							</div>
-						</div>
-					))}
-				</div>
-			</div>
-		</section>
-	);
+          <div className="animate-fade-up" style={{ animationDelay: "0.12s" }}>
+
+            <h2 className="text-4xl sm:text-5xl font-black leading-tight mb-5">
+              Why Choose <span className="text-gradient">Softcrayons</span>
+            </h2>
+
+            <p className="text-muted-foreground text-lg leading-relaxed mb-8 max-w-xl">
+              Softcrayons delivers practical, career-focused training with mentorship, live projects, and deep placement support so learners become job-ready with confidence.
+            </p>
+
+            <ul className="mb-9 space-y-5 list-none p-0">
+              {highlights.map((item) => (
+                <li key={item} className="flex items-center gap-4 text-foreground">
+                  <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-orange-500 text-white shadow-[0_4px_12px_rgba(249,115,22,0.35)]">
+                    <ChevronRight className="h-5 w-5" />
+                  </span>
+                  <span className="text-lg sm:text-[1.1rem] font-semibold leading-tight">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }

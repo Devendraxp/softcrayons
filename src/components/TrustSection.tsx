@@ -26,7 +26,7 @@ const stats = [
 
 export function TrustSection() {
   return (
-    <section className="py-20 border-y border-border/50 bg-muted/30">
+    <section className="py-20 border-y border-secondary-foreground/15 bg-secondary text-secondary-foreground">
       <div className="container">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {stats.map((stat, index) => (
@@ -35,14 +35,14 @@ export function TrustSection() {
               className="text-center group animate-fade-up"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary/10 mb-4 group-hover:bg-primary/20 group-hover:scale-110 transition-all duration-300">
+              <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-secondary-foreground/10 mb-4 group-hover:bg-secondary-foreground/20 group-hover:scale-110 transition-all duration-300">
                 <stat.icon className="w-7 h-7 text-primary" />
               </div>
               <CountUpNumber
                 value={stat.value}
-                className="text-3xl sm:text-4xl font-black text-foreground mb-1"
+                className="text-3xl sm:text-4xl font-black text-secondary-foreground mb-1"
               />
-              <div className="text-sm text-muted-foreground font-medium">
+              <div className="text-sm text-secondary-foreground/70 font-medium">
                 {stat.label}
               </div>
             </div>

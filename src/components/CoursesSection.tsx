@@ -117,7 +117,7 @@ export function CoursesSection() {
                     onMouseEnter={() => setIsAutoPlaying(false)}
                     onMouseLeave={() => setIsAutoPlaying(true)}
                 >
-                    <div className="overflow-hidden">
+                    <div className="overflow-hidden px-2 sm:px-3 lg:px-4 py-3">
                         <div
                             className="flex transition-transform duration-500 ease-in-out"
                             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -125,14 +125,14 @@ export function CoursesSection() {
                             {Array.from({ length: totalSlides }).map((_, slideIndex) => (
                                 <div
                                     key={slideIndex}
-                                    className="w-full flex-shrink-0 grid sm:grid-cols-2 lg:grid-cols-3 gap-6 px-1"
+                                    className="w-full flex-shrink-0 grid sm:grid-cols-2 lg:grid-cols-3 gap-6 px-1 sm:px-2"
                                 >
                                     {courses
                                         .slice(slideIndex * 3, slideIndex * 3 + 3)
                                         .map((course) => (
                                             <div
                                                 key={course.id}
-                                                className="bg-gradient-to-b from-card to-background/60 rounded-2xl overflow-hidden shadow-md transition-all duration-300 hover:shadow-xl flex flex-col h-full"
+                                                className="bg-gradient-to-b from-card to-background/60 border border-primary/25 rounded-2xl overflow-hidden shadow-[0_10px_30px_hsl(var(--primary)/0.16),inset_0_1px_0_hsl(var(--primary)/0.35)] transition-all duration-300 hover:border-primary/45 hover:shadow-[0_14px_36px_hsl(var(--primary)/0.22),inset_0_1px_0_hsl(var(--primary)/0.5)] flex flex-col h-full"
                                             >
                                                 <div className="relative aspect-[4/3] overflow-hidden flex-shrink-0">
                                                     <img
@@ -163,7 +163,7 @@ export function CoursesSection() {
                                                     </p>
 
                                                     <Link href={`/courses/${course.slug}`}>
-                                                        <Button variant="outline" className="w-full group/btn">
+                                                        <Button className="w-full group/btn border border-primary/60 bg-primary text-primary-foreground hover:bg-primary/90 hover:border-primary/80 shadow-[0_8px_20px_hsl(var(--primary)/0.3)]">
                                                         View Course
                                                         <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                                                     </Button>

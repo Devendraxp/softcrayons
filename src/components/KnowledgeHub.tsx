@@ -45,7 +45,7 @@ function KnowledgeHubCard({ blog, index }: { blog: Blog; index: number }) {
   return (
     <Link href={`/blogs/${blog.slug || blog.id}`}>
       <article
-        className="group bg-gradient-to-b from-card to-background/60 rounded-2xl overflow-hidden shadow-md hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 h-full flex flex-col animate-fade-up"
+        className="group bg-gradient-to-b from-card to-background/60 border border-primary/25 rounded-2xl overflow-hidden shadow-[0_10px_30px_hsl(var(--primary)/0.16),inset_0_1px_0_hsl(var(--primary)/0.35)] hover:border-primary/45 hover:shadow-[0_14px_36px_hsl(var(--primary)/0.22),inset_0_1px_0_hsl(var(--primary)/0.5)] transition-all duration-300 h-full flex flex-col animate-fade-up"
         style={{ animationDelay: `${index * 0.15}s` }}
       >
         <div className="relative aspect-[4/3] overflow-hidden bg-muted">

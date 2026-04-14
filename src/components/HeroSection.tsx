@@ -191,24 +191,24 @@ export function HeroSection() {
         </div>
       </div>
 
-      <div className="relative z-10 mt-16 lg:mt-24 bg-gradient-to-r from-background via-muted/30 to-background backdrop-blur-sm py-6 shadow-[0_-10px_40px_rgba(0,0,0,0.04)]">
-        <div className="container flex flex-col lg:flex-row items-center gap-6">
-          <p className="text-sm font-semibold text-muted-foreground whitespace-nowrap">
+      <div className="relative z-10 mt-16 lg:mt-24 bg-secondary py-7 border-y border-secondary-foreground/15 shadow-[0_-12px_34px_hsl(var(--secondary)/0.35)]">
+        <div className="w-full flex flex-col items-center gap-4">
+          <p className="text-base sm:text-lg font-semibold text-secondary-foreground/90 text-center">
             Technologies you'll master:
           </p>
-          <div className="flex-1 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
-            <Marquee pauseOnHover duration={40}>
+          <div className="w-full">
+            <Marquee pauseOnHover duration={40} className="[--gap:1.5rem] px-0">
               {TECH_CHIPS.map((tech) => (
                 <div
                   key={tech.name}
-                  className="group flex items-center gap-2 px-4 py-2 mx-2 rounded-lg bg-card/80 shadow-sm transition-all duration-300 cursor-default"
+                  className="group flex min-w-[200px] sm:min-w-[230px] items-center justify-center gap-3 px-6 py-3.5 rounded-xl bg-background border border-border/80 shadow-[0_12px_24px_hsl(var(--secondary)/0.35)] hover:border-primary/35 hover:shadow-[0_14px_28px_hsl(var(--secondary)/0.45)] transition-all duration-300 cursor-default"
                 >
                   <img 
                     src={tech.src} 
                     alt={tech.name} 
-                    className="w-5 h-5 grayscale group-hover:grayscale-0 transition-all duration-300" 
+                    className="w-6 h-6 sm:w-7 sm:h-7 transition-transform duration-300 group-hover:scale-105" 
                   />
-                  <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+                  <span className="text-base sm:text-lg font-bold text-foreground transition-colors">
                     {tech.name}
                   </span>
                 </div>

@@ -37,8 +37,8 @@ const socialLinks = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-card/50">
-      <div className="container py-16">
+    <footer className="relative overflow-hidden border-t border-secondary-foreground/15 bg-secondary text-secondary-foreground">
+      <div className="container relative z-10 py-16 lg:py-20">
         <div className="grid grid-cols-2 md:grid-cols-6 gap-8">
           <div className="col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-4">
@@ -52,7 +52,7 @@ export function Footer() {
                 />
               </div>
             </Link>
-            <p className="text-muted-foreground text-sm mb-6 max-w-xs">
+            <p className="text-secondary-foreground/70 text-sm mb-6 max-w-xs">
               Empowering developers worldwide with industry-focused education and
               mentorship.
             </p>
@@ -62,7 +62,7 @@ export function Footer() {
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
-                  className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors duration-200"
+                  className="w-10 h-10 rounded-lg border border-secondary-foreground/15 bg-secondary-foreground/10 flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary/30 transition-colors duration-200"
                 >
                   <social.icon className="w-5 h-5" />
                 </Link>
@@ -77,7 +77,7 @@ export function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    className="text-sm text-secondary-foreground/70 hover:text-secondary-foreground transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -93,7 +93,7 @@ export function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    className="text-sm text-secondary-foreground/70 hover:text-secondary-foreground transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -109,7 +109,7 @@ export function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    className="text-sm text-secondary-foreground/70 hover:text-secondary-foreground transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -125,7 +125,7 @@ export function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    className="text-sm text-secondary-foreground/70 hover:text-secondary-foreground transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -135,11 +135,14 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-border mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Soft Crayons. All rights reserved.
-          </p>
+        <div className="mt-12 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
         </div>
+      </div>
+
+      <div className="pointer-events-none select-none absolute inset-x-0 bottom-[-0.6rem] sm:bottom-[-1rem] overflow-hidden px-3">
+        <p className="text-center text-[clamp(3rem,10vw,9rem)] leading-none font-black tracking-[-0.01em] text-transparent bg-clip-text bg-gradient-to-b from-secondary-foreground/[0.22] via-secondary-foreground/[0.12] to-secondary-foreground/[0.03]">
+          SOFTCRAYONS
+        </p>
       </div>
     </footer>
   );

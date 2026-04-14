@@ -22,7 +22,7 @@ interface Placement {
 
 function PlacementMarqueeCard({ placement }: { placement: Placement }) {
   return (
-    <div className="relative w-[280px] sm:w-[320px] flex-shrink-0 bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-300">
+    <div className="relative w-[280px] sm:w-[320px] flex-shrink-0 bg-card border border-primary/25 rounded-2xl overflow-hidden shadow-[0_8px_24px_hsl(var(--primary)/0.14),inset_0_1px_0_hsl(var(--primary)/0.3)] hover:border-primary/45 hover:shadow-[0_12px_30px_hsl(var(--primary)/0.2),inset_0_1px_0_hsl(var(--primary)/0.45)] transition-all duration-300">
       <div className="p-4 flex items-center gap-4">
         <div className="relative w-14 h-14 rounded-full overflow-hidden flex-shrink-0 bg-muted">
           {placement.avatar ? (
@@ -112,7 +112,7 @@ export function PlacementsMarquee() {
       <div className="container mb-12">
         <div className="text-center max-w-4xl mx-auto">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
-            Students <span className="text-gradient">Placed </span>Successfully
+            Recently <span className="text-gradient">Placed </span>Students
           </h2>
           <p className="text-muted-foreground text-lg">
             Join thousands of students who landed their dream jobs at top companies.
@@ -120,7 +120,7 @@ export function PlacementsMarquee() {
         </div>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-6 px-3 sm:px-5 lg:px-6">
         <Marquee pauseOnHover duration={60} className="[--gap:1.5rem]">
           {firstRow.map((placement) => (
             <PlacementMarqueeCard key={placement.id} placement={placement} />
