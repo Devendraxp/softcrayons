@@ -40,9 +40,7 @@ export default function BlogEditor({
         openOnClick: false,
         autolink: true,
       }),
-      ImageResize.configure({
-        allowBase64: true,
-      }),
+      ImageResize,
       Highlight.configure({
         multicolor: true,
       }),

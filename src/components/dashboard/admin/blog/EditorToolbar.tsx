@@ -112,7 +112,14 @@ export default function EditorToolbar({ editor, isFullscreen, onToggleFullscreen
   if (!editor) return null;
 
   const handleImageUpload = (url: string) => {
-    editor.chain().focus().setImage({ src: url }).run();
+    editor
+      .chain()
+      .focus()
+      .insertContent({
+        type: "image",
+        attrs: { src: url },
+      })
+      .run();
   };
 
   const setLink = () => {
