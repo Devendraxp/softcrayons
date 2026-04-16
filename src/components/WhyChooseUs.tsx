@@ -18,7 +18,7 @@ export function WhyChooseUs() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-10 items-center max-w-6xl mx-auto">
           <div className="relative flex items-center justify-center animate-fade-up min-h-[320px] sm:min-h-[420px]">
             <img
-                src="https://img.freepik.com/free-photo/young-girl-with-book-isolated-white-background_93675-131667.jpg"
+                src="https://i.ibb.co/wZh2B6P5/07.png"
                 alt="Softcrayons learner"
                 className="w-[78%] max-w-[360px] sm:max-w-[430px] h-auto object-contain"
               />

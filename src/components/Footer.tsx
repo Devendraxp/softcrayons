@@ -38,8 +38,8 @@ const socialLinks = [
 export function Footer() {
   return (
     <footer className="relative overflow-hidden border-t border-secondary-foreground/15 bg-secondary text-secondary-foreground">
-      <div className="container relative z-10 py-16 lg:py-20">
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-8">
+      <div className="relative z-10 w-full px-6 pt-16 pb-8 sm:px-10 lg:px-16 lg:pt-20 lg:pb-10 xl:px-24">
+        <div className="grid grid-cols-2 gap-10 md:grid-cols-6 lg:gap-12">
           <div className="col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-4">
               <div className="h-8">
@@ -56,13 +56,13 @@ export function Footer() {
               Empowering developers worldwide with industry-focused education and
               mentorship.
             </p>
-            <div className="flex gap-3">
+            <div className="flex gap-5 text-secondary-foreground/75">
               {socialLinks.map((social) => (
                 <Link
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
-                  className="w-10 h-10 rounded-lg border border-secondary-foreground/15 bg-secondary-foreground/10 flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary/30 transition-colors duration-200"
+                  className="flex items-center justify-center text-inherit transition-colors duration-300 ease-out hover:text-primary"
                 >
                   <social.icon className="w-5 h-5" />
                 </Link>
@@ -71,13 +71,13 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Courses</h4>
+            <h4 className="mb-5 font-heading text-sm font-semibold uppercase tracking-[0.08em] text-secondary-foreground/95">Courses</h4>
             <ul className="space-y-3">
               {footerLinks.courses.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-secondary-foreground/70 hover:text-secondary-foreground transition-colors"
+                    className="text-sm text-secondary-foreground/70 transition-colors duration-300 ease-out hover:text-primary"
                   >
                     {link.name}
                   </Link>
@@ -87,13 +87,13 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Company</h4>
+            <h4 className="mb-5 font-heading text-sm font-semibold uppercase tracking-[0.08em] text-secondary-foreground/95">Company</h4>
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-secondary-foreground/70 hover:text-secondary-foreground transition-colors"
+                    className="text-sm text-secondary-foreground/70 transition-colors duration-300 ease-out hover:text-primary"
                   >
                     {link.name}
                   </Link>
@@ -103,13 +103,13 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Support</h4>
+            <h4 className="mb-5 font-heading text-sm font-semibold uppercase tracking-[0.08em] text-secondary-foreground/95">Support</h4>
             <ul className="space-y-3">
               {footerLinks.support.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-secondary-foreground/70 hover:text-secondary-foreground transition-colors"
+                    className="text-sm text-secondary-foreground/70 transition-colors duration-300 ease-out hover:text-primary"
                   >
                     {link.name}
                   </Link>
@@ -119,13 +119,13 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Legal</h4>
+            <h4 className="mb-5 font-heading text-sm font-semibold uppercase tracking-[0.08em] text-secondary-foreground/95">Legal</h4>
             <ul className="space-y-3">
               {footerLinks.legal.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-secondary-foreground/70 hover:text-secondary-foreground transition-colors"
+                    className="text-sm text-secondary-foreground/70 transition-colors duration-300 ease-out hover:text-primary"
                   >
                     {link.name}
                   </Link>
@@ -135,14 +135,11 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="pointer-events-none select-none mt-20 overflow-hidden sm:mt-24">
+          <p className="font-heading text-center text-[clamp(7rem,13vw,14rem)] leading-none font-black tracking-[-0.01em] text-transparent bg-clip-text bg-gradient-to-b from-secondary-foreground/[0.22] via-secondary-foreground/[0.12] to-secondary-foreground/[0.03]">
+            SOFTCRAYONS
+          </p>
         </div>
-      </div>
-
-      <div className="pointer-events-none select-none absolute inset-x-0 bottom-[-0.6rem] sm:bottom-[-1rem] overflow-hidden px-3">
-        <p className="text-center text-[clamp(3rem,10vw,9rem)] leading-none font-black tracking-[-0.01em] text-transparent bg-clip-text bg-gradient-to-b from-secondary-foreground/[0.22] via-secondary-foreground/[0.12] to-secondary-foreground/[0.03]">
-          SOFTCRAYONS
-        </p>
       </div>
     </footer>
   );
