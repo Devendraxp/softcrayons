@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ChevronDown, HelpCircle } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { SectionLoader } from "@/components/ui/loader";
+import { SectionHeader } from "@/components/public-ui";
 
 interface Faq {
   id: number;
@@ -41,7 +42,7 @@ function FaqItem({
           {faq.question}
         </span>
         <div
-          className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
+          className={`flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center transition-all duration-300 ${
             isOpen
               ? "bg-primary text-primary-foreground rotate-180"
               : "bg-muted text-muted-foreground"
@@ -103,7 +104,7 @@ export function FaqSection() {
   }
 
   return (
-    <section className="py-24 bg-muted/20 relative overflow-hidden">
+    <section className="py-24 bg-muted/45 relative overflow-hidden">
       <div className="absolute inset-0 opacity-[0.04]">
         <div
           className="absolute inset-0"
@@ -116,14 +117,12 @@ export function FaqSection() {
 
       <div className="container relative z-10">
         <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
-              Frequently Asked{" "}
-              <span className="text-gradient">Questions</span>
-            </h2>
-          </div>
+          <SectionHeader
+            eyebrow="FAQs"
+            title={<>Frequently asked <span className="text-gradient">questions</span></>}
+          />
 
-          <div className="bg-card rounded-2xl border border-border p-6 sm:p-8">
+          <div className="brand-panel rounded-md p-6 sm:p-8">
             {faqs.map((faq) => (
               <FaqItem
                 key={faq.id}

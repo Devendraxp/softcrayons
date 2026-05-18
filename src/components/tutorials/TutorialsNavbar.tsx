@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
-import { Sun, Moon, Search, Menu, X, Loader2 } from "lucide-react";
+import { Sun, Moon, Search, Menu, X, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSession } from "@/lib/auth-client";
 import { useState, useEffect, useRef } from "react";
@@ -22,7 +22,6 @@ type TutorialsNavbarProps = {
 
 export function TutorialsNavbar({ featuredTopics = [] }: TutorialsNavbarProps) {
 	const [isOpen, setIsOpen] = useState(false);
-	const [mounted, setMounted] = useState(false);
 	const { theme, setTheme } = useTheme();
 	const pathname = usePathname();
 	const { data: session } = useSession();
@@ -34,21 +33,10 @@ export function TutorialsNavbar({ featuredTopics = [] }: TutorialsNavbarProps) {
 	const [searchOpen, setSearchOpen] = useState(false);
 	const searchRef = useRef<HTMLDivElement>(null);
 
-	useEffect(() => {
-		setMounted(true);
-	}, []);
-
 	const toggleTheme = () => {
 		setTheme(theme === "dark" ? "light" : "dark");
 	};
 
-	// Close menu on path change
-	useEffect(() => {
-		setIsOpen(false);
-        setSearchOpen(false);
-	}, [pathname]);
-
-	// Handle click outside and scroll to close search
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
 			if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
@@ -69,14 +57,14 @@ export function TutorialsNavbar({ featuredTopics = [] }: TutorialsNavbarProps) {
 	}, [searchOpen]);
 
 	return (
-		<nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50">
-			<div className="mx-auto w-full px-2 sm:px-3 lg:px-4 2xl:px-6">
+		<nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/70 bg-background/90 shadow-[0_8px_30px_hsl(222_47%_11%/0.06)] backdrop-blur-xl">
+			<div className="mx-auto w-full max-w-[1500px] px-3 sm:px-5 lg:px-6 2xl:px-8">
 				<div className="flex items-center justify-between h-16 md:h-20">
 					<Link href="/tutorials" className="flex items-center shrink-0">
 					<div className="flex items-center shrink-0">
 							<div className="hidden md:flex h-8 md:h-7 items-center">
                                 <Image
-                                    src="https://i.ibb.co/tphyBYTY/sc-logo.png"
+                                    src="/logo.png"
                                     alt="Soft Crayons Logo"
                                     width={180}
                                     height={50}
@@ -85,23 +73,22 @@ export function TutorialsNavbar({ featuredTopics = [] }: TutorialsNavbarProps) {
                                 />
                             </div>
 						<span className="hidden md:inline mx-3 text-2xl font-light text-foreground/70 dark:text-muted-foreground select-none">|</span>
-							<span className="text-xl md:text-2xl font-bold tracking-tight text-primary transition-colors group-hover:text-primary/80">
+							<span className="text-xl md:text-2xl font-black tracking-tight text-primary transition-colors group-hover:text-primary/80">
                                 Tutorials
                             </span>
-							<span className="md:inline text-[10px] md:text-[11px] font-bold text-[#f97316] mb-0.5 md:mb-1 tracking-wider">
-                                BETA v0.3
+							<span className="ml-1 rounded-md bg-secondary/10 px-2 py-0.5 text-[10px] md:text-[11px] font-black text-secondary mb-0.5 md:mb-1 tracking-wider">
+                                v1.0
                             </span>
 					</div>
                     </Link>
 
-					{/* Middle: Featured Topics */}
 					<div className="hidden lg:flex flex-1 justify-center items-center gap-4 xl:gap-6">
 						{featuredTopics.slice(0, 4).map((topic) => (
 							<Link
 								key={topic.slug}
 								href={`/tutorials/${topic.slug}`}
 								className={cn(
-									"transition-colors duration-200 font-medium text-sm",
+									"transition-colors duration-200 font-bold text-sm",
 									isTopicActive(topic.slug)
 										? "text-primary font-semibold"
 										: "text-muted-foreground hover:text-foreground"
@@ -112,16 +99,15 @@ export function TutorialsNavbar({ featuredTopics = [] }: TutorialsNavbarProps) {
 						))}
 					</div>
 
-                    {/* Right Actions */}
 					<div className="hidden md:flex items-center gap-3 shrink-0">
 						<div className="relative flex items-center" ref={searchRef}>
 							<div className={cn(
-								"flex items-center transition-all duration-300 rounded-full bg-muted/20",
-								searchOpen ? "w-64 lg:w-72 bg-muted/40" : "w-10 hover:bg-muted/50"
+								"flex items-center transition-all duration-300 rounded-md border",
+								searchOpen ? "w-64 lg:w-72 border-border bg-card px-2" : "w-10 border-transparent hover:bg-muted/50"
 							)}>
 								<button
                                     onClick={() => setSearchOpen(!searchOpen)}
-									className="w-10 h-10 rounded-full flex items-center justify-center transition-colors shrink-0"
+									className="w-10 h-10 rounded-md flex items-center justify-center transition-colors shrink-0"
 									aria-label="Search"
 								>
 									<Search className="w-5 h-5 text-muted-foreground" />
@@ -139,7 +125,7 @@ export function TutorialsNavbar({ featuredTopics = [] }: TutorialsNavbarProps) {
 							className="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-muted transition-colors duration-200"
 							aria-label="Toggle theme"
 						>
-							{mounted && theme === "dark" ? (
+							{theme === "dark" ? (
 								<Sun className="w-5 h-5" />
 							) : (
 								<Moon className="w-5 h-5" />
@@ -147,7 +133,7 @@ export function TutorialsNavbar({ featuredTopics = [] }: TutorialsNavbarProps) {
 						</button>
 
 						<Link href="/query" passHref>
-							<Button variant="default" size="lg" className="hidden lg:flex">
+							<Button variant="secondary" size="lg" className="hidden lg:flex">
 								Take Admission
 							</Button>
 						</Link>
@@ -181,13 +167,13 @@ export function TutorialsNavbar({ featuredTopics = [] }: TutorialsNavbarProps) {
 
 						<Link
 							href="/"
-							className="flex items-center gap-2 rounded-full border border-border bg-muted/40 px-4 py-[10px] hover:bg-muted transition-colors ml-2"
+							className="flex items-center gap-2 rounded-md border border-border bg-card px-4 py-[10px] hover:bg-muted transition-colors ml-2"
 						>
+							<ArrowLeft className="h-4 w-4 text-muted-foreground" />
 							<span className="text-sm font-semibold text-muted-foreground">Back to Home</span>
 						</Link>
 					</div>
 
-                    {/* Mobile Toggle */}
 					<div className="flex items-center gap-2 md:hidden ml-auto">
 						<button
 							onClick={() => setIsOpen(!isOpen)}
@@ -200,10 +186,9 @@ export function TutorialsNavbar({ featuredTopics = [] }: TutorialsNavbarProps) {
 				</div>
 			</div>
 
-            {/* Mobile Menu */}
 			<div
 				className={cn(
-					"md:hidden absolute top-full left-0 right-0 bg-background border-b border-border transition-all duration-300 overflow-hidden",
+					"md:hidden absolute top-full left-0 right-0 bg-background border-b border-border shadow-[0_18px_45px_hsl(222_47%_11%/0.12)] transition-all duration-300 overflow-hidden",
 					isOpen ? "max-h-[calc(100dvh-4rem)] opacity-100 overflow-y-auto" : "max-h-0 opacity-0"
 				)}
 			>
@@ -235,7 +220,7 @@ export function TutorialsNavbar({ featuredTopics = [] }: TutorialsNavbarProps) {
 
 					<div className="px-4 pt-3 flex flex-col gap-2 border-t border-border">
 						<Link href="/query" passHref onClick={() => setIsOpen(false)}>
-							<Button variant="default" size="lg" className="w-full">
+							<Button variant="secondary" size="lg" className="w-full">
 								Take Admission
 							</Button>
 						</Link>

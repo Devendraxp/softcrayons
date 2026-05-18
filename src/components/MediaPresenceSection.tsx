@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { SectionHeader } from "@/components/public-ui";
 
 const mediaMentions = [
   {
@@ -30,13 +30,13 @@ const mediaMentions = [
 
 export function MediaPresenceSection() {
   return (
-    <section className="py-24 bg-muted/35">
+    <section className="py-24 bg-background">
       <div className="container">
-        <div className="relative mb-14">
-          <h2 className="text-center text-4xl sm:text-5xl md:text-6xl font-black leading-tight">
-            <span className="text-primary">Media </span> Presence
-          </h2>
-        </div>
+        <SectionHeader
+          eyebrow="Media"
+          title={<>Media <span className="text-gradient">presence</span></>}
+          description="A growing footprint across education, technology, and career conversations."
+        />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
           {mediaMentions.map((item) => (
@@ -45,7 +45,7 @@ export function MediaPresenceSection() {
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group rounded-2xl border border-primary/20 bg-card overflow-hidden shadow-[0_8px_22px_hsl(var(--primary)/0.12)] hover:border-primary/35 hover:shadow-[0_12px_30px_hsl(var(--primary)/0.18)] transition-all duration-300"
+              className="group brand-panel brand-card-hover rounded-md overflow-hidden"
             >
               <div className="h-36 bg-background flex items-center justify-center p-8 border-b border-border/70">
                 <img

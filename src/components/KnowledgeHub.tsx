@@ -7,6 +7,7 @@ import { Clock, ArrowRight, User } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SectionLoader } from "@/components/ui/loader";
+import { SectionHeader } from "@/components/public-ui";
 
 interface Blog {
   id: number;
@@ -33,19 +34,10 @@ interface Blog {
 
 function KnowledgeHubCard({ blog, index }: { blog: Blog; index: number }) {
   const image = blog.thumbnailImage || blog.bannerImage;
-  const formattedDate = new Date(blog.dateOfPublish).toLocaleDateString(
-    "en-US",
-    {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    }
-  );
-
   return (
     <Link href={`/blogs/${blog.slug || blog.id}`}>
       <article
-        className="group bg-gradient-to-b from-card to-background/60 border border-primary/25 rounded-2xl overflow-hidden shadow-[0_10px_30px_hsl(var(--primary)/0.16),inset_0_1px_0_hsl(var(--primary)/0.35)] hover:border-primary/45 hover:shadow-[0_14px_36px_hsl(var(--primary)/0.22),inset_0_1px_0_hsl(var(--primary)/0.5)] transition-all duration-300 h-full flex flex-col animate-fade-up"
+        className="group brand-panel brand-card-hover rounded-md overflow-hidden h-full flex flex-col animate-fade-up"
         style={{ animationDelay: `${index * 0.15}s` }}
       >
         <div className="relative aspect-[4/3] overflow-hidden bg-muted">
@@ -63,7 +55,7 @@ function KnowledgeHubCard({ blog, index }: { blog: Blog; index: number }) {
             </div>
           )}
           <div className="absolute top-3 left-3">
-            <Badge className="bg-primary text-primary-foreground border-0 text-xs shadow-md">
+            <Badge className="bg-secondary text-secondary-foreground border-0 text-xs shadow-md">
               {blog.category.title}
             </Badge>
           </div>
@@ -149,17 +141,18 @@ export function KnowledgeHub() {
   }
 
   return (
-    <section className="py-24">
+    <section className="py-24 bg-background">
       <div className="container">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
-            Knowledge <span className="text-gradient">Hub</span>
-          </h2>
-          <p className="text-muted-foreground text-lg">
+        <SectionHeader
+          eyebrow="Knowledge hub"
+          title={<>Career insights from <span className="text-gradient">our mentors</span></>}
+          description={
+            <>
             Stay ahead with the latest insights, tutorials, and career tips from
             our experts.
-          </p>
-        </div>
+            </>
+          }
+        />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {blogs.map((blog, index) => (

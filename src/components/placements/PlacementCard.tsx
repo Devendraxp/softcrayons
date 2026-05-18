@@ -12,12 +12,12 @@ interface PlacementCardProps {
   quote?: string;
 }
 
-export function PlacementCard({ name, course, position, company, image, packageVal, quote }: PlacementCardProps) {
+export function PlacementCard({ name, course, company, image, packageVal, quote }: PlacementCardProps) {
 
   const showPackage = packageVal && packageVal !== "";
 
   return (
-    <Card className="group bg-card border border-border hover:border-primary/30 hover:shadow-lg transition-all duration-300 overflow-hidden h-full flex flex-col">
+    <Card className="group brand-card-hover overflow-hidden h-full flex flex-col">
       <div
         className="relative h-40 w-full overflow-hidden flex items-end justify-center"
         style={{ backgroundImage: "url('https://img.freepik.com/free-vector/abstract-blue-flowing-lines-banner_1048-16396.jpg')", backgroundSize: "cover", backgroundPosition: "center" }}
@@ -36,7 +36,7 @@ export function PlacementCard({ name, course, position, company, image, packageV
            <div className="flex items-center gap-2 mb-1 flex-wrap">
              <h3 className="font-bold text-lg truncate text-foreground group-hover:text-primary transition-colors">{name}</h3>
              {showPackage && (
-               <span className="shrink-0 bg-secondary text-secondary-foreground text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+               <span className="shrink-0 bg-secondary text-secondary-foreground text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider">
                  {packageVal}
                </span>
              )}
@@ -47,7 +47,7 @@ export function PlacementCard({ name, course, position, company, image, packageV
            </div>
            
            {quote && (
-              <p className="mt-auto text-xs text-muted-foreground italic">"{quote}"</p>
+              <p className="mt-auto text-xs text-muted-foreground italic">&quot;{quote}&quot;</p>
            )}
       </CardContent>
 

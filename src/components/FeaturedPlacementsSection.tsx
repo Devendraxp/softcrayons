@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { PlacementCard } from "@/components/placements/PlacementCard";
 import { SectionLoader } from "@/components/ui/loader";
 import { Button } from "@/components/ui/button";
+import { SectionHeader } from "@/components/public-ui";
 
 interface Placement {
   id: number;
@@ -59,14 +60,15 @@ export function FeaturedPlacementsSection() {
   return (
     <section className="py-24">
       <div className="container">
-        <div className="text-center max-w-3xl mx-auto mb-14">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
-            Successfully <span className="text-gradient">Placed Students</span>
-          </h2>
-          <p className="text-muted-foreground text-lg">
+        <SectionHeader
+          eyebrow="Placements"
+          title={<>Successfully <span className="text-gradient">placed students</span></>}
+          description={
+            <>
             Meet our top achievers who secured roles at leading companies after training with SoftCrayons.
-          </p>
-        </div>
+            </>
+          }
+        />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {placements.map((student) => (

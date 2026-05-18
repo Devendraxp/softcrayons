@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Clock, User, ArrowUpRight } from "lucide-react";
+import { Clock, User } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 interface BlogCardProps {
@@ -25,7 +25,7 @@ interface BlogCardProps {
 export function BlogCard({ blog }: BlogCardProps) {
     return (
         <Link href={`/blogs/${blog.slug || blog.id}`}>
-            <article className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 h-full flex flex-col">
+            <article className="group brand-panel brand-card-hover rounded-md overflow-hidden h-full flex flex-col">
                 <div className="relative aspect-[4/3] overflow-hidden">
                     <Image
                         src={blog.image}
@@ -40,7 +40,7 @@ export function BlogCard({ blog }: BlogCardProps) {
                     <div className="flex items-center justify-between mb-3">
                         <Badge
                             variant="secondary"
-                            className="bg-secondary text-white border-0 text-xs"
+                            className="bg-secondary/10 text-secondary border-0 text-xs font-bold"
                         >
                             {blog.categoryName}
                         </Badge>

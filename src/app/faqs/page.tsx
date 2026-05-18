@@ -101,7 +101,7 @@ export default function FaqsPage() {
         );
     }
     return (
-        <div className="min-h-screen bg-background">
+        <div className="min-h-screen bg-background brand-section">
             <main>
                 <section className="relative pt-32 pb-20 overflow-hidden isolate">
                     <div className="absolute inset-0 -z-20 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
@@ -114,12 +114,13 @@ export default function FaqsPage() {
 
                     <div className="container mx-auto px-4 relative z-10">
                         <div className="max-w-4xl mx-auto text-center relative">
+                            <span className="brand-eyebrow mb-4">Support</span>
                             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground mb-6 tracking-tight">
                                 Frequently Asked <span className="text-gradient">Questions</span>
                             </h1>
                             <p className="text-lg md:text-xl text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed">
                                 Find answers to common questions about our courses, training methodology, 
-                                placements, and more. Can't find what you're looking for? Contact us directly.
+                                placements, and more. Can&apos;t find what you&apos;re looking for? Contact us directly.
                             </p>
                         </div>
                     </div>
@@ -128,7 +129,7 @@ export default function FaqsPage() {
                 <section className="pb-20">
                     <div className="container mx-auto px-4 max-w-4xl">
                         {categoryTitles.length === 0 ? (
-                            <div className="text-center py-16 bg-card border border-border rounded-2xl">
+                            <div className="text-center py-16 brand-panel rounded-md">
                                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
                                     <HelpCircle className="w-8 h-8 text-muted-foreground" />
                                 </div>
@@ -144,7 +145,7 @@ export default function FaqsPage() {
                             {categoryTitles.map((category, index) => {
                                 const IconComponent = categoryIcons[category.toLowerCase().replace(/\s+/g, '-').replace(/&/g, '')] || HelpCircle;
                                 return (
-                                <div key={index} className="bg-muted/30 rounded-2xl p-6 md:p-8 border border-border/50 shadow-sm">
+                                <div key={index} className="brand-panel rounded-md p-6 md:p-8">
                                     <h3 className="text-xl md:text-2xl font-bold mb-6 flex items-center gap-3">
                                         <IconComponent className="w-6 h-6 text-primary" />
                                         {category}
@@ -155,7 +156,7 @@ export default function FaqsPage() {
                                                 <AccordionItem 
                                                     key={item.id} 
                                                     value={`item-${index}-${itemIndex}`}
-                                                    className="bg-background border rounded-xl px-4 shadow-sm"
+                                                    className="bg-background border rounded-md px-4 shadow-sm"
                                                 >
                                                     <AccordionTrigger className="text-left font-medium hover:text-primary transition-colors py-4">
                                                         {item.question}
@@ -174,23 +175,23 @@ export default function FaqsPage() {
                     </div>
                 </section>
 
-                <section className="py-20 bg-muted/30 relative overflow-hidden">
+                <section className="py-20 bg-muted/45 relative overflow-hidden">
                     <div className="absolute inset-0 bg-primary/5 -z-10 [mask-image:radial-gradient(ellipse_at_center,black,transparent)]"></div>
                     <div className="container mx-auto px-4">
                         <div className="max-w-3xl mx-auto text-center">
-                            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
+                            <div className="w-16 h-16 rounded-md bg-primary/10 flex items-center justify-center mx-auto mb-6">
                                 <MessageCircle className="w-8 h-8 text-primary" />
                             </div>
                             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
                                 Still have questions?
                             </h2>
                             <p className="text-muted-foreground mb-8 text-lg">
-                                We're here to help! Reach out to our support team and we'll get back to you as soon as possible.
+                                We&apos;re here to help! Reach out to our support team and we&apos;ll get back to you as soon as possible.
                             </p>
                             <div className="flex flex-wrap justify-center gap-4">
                                 <Link 
                                     href="/query"
-                                    className="px-8 py-3 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity shadow-lg shadow-primary/25"
+                                    className="inline-flex px-8 py-3 rounded-md bg-secondary text-secondary-foreground font-bold hover:opacity-90 transition-opacity shadow-lg shadow-secondary/25"
                                 >
                                    Ask our support team
                                 </Link>

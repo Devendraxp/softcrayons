@@ -99,7 +99,7 @@ function QueryPageContent() {
           variant: "destructive",
         });
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Something went wrong. Please try again.",
@@ -112,7 +112,7 @@ function QueryPageContent() {
 
   if (isSuccess) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-primary/10 pt-20 relative overflow-hidden">
+      <div className="min-h-screen brand-section pt-20 relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
@@ -141,7 +141,7 @@ function QueryPageContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-primary/10 pt-20 relative overflow-hidden">
+    <div className="min-h-screen brand-section pt-20 relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
@@ -151,14 +151,14 @@ function QueryPageContent() {
       <div className="container py-16 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div>
-            <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-6">
+            <span className="brand-eyebrow mb-6">
               Start Your Tech Journey
             </span>
 
             <h1 className="text-4xl sm:text-5xl font-black mb-6">
               Confused About <span className="text-gradient">Courses?</span>
               <br />
-              Let's Talk & Guide You
+              Let&apos;s Talk & Guide You
             </h1>
 
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
@@ -196,9 +196,9 @@ function QueryPageContent() {
           </div>
 
           <div className="relative">
-            <div className="p-8">
+            <div className="brand-panel rounded-md p-6 md:p-8">
               <h2 className="text-2xl font-bold mb-6">
-                Fill Details & We'll Call You Back in
+                Fill Details & We&apos;ll Call You Back in
                 <span className="text-gradient"> 24 Hours</span>
               </h2>
 
@@ -220,7 +220,7 @@ function QueryPageContent() {
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
                       }
-                      className="w-full pl-11 pr-4 py-3 rounded-xl bg-muted/30 border-0 border-b border-border/50 focus:border-primary focus:ring-0 outline-none transition-all"
+                      className="w-full pl-11 pr-4 py-3 rounded-md bg-card border border-border focus:border-primary focus:ring-0 outline-none transition-all"
                       required
                     />
                   </div>
@@ -239,7 +239,7 @@ function QueryPageContent() {
                       onChange={(e) =>
                         setFormData({ ...formData, email: e.target.value })
                       }
-                      className="w-full pl-11 pr-4 py-3 rounded-xl bg-muted/30 border-0 border-b border-border/50 focus:border-primary focus:ring-0 outline-none transition-all"
+                      className="w-full pl-11 pr-4 py-3 rounded-md bg-card border border-border focus:border-primary focus:ring-0 outline-none transition-all"
                     />
                   </div>
                 </div>
@@ -257,7 +257,7 @@ function QueryPageContent() {
                       onChange={(e) =>
                         setFormData({ ...formData, phone: e.target.value })
                       }
-                      className="w-full pl-11 pr-4 py-3 rounded-xl bg-muted/30 border-0 border-b border-border/50 focus:border-primary focus:ring-0 outline-none transition-all"
+                      className="w-full pl-11 pr-4 py-3 rounded-md bg-card border border-border focus:border-primary focus:ring-0 outline-none transition-all"
                       required
                       disabled={isSubmitting}
                     />
@@ -289,7 +289,7 @@ function QueryPageContent() {
                       setFormData({ ...formData, message: e.target.value })
                     }
                     rows={4}
-                    className="w-full px-4 py-3 rounded-xl bg-muted/30 border-0 border-b border-border/50 focus:border-primary focus:ring-0 outline-none transition-all resize-none"
+                    className="w-full px-4 py-3 rounded-md bg-card border border-border focus:border-primary focus:ring-0 outline-none transition-all resize-none"
                     disabled={isSubmitting}
                   />
                 </div>

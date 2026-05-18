@@ -19,9 +19,9 @@ export default function Home() {
       <main>
         <HeroSection />
         <CoursesSection />
-        <TrustSection />
         <PlacementsMarquee />
         <LearningPathway />
+        <TrustSection />
         <WhyChooseUs />
         <PartnersSection />
         <MediaPresenceSection />

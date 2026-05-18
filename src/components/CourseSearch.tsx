@@ -116,7 +116,7 @@ export default function CourseSearch({
         {selectedCourse ? (
           <div
             onClick={() => setIsOpen(!isOpen)}
-            className="w-full pl-11 pr-10 py-3 rounded-xl bg-muted/50 border border-primary ring-1 ring-primary/30 hover:ring-primary/50 cursor-pointer transition-all flex items-center justify-between"
+            className="w-full pl-11 pr-10 py-3 rounded-md bg-card border border-primary/30 ring-1 ring-primary/15 hover:ring-primary/30 cursor-pointer transition-all flex items-center justify-between"
           >
             <span className="truncate">{selectedCourse.title}</span>
             <button
@@ -139,7 +139,7 @@ export default function CourseSearch({
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onFocus={() => setIsOpen(true)}
-              className="w-full pl-11 pr-10 py-3 rounded-xl bg-muted/50 border border-primary ring-1 ring-primary/30 focus:ring-primary/60 focus:border-primary outline-none transition-all"
+              className="w-full pl-11 pr-10 py-3 rounded-md bg-card border border-primary/30 ring-1 ring-primary/15 focus:ring-primary/30 focus:border-primary outline-none transition-all"
               required={required && !selectedCourse}
             />
             <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
@@ -156,7 +156,7 @@ export default function CourseSearch({
       )}
 
       {isOpen && (
-        <div className="absolute z-50 w-full mt-2 bg-card border border-border rounded-xl shadow-lg max-h-64 overflow-hidden">
+        <div className="absolute z-50 w-full mt-2 bg-card border border-border rounded-md shadow-lg max-h-64 overflow-hidden">
           {selectedCourse && (
             <div className="p-2 border-b border-border">
               <div className="relative">
@@ -166,7 +166,7 @@ export default function CourseSearch({
                   placeholder="Search courses..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2 rounded-lg bg-muted/50 border border-primary ring-1 ring-primary/30 focus:ring-primary/60 focus:border-primary outline-none transition-all text-sm"
+                  className="w-full pl-9 pr-4 py-2 rounded-md bg-card border border-primary/30 ring-1 ring-primary/15 focus:ring-primary/30 focus:border-primary outline-none transition-all text-sm"
                   autoFocus
                 />
               </div>

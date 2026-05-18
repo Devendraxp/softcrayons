@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { SectionHeader } from "@/components/public-ui";
 
 const partners = [
   {
@@ -55,24 +56,24 @@ const partners = [
 
 export function PartnersSection() {
   return (
-    <section className="py-24 bg-muted/30">
+    <section className="py-24 bg-muted/45">
       <div className="container">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
-            SoftCrayons <span className="text-gradient">Global Partners</span>
-          </h2>
-          <p className="text-muted-foreground text-lg">
+        <SectionHeader
+          eyebrow="Partners"
+          title={<>SoftCrayons <span className="text-gradient">global partners</span></>}
+          description={
+            <>
             We are proud to partner with world-leading technology and certification organizations.
-          </p>
-        </div>
+            </>
+          }
+        />
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-          {partners.map((partner, index) => (
+          {partners.map((partner) => (
             <div
               key={partner.name}
               className={cn(
-                "group relative bg-card border border-border rounded-2xl p-6 flex items-center justify-center",
-                "hover:border-primary/30 hover:shadow-lg transition-all duration-300",
+                "group relative brand-panel brand-card-hover rounded-md p-6 flex items-center justify-center",
                 "h-24 sm:h-28"
               )}
             >
@@ -83,7 +84,7 @@ export function PartnersSection() {
               />
               
               <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 translate-y-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
-                <div className="bg-foreground text-background text-xs font-medium px-2 py-1 rounded whitespace-nowrap">
+                <div className="bg-foreground text-background text-xs font-medium px-2 py-1 rounded-md whitespace-nowrap">
                   {partner.name}
                 </div>
               </div>

@@ -1,221 +1,116 @@
 "use client";
 
-import { ArrowRight, Calendar, Star, CheckCircle, Book } from "lucide-react";
+import { ArrowRight, BookOpen, CheckCircle2, PhoneCall, Sparkles, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Marquee } from "@/components/ui/marquee";
 import Link from "next/link";
-import { useEffect, useMemo, useState, useCallback } from "react";
-import Particles, { initParticlesEngine } from "@tsparticles/react";
-import { loadSlim } from "@tsparticles/slim";
-import type { ISourceOptions } from "@tsparticles/engine";
 
 const TECH_CHIPS = [
-  { name: "Java",     src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg" },
-  { name: "Python",   src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" },
-  { name: "React",    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" },
-  { name: "AWS",      src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" },
-  { name: "Docker",   src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg" },
-  { name: "Node.js",  src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg" },
-  { name: "Angular",  src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/angular/angular-original.svg" },
-  { name: "GenAI",    src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/openai.svg" },
-  { name: "Cloud",    src: "https://cdn.simpleicons.org/googlecloud/4285F4" },
-  { name: "AutoCAD",  src: "https://cdn.simpleicons.org/autodesk/0696D7" },
+  { name: "Java", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg" },
+  { name: "Python", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" },
+  { name: "React", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" },
+  { name: "AWS", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" },
+  { name: "Docker", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg" },
+  { name: "Node.js", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg" },
+  { name: "Angular", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/angular/angular-original.svg" },
+  { name: "GenAI", src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/openai.svg" },
+  { name: "Cloud", src: "https://cdn.simpleicons.org/googlecloud/4285F4" },
+  { name: "AutoCAD", src: "https://cdn.simpleicons.org/autodesk/0696D7" },
   { name: "Graphics", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/photoshop/photoshop-original.svg" },
-  { name: "DevOps",   src: "https://cdn.simpleicons.org/githubactions/2088FF" },
+  { name: "DevOps", src: "https://cdn.simpleicons.org/githubactions/2088FF" },
 ];
 
+const wins = ["Live mentor-led classes", "Project portfolio", "Interview practice", "Placement support"];
+
 export function HeroSection() {
-  const [particlesReady, setParticlesReady] = useState(false);
-
-  useEffect(() => {
-    initParticlesEngine(async (engine) => {
-      await loadSlim(engine);
-    }).then(() => setParticlesReady(true));
-  }, []);
-
-  // Now properly using the CSS variable for the primary color
-  const particlesOptions: ISourceOptions = useMemo(
-    () => ({
-      fullScreen: { enable: false },
-      fpsLimit: 60,
-      particles: {
-        color: { value: "hsl(var(--primary))" }, 
-        links: {
-          color: "hsl(var(--primary))",
-          distance: 120,
-          enable: true,
-          opacity: 0.15,
-          width: 1,
-        },
-        move: {
-          enable: true,
-          speed: 0.3,
-          direction: "none" as const,
-          outModes: { default: "bounce" as const },
-        },
-        number: {
-          density: { enable: true },
-          value: 40,
-        },
-        opacity: { value: 0.2 },
-        shape: { type: "circle" },
-        size: { value: { min: 1, max: 2 } },
-      },
-      interactivity: {
-        events: {
-          onHover: { enable: true, mode: "grab" },
-        },
-        modes: {
-          grab: { distance: 140, links: { opacity: 0.3 } },
-        },
-      },
-      detectRetina: true,
-    }),
-    []
-  );
-
-  const particlesLoaded = useCallback(async () => {}, []);
-
   return (
-    <section className="relative min-h-screen flex flex-col justify-center pt-24 overflow-hidden bg-background">
-      {/* Subtle Background Glows strictly using CSS variables */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute top-0 -left-1/4 w-[600px] h-[600px] rounded-full blur-[120px] animate-pulse-slow"
-          style={{
-            background: "radial-gradient(circle, hsl(var(--primary) / 0.08) 0%, transparent 70%)",
-          }}
-        />
-        <div
-          className="absolute bottom-0 -right-1/4 w-[600px] h-[600px] rounded-full blur-[120px] animate-pulse-slow"
-          style={{
-            background: "radial-gradient(circle, hsl(var(--primary) / 0.08) 0%, transparent 70%)",
-            animationDelay: "2s",
-          }}
-        />
-      </div>
+    <section className="brand-section relative min-h-screen overflow-hidden pt-24">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+      <div className="container relative z-10 flex min-h-[calc(100vh-6rem)] flex-col justify-center py-14">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="max-w-3xl text-center lg:text-left">
+            <span className="brand-eyebrow animate-fade-up">
+              Noida and Ghaziabad #1 Tech Institute
+            </span>
 
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.2)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.2)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_110%_90%_at_15%_0%,black_55%,transparent_95%)] pointer-events-none" />
-
-      {particlesReady && (
-        <Particles
-          id="hero-particles"
-          className="absolute inset-0 z-[1] pointer-events-none"
-          particlesLoaded={particlesLoaded}
-          options={particlesOptions}
-        />
-      )}
-
-      <div className="container relative z-10 flex-1 flex flex-col justify-center">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-          
-          <div className="text-center lg:text-left order-1">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 mb-6 animate-fade-up backdrop-blur-sm shadow-sm">
-              <span className="text-xs font-bold uppercase tracking-wider text-primary">
-                Noida's #1 Tech Institute
-              </span>
-            </div>
-
-            <h1
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-[4rem] font-black leading-[1.1] mb-6 animate-fade-up"
-              style={{ animationDelay: "0.1s" }}
-            >
-              We Guarantee<br className="hidden lg:block" />
-              Your{" "}
-              <span className="relative inline-block">
-                <span className="text-gradient">Placement!</span>
-                <svg
-                  className="absolute -bottom-2 left-0 w-full h-3 text-primary/30"
-                  viewBox="0 0 100 10"
-                  preserveAspectRatio="none"
-                >
-                  <path
-                    d="M0 5 Q 50 10 100 5"
-                    fill="transparent"
-                    stroke="currentColor"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </span>
+            <h1 className="mt-6 text-4xl font-black leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl animate-fade-up">
+              We Guarantee Your{" "}
+              <span className="text-gradient">Placement</span>
             </h1>
 
-            <p
-              className="text-lg sm:text-xl text-muted-foreground max-w-xl mb-8 animate-fade-up mx-auto lg:mx-0 leading-relaxed"
-              style={{ animationDelay: "0.2s" }}
-            >
-              Education goes far beyond textbooks. We focus on hands-on, practical learning that equips you with real, job-ready skills for the modern tech industry.
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl lg:mx-0 animate-fade-up">
+              Practical IT courses, expert mentors, live projects, and placement-focused guidance for learners who want a real career path.
             </p>
 
-            <div
-              className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-4 animate-fade-up"
-              style={{ animationDelay: "0.3s" }}
-            >
-              <Link href="/courses">
-                <Button size="lg" className="w-full sm:w-auto text-base h-12 px-8 group">
+            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row lg:items-start animate-fade-up">
+              <Link href="/query" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full group bg-secondary hover:bg-secondary/90">
+                  Book Free Demo Class
+                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+              <Link href="/courses" className="w-full sm:w-auto">
+                <Button variant="outline" size="lg" className="w-full">
+                  <BookOpen className="h-5 w-5" />
                   Explore Courses
-                  <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
-              <Link href="/query">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="w-full sm:w-auto text-base h-12 px-8 bg-background/50 backdrop-blur-sm hover:bg-primary/5 hover:text-primary hover:border-primary/50 transition-all"
-                >
-                  <Book className="mr-2 w-4 h-4" />
-                  Start Learning for Free
-                </Button>
-              </Link>
+            </div>
+
+            <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 animate-fade-up">
+              {wins.map((win) => (
+                <div key={win} className="flex items-center gap-2 rounded-md border border-border/80 bg-card/80 px-3 py-2 text-left text-sm font-semibold shadow-sm">
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-secondary" />
+                  <span>{win}</span>
+                </div>
+              ))}
             </div>
           </div>
 
-          <div
-            className="relative animate-fade-up order-2 w-full max-w-lg mx-auto lg:max-w-none"
-            style={{ animationDelay: "0.3s" }}
-          >
-            <div className="relative z-10">
-              <img
-                src="https://res.cloudinary.com/dbrxgmnyn/image/upload/v1772445831/faculty-avatars/lt7xi0km2ovj0f7jwbeb.png"
-                alt="SoftCrayons Instructors"
-                className="w-full h-auto rounded-2xl object-cover relative z-10"
-                style={{
-                  filter: "contrast(1.02) saturate(1.05)",
-                }}
-              />
-
+          <div className="relative mx-auto w-full max-w-xl animate-fade-up">
+            <div className="absolute -inset-6 rounded-[2rem] bg-gradient-to-br from-primary/12 via-transparent to-secondary/16 blur-2xl" />
+            <div className="brand-panel relative overflow-hidden rounded-lg p-3">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-md bg-muted">
+                <img
+                  src="https://res.cloudinary.com/dbrxgmnyn/image/upload/v1772445831/faculty-avatars/lt7xi0km2ovj0f7jwbeb.png"
+                  alt="SoftCrayons classroom and mentors"
+                  className="h-full w-full object-cover object-center"
+                />
+              </div>
+              <div className="absolute left-6 right-6 bottom-6 grid gap-3 sm:grid-cols-2">
+                <div className="rounded-md border border-white/40 bg-white/90 p-4 shadow-lg backdrop-blur">
+                  <div className="flex items-center gap-1 text-secondary">
+                    {[...Array(5)].map((_, index) => (
+                      <Star key={index} className="h-4 w-4 fill-current" />
+                    ))}
+                  </div>
+                  <p className="mt-2 text-sm font-black text-primary">Best Rated Teachers in Noida & Ghaziabad</p>
+                </div>
+                <Link href="tel:+918545012345" className="rounded-md border border-white/40 bg-primary p-4 text-primary-foreground shadow-lg transition hover:bg-primary/90">
+                  <div className="flex items-center gap-2 text-sm font-bold">
+                    <PhoneCall className="h-4 w-4" />
+                    Call for admission
+                  </div>
+                  <p className="mt-1 text-lg font-black">+91 85450 12345</p>
+                </Link>
+              </div>
             </div>
-            
-            <div className="absolute inset-0 bg-primary/10 blur-[80px] -z-10 rounded-full scale-90 translate-y-4" />
           </div>
         </div>
       </div>
 
-      <div className="relative z-10 mt-16 lg:mt-24 bg-secondary py-7 border-y border-secondary-foreground/15 shadow-[0_-12px_34px_hsl(var(--secondary)/0.35)]">
-        <div className="w-full flex flex-col items-center gap-4">
-          <p className="text-base sm:text-lg font-semibold text-secondary-foreground/90 text-center">
-            Technologies you'll master:
-          </p>
-          <div className="w-full">
-            <Marquee pauseOnHover duration={40} className="[--gap:1.5rem] px-0">
-              {TECH_CHIPS.map((tech) => (
-                <div
-                  key={tech.name}
-                  className="group flex min-w-[200px] sm:min-w-[230px] items-center justify-center gap-3 px-6 py-3.5 rounded-xl bg-background border border-border/80 shadow-[0_12px_24px_hsl(var(--secondary)/0.35)] hover:border-primary/35 hover:shadow-[0_14px_28px_hsl(var(--secondary)/0.45)] transition-all duration-300 cursor-default"
-                >
-                  <img 
-                    src={tech.src} 
-                    alt={tech.name} 
-                    className="w-6 h-6 sm:w-7 sm:h-7 transition-transform duration-300 group-hover:scale-105" 
-                  />
-                  <span className="text-base sm:text-lg font-bold text-foreground transition-colors">
-                    {tech.name}
-                  </span>
-                </div>
-              ))}
-            </Marquee>
-          </div>
+      <div className="relative z-10 border-y border-white/10 bg-[hsl(var(--brand-navy))] py-6 text-white">
+        <div className="mb-4 text-center text-sm font-bold uppercase tracking-[0.18em] text-white/65">
+          Technologies learners master here
         </div>
+        <Marquee pauseOnHover duration={42} className="[--gap:1rem]">
+          {TECH_CHIPS.map((tech) => (
+            <div key={tech.name} className="flex min-w-[180px] items-center justify-center gap-3 rounded-md border border-white/10 bg-white/10 px-5 py-3">
+              <img src={tech.src} alt={tech.name} className="h-6 w-6" />
+              <span className="font-bold">{tech.name}</span>
+            </div>
+          ))}
+        </Marquee>
       </div>
     </section>
   );

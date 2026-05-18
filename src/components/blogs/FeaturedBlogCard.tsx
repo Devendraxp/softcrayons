@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Calendar, User, ArrowRight, Bookmark } from "lucide-react";
+import { Calendar, User, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 interface FeaturedBlogCardProps {
@@ -27,7 +27,7 @@ export function FeaturedBlogCard({ blog, variant = "default" }: FeaturedBlogCard
     if (variant === "hero") {
         return (
             <Link href={`/blogs/${blog.slug || blog.id}`} className="block h-full">
-                <article className="group relative bg-card border border-border rounded-3xl overflow-hidden hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 h-full min-h-[480px]">
+                <article className="group relative brand-panel rounded-md overflow-hidden hover:border-primary/50 transition-all duration-500 h-full min-h-[480px]">
                     <div className="absolute inset-0">
                         <Image
                             src={blog.image}
@@ -46,7 +46,7 @@ export function FeaturedBlogCard({ blog, variant = "default" }: FeaturedBlogCard
                     <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
                         <Badge
                             variant="secondary"
-                            className="bg-white/10 text-white backdrop-blur-sm border-0 mb-4"
+                            className="bg-secondary text-secondary-foreground backdrop-blur-sm border-0 mb-4"
                         >
                             {blog.categoryName}
                         </Badge>
@@ -94,7 +94,7 @@ export function FeaturedBlogCard({ blog, variant = "default" }: FeaturedBlogCard
     if (variant === "horizontal") {
         return (
             <Link href={`/blogs/${blog.slug || blog.id}`}>
-                <article className="group flex flex-col sm:flex-row bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 h-full">
+                <article className="group flex flex-col sm:flex-row brand-panel brand-card-hover rounded-md overflow-hidden h-full">
                     <div className="relative aspect-[4/3] w-full sm:w-66 md:w-84 shrink-0 overflow-hidden">
                         <Image
                             src={blog.image}
@@ -111,7 +111,7 @@ export function FeaturedBlogCard({ blog, variant = "default" }: FeaturedBlogCard
                         <div>
                             <Badge
                                 variant="secondary"
-                                className="bg-muted text-muted-foreground border-0 mb-3 text-xs"
+                                className="bg-secondary/10 text-secondary border-0 mb-3 text-xs font-bold"
                             >
                                 {blog.categoryName}
                             </Badge>
@@ -141,9 +141,9 @@ export function FeaturedBlogCard({ blog, variant = "default" }: FeaturedBlogCard
 
     return (
         <Link href={`/blogs/${blog.slug || blog.id}`}>
-            <article className="group relative bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 h-full">
+            <article className="group relative brand-panel brand-card-hover rounded-md overflow-hidden h-full">
                 <div className="absolute top-3 right-3 z-10">
-                    <Badge className="bg-gradient-to-r from-orange-500 to-red-500 text-white border-0">
+                    <Badge className="bg-secondary text-secondary-foreground border-0">
                         Featured
                     </Badge>
                 </div>
@@ -161,7 +161,7 @@ export function FeaturedBlogCard({ blog, variant = "default" }: FeaturedBlogCard
                 <div className="p-5">
                     <Badge
                         variant="secondary"
-                        className="bg-muted text-muted-foreground border-0 mb-3 text-xs"
+                        className="bg-secondary/10 text-secondary border-0 mb-3 text-xs font-bold"
                     >
                         {blog.categoryName}
                     </Badge>

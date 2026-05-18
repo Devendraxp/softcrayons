@@ -10,9 +10,9 @@ type ContentProps = {
 };
 
 export function TutorialContent({ content }: ContentProps) {
-  if (!content) return null;
-
   const parsedSegments = useMemo(() => parseContentSegments(content || ""), [content]);
+
+  if (!content) return null;
 
   if (!(content.includes("<") && content.includes(">"))) {
     return (
@@ -100,23 +100,23 @@ function CodeBlock({ code, language }: { code: string; language: string }) {
       await navigator.clipboard.writeText(code);
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
-    } catch (err) {
-      console.error("Failed to copy", err);
+    } catch {
+      setCopied(false);
     }
   };
 
   const langLabel = language || "plaintext";
 
   return (
-    <div className="relative my-6 overflow-hidden rounded-lg border border-border">
-      <div className="flex items-center justify-between border-b border-border bg-muted/60 px-4 py-2">
-        <span className="text-xs font-medium uppercase text-muted-foreground">{langLabel}</span>
+    <div className="relative my-6 overflow-hidden rounded-md border border-border shadow-sm">
+      <div className="flex items-center justify-between border-b border-border bg-[hsl(var(--brand-navy))] px-4 py-2 text-white">
+        <span className="text-xs font-bold uppercase tracking-wide text-white/80">{langLabel}</span>
         <button
           type="button"
           onClick={handleCopy}
-          className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+          className="flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-bold text-white/80 transition-colors hover:bg-white/10 hover:text-white"
         >
-          {copied ? <Check className="h-3.5 w-3.5 text-green-500" /> : <Copy className="h-3.5 w-3.5" />}
+          {copied ? <Check className="h-3.5 w-3.5 text-secondary" /> : <Copy className="h-3.5 w-3.5" />}
           {copied ? "Copied" : "Copy"}
         </button>
       </div>

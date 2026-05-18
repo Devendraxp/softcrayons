@@ -27,7 +27,7 @@ const levelColors = {
 
 export function CourseCard({ course }: CourseCardProps) {
     return (
-        <div className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/30 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+        <div className="group brand-panel brand-card-hover rounded-md overflow-hidden flex flex-col h-full">
             <div className="relative aspect-[4/3] overflow-hidden flex-shrink-0">
                 <img
                     src={course.image}
@@ -37,7 +37,7 @@ export function CourseCard({ course }: CourseCardProps) {
             </div>
 
             <div className="p-5 flex flex-col flex-grow">
-                <span className="inline-block px-3 py-1 text-xs font-medium bg-secondary text-white rounded-full mb-3 w-fit">
+                <span className="inline-block px-3 py-1 text-xs font-bold bg-secondary/10 text-secondary rounded-md mb-3 w-fit">
                     {course.categoryName}
                 </span>
 
@@ -79,7 +79,7 @@ export function CourseCard({ course }: CourseCardProps) {
                 )}
 
                 <Link href={`/courses/${course.slug || course.id}`}>
-                    <Button variant="outline" className="w-full group/btn">
+                    <Button className="w-full group/btn">
                         View Details
                         <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                     </Button>

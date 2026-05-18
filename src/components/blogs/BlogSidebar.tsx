@@ -31,8 +31,7 @@ export function BlogSidebar({
 
     return (
         <aside className="w-full lg:w-64 shrink-0">
-            <div className="lg:sticky lg:top-24 bg-card border border-border rounded-2xl p-4">
-                {/* Mobile: collapsible header */}
+            <div className="lg:sticky lg:top-24 brand-panel rounded-md p-4">
                 <button
                     onClick={() => setIsExpanded(!isExpanded)}
                     className="flex items-center justify-between w-full lg:hidden"
@@ -45,10 +44,8 @@ export function BlogSidebar({
                     <ChevronDown className={cn("w-5 h-5 text-muted-foreground transition-transform duration-200", isExpanded && "rotate-180")} />
                 </button>
 
-                {/* Desktop: always-visible header */}
                 <h3 className="hidden lg:block font-semibold text-lg mb-4 px-2">Categories</h3>
 
-                {/* Category list: collapsible on mobile, always visible on desktop */}
                 <nav className={cn(
                     "space-y-1 overflow-hidden transition-all duration-300 lg:!max-h-none lg:!mt-0 lg:!opacity-100",
                     isExpanded ? "max-h-[600px] opacity-100 mt-4" : "max-h-0 opacity-0 lg:opacity-100"
@@ -58,7 +55,7 @@ export function BlogSidebar({
                             key={category.id}
                             onClick={() => handleSelect(category.id)}
                             className={cn(
-                                "w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
+                                "w-full flex items-center justify-between px-3 py-2.5 rounded-md text-sm font-medium transition-all duration-200",
                                 selectedCategory === category.id
                                     ? "bg-primary text-primary-foreground"
                                     : "text-muted-foreground hover:text-foreground hover:bg-muted"

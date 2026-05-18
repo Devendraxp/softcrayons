@@ -218,9 +218,9 @@ export default function CoursesPage() {
 	}
 
 	return (
-		<div className="min-h-screen bg-background pt-24 pb-16">
+		<div className="min-h-screen bg-background pt-24 pb-16 brand-section">
 			<div className="container">
-				<div className="mb-10">
+				<div className="mb-10 brand-panel rounded-md p-6 md:p-8">
 					<div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
 						<div>
 							<h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
@@ -239,7 +239,7 @@ export default function CoursesPage() {
 								placeholder="Search courses..."
 								value={searchQuery}
 								onChange={(e) => setSearchQuery(e.target.value)}
-								className="pl-12 pr-10 py-6 rounded-2xl bg-card border-border focus:border-primary"
+								className="pl-12 pr-10 py-6 rounded-md bg-card border-border focus:border-primary"
 							/>
 							{searchQuery && (
 								<button
@@ -256,7 +256,7 @@ export default function CoursesPage() {
 							)}
 
 							{showSearchResults && searchResults.length > 0 && (
-								<div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-lg z-50 max-h-96 overflow-y-auto">
+								<div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-md shadow-lg z-50 max-h-96 overflow-y-auto">
 									<div className="p-2">
 										<p className="text-xs text-muted-foreground px-3 py-2">
 											Found {searchResults.length} course{searchResults.length !== 1 ? 's' : ''}
@@ -290,8 +290,8 @@ export default function CoursesPage() {
 							)}
 
 							{showSearchResults && searchResults.length === 0 && searchQuery.length >= 2 && !isSearching && (
-								<div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-lg z-50 p-6 text-center">
-									<p className="text-muted-foreground">No courses found for "{searchQuery}"</p>
+								<div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-md shadow-lg z-50 p-6 text-center">
+									<p className="text-muted-foreground">No courses found for &quot;{searchQuery}&quot;</p>
 								</div>
 							)}
 						</div>
@@ -324,7 +324,7 @@ export default function CoursesPage() {
 						</div>
 
 						{courses.length === 0 && (
-							<div className="text-center py-16 bg-card border border-border rounded-2xl">
+							<div className="text-center py-16 brand-panel rounded-md">
 								<p className="text-muted-foreground text-lg">
 									No courses found in this category.
 								</p>

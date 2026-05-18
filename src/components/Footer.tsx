@@ -10,21 +10,21 @@ const footerLinks = {
     { name: "Mobile Development", href: "/courses?category=mobile-development" },
   ],
   company: [
-    { name: "About Us", href: "#" },
-    { name: "Careers", href: "#" },
-    { name: "Blog", href: "#" },
-    { name: "Contact", href: "#" },
+    { name: "About Us", href: "/about-us" },
+    { name: "Faculties", href: "/faculties" },
+    { name: "Blog", href: "/blogs" },
+    { name: "Contact", href: "/query" },
   ],
   support: [
-    { name: "Help Center", href: "#" },
-    { name: "Community", href: "#" },
-    { name: "FAQs", href: "#" },
-    { name: "Feedback", href: "#" },
+    { name: "Courses", href: "/courses" },
+    { name: "Placements", href: "/placements" },
+    { name: "FAQs", href: "/faqs" },
+    { name: "Reviews", href: "/reviews" },
   ],
   legal: [
-    { name: "Privacy Policy", href: "#" },
-    { name: "Terms of Service", href: "#" },
-    { name: "Refund Policy", href: "#" },
+    { name: "Enterprise Hiring", href: "/enterprise" },
+    { name: "Join as Instructor", href: "/instructor" },
+    { name: "Admission Query", href: "/query" },
   ],
 };
 
@@ -37,32 +37,31 @@ const socialLinks = [
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-secondary-foreground/15 bg-secondary text-secondary-foreground">
+    <footer className="relative overflow-hidden border-t border-white/10 bg-[hsl(var(--brand-navy))] text-white">
       <div className="relative z-10 w-full px-6 pt-16 pb-8 sm:px-10 lg:px-16 lg:pt-20 lg:pb-10 xl:px-24">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-6 lg:gap-12">
           <div className="col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="h-8">
+              <div className="h-18">
                 <Image
-                  src="https://i.ibb.co/tphyBYTY/sc-logo.png"
+                  src="/logo.png"
                   alt="Soft Crayons Logo"
-                  width={120}
+                  width={160}
                   height={32}
                   className="h-full w-auto object-contain"
                 />
               </div>
             </Link>
-            <p className="text-secondary-foreground/70 text-sm mb-6 max-w-xs">
-              Empowering developers worldwide with industry-focused education and
-              mentorship.
+            <p className="text-white/65 text-sm mb-6 max-w-xs">
+              Practical IT training, expert mentorship, and placement-focused guidance for ambitious learners.
             </p>
-            <div className="flex gap-5 text-secondary-foreground/75">
+            <div className="flex gap-5 text-white/70">
               {socialLinks.map((social) => (
                 <Link
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
-                  className="flex items-center justify-center text-inherit transition-colors duration-300 ease-out hover:text-primary"
+                  className="flex items-center justify-center text-inherit transition-colors duration-300 ease-out hover:text-secondary"
                 >
                   <social.icon className="w-5 h-5" />
                 </Link>
@@ -71,13 +70,13 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="mb-5 font-heading text-sm font-semibold uppercase tracking-[0.08em] text-secondary-foreground/95">Courses</h4>
+            <h4 className="mb-5 font-heading text-sm font-bold uppercase tracking-[0.14em] text-white">Courses</h4>
             <ul className="space-y-3">
               {footerLinks.courses.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-secondary-foreground/70 transition-colors duration-300 ease-out hover:text-primary"
+                    className="text-sm text-white/65 transition-colors duration-300 ease-out hover:text-secondary"
                   >
                     {link.name}
                   </Link>
@@ -87,13 +86,13 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="mb-5 font-heading text-sm font-semibold uppercase tracking-[0.08em] text-secondary-foreground/95">Company</h4>
+            <h4 className="mb-5 font-heading text-sm font-bold uppercase tracking-[0.14em] text-white">Company</h4>
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-secondary-foreground/70 transition-colors duration-300 ease-out hover:text-primary"
+                    className="text-sm text-white/65 transition-colors duration-300 ease-out hover:text-secondary"
                   >
                     {link.name}
                   </Link>
@@ -103,13 +102,13 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="mb-5 font-heading text-sm font-semibold uppercase tracking-[0.08em] text-secondary-foreground/95">Support</h4>
+            <h4 className="mb-5 font-heading text-sm font-bold uppercase tracking-[0.14em] text-white">Support</h4>
             <ul className="space-y-3">
               {footerLinks.support.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-secondary-foreground/70 transition-colors duration-300 ease-out hover:text-primary"
+                    className="text-sm text-white/65 transition-colors duration-300 ease-out hover:text-secondary"
                   >
                     {link.name}
                   </Link>
@@ -119,13 +118,13 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="mb-5 font-heading text-sm font-semibold uppercase tracking-[0.08em] text-secondary-foreground/95">Legal</h4>
+            <h4 className="mb-5 font-heading text-sm font-bold uppercase tracking-[0.14em] text-white">More</h4>
             <ul className="space-y-3">
               {footerLinks.legal.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-secondary-foreground/70 transition-colors duration-300 ease-out hover:text-primary"
+                    className="text-sm text-white/65 transition-colors duration-300 ease-out hover:text-secondary"
                   >
                     {link.name}
                   </Link>

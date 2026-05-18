@@ -28,9 +28,9 @@ export const FeaturedFacultyCard = ({ faculty, index }: FeaturedFacultyCardProps
   const skills = Array.isArray(faculty.technologies) ? faculty.technologies : [];
 
   return (
-    <div className="group relative bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300">
+    <div className="group relative brand-panel brand-card-hover rounded-md overflow-hidden">
       <div className="absolute top-4 right-4 z-10">
-        <span className="bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1.5">
+        <span className="bg-secondary text-secondary-foreground text-xs font-bold px-3 py-1 rounded-md flex items-center gap-1.5">
           <Star className="w-3 h-3 fill-current" />
           Featured
         </span>
@@ -98,7 +98,7 @@ export const FeaturedFacultyCard = ({ faculty, index }: FeaturedFacultyCardProps
               { icon: GraduationCap, value: faculty.studentsMentored || "—", label: "Students" },
               { icon: Star, value: faculty.ratings?.toFixed(1) || "—", label: "Rating", filled: true },
             ].map((stat, idx) => (
-              <div key={idx} className="text-center p-2.5 bg-muted/50 rounded-lg">
+              <div key={idx} className="text-center p-2.5 bg-muted/70 rounded-md">
                 <stat.icon className={`w-4 h-4 mx-auto mb-1 text-primary ${stat.filled ? "fill-primary" : ""}`} />
                 <div className="text-foreground font-semibold text-sm">{stat.value}</div>
                 <div className="text-muted-foreground text-[10px] uppercase">{stat.label}</div>
@@ -111,7 +111,7 @@ export const FeaturedFacultyCard = ({ faculty, index }: FeaturedFacultyCardProps
               {skills.map((skill, idx) => (
                 <span
                   key={idx}
-                  className="bg-muted text-muted-foreground text-xs px-3 py-1.5 rounded-full"
+                  className="bg-secondary/10 text-secondary text-xs font-bold px-3 py-1.5 rounded-md"
                 >
                   {skill}
                 </span>

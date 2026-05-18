@@ -58,10 +58,10 @@ export default function FacultiesPage() {
 	}
 
 	return (
-		<div className="min-h-screen bg-background pt-24 pb-16">
+		<div className="min-h-screen bg-background pt-24 pb-16 brand-section">
 			<div className="container">
-				<div className="mb-12 max-w-3xl">
-					<span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
+				<div className="mb-12 max-w-3xl brand-panel rounded-md p-6 md:p-8">
+					<span className="brand-eyebrow mb-4">
 						Our Expert Team
 					</span>
 					<h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
@@ -106,7 +106,7 @@ export default function FacultiesPage() {
 					].map((stat, index) => (
 						<div
 							key={index}
-							className="bg-card border border-border rounded-xl p-5 text-center hover:border-primary/30 transition-colors"
+							className="brand-panel brand-card-hover rounded-md p-5 text-center"
 						>
 							<stat.icon className="w-6 h-6 text-primary mx-auto mb-2" />
 							<div className="text-2xl font-bold text-foreground">
@@ -122,7 +122,7 @@ export default function FacultiesPage() {
 				{featuredFaculties.length > 0 && (
 					<section className="mb-16">
 						<div className="flex items-center gap-3 mb-8">
-							<div className="flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5">
+							<div className="flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-md px-4 py-1.5">
 								<Star className="w-4 h-4 text-primary fill-primary" />
 								<span className="text-foreground text-sm font-medium">
 									Featured Faculty
@@ -146,7 +146,7 @@ export default function FacultiesPage() {
 				{regularFaculties.length > 0 && (
 					<section className="mb-16">
 						<div className="flex items-center gap-3 mb-8">
-							<div className="flex items-center gap-2 bg-muted border border-border rounded-full px-4 py-1.5">
+							<div className="flex items-center gap-2 bg-muted border border-border rounded-md px-4 py-1.5">
 								<Users className="w-4 h-4 text-primary" />
 								<span className="text-foreground text-sm font-medium">
 									All Faculty Members
@@ -175,8 +175,8 @@ export default function FacultiesPage() {
 					</div>
 				)}
 
-				<section className="bg-card border border-border rounded-2xl p-8 md:p-12 text-center">
-					<div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5 mb-4">
+				<section className="brand-panel rounded-md p-8 md:p-12 text-center">
+					<div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-md px-4 py-1.5 mb-4">
 						<Heart className="w-4 h-4 text-primary" />
 						<span className="text-primary text-sm font-medium">
 							Join Our Team

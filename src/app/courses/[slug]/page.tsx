@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Clock, BarChart, BookOpen, IndianRupee, ArrowLeft, CheckCircle, BadgeCheck, Briefcase, Share2, Shield } from "lucide-react";
+import { Clock, BarChart, BookOpen, ArrowLeft, CheckCircle, BadgeCheck, Briefcase, Share2, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -240,7 +240,7 @@ export default async function CourseDetailPage({
     const topics = Array.isArray(course.topics) ? course.topics : [];
 
     return (
-        <div className="min-h-screen bg-background pt-24 pb-16">
+        <div className="min-h-screen bg-background pt-24 pb-16 brand-section">
             <div className="container">
                 <Link
                     href="/courses"
@@ -264,7 +264,7 @@ export default async function CourseDetailPage({
                             {course.description}
                         </p>
 
-                        <div className="bg-card border border-border rounded-2xl p-6 md:p-8">
+                        <div className="brand-panel rounded-md p-6 md:p-8">
                             <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
                                 <BookOpen className="w-6 h-6 text-primary" />
                                 About This Course
@@ -275,7 +275,7 @@ export default async function CourseDetailPage({
 
                     <div className="w-full lg:w-96 flex-shrink-0">
                         <div className="lg:sticky lg:top-24">
-                            <div className="bg-card border border-border rounded-2xl overflow-hidden">
+                            <div className="brand-panel rounded-md overflow-hidden">
                                 <div className="relative h-40 sm:h-50">
                                     <img
                                         src={course.bannerImage || course.thumbnailImage || 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&auto=format&fit=crop&q=80'}
@@ -341,7 +341,7 @@ export default async function CourseDetailPage({
                                                 {topics.map((topic: string) => (
                                                     <span
                                                         key={topic}
-                                                        className="px-3 py-1 rounded-full text-xs font-medium bg-secondary text-white"
+                                                        className="px-3 py-1 rounded-md text-xs font-bold bg-secondary text-white"
                                                     >
                                                         {topic}
                                                     </span>
@@ -359,10 +359,10 @@ export default async function CourseDetailPage({
                                 </div>
                             </div>
 
-                            <div className="bg-card border border-border rounded-2xl p-5 mt-4">
+                            <div className="brand-panel rounded-md p-5 mt-4">
                                 <h3 className="font-bold mb-2">Need Help?</h3>
                                 <p className="text-sm text-muted-foreground mb-4">
-                                    Have questions about this course? We're here to help!
+                                    Have questions about this course? We&apos;re here to help!
                                 </p>
                                 <Link href={`/query?id=${course.id}`}>
                                     <Button variant="outline" className="w-full">
@@ -382,7 +382,7 @@ export default async function CourseDetailPage({
                                 <Link
                                     key={related.id}
                                     href={`/courses/${related.slug}`}
-                                    className="group bg-card border border-border rounded-xl overflow-hidden hover:border-primary/30 transition-all"
+                                    className="group brand-panel brand-card-hover rounded-md overflow-hidden"
                                 >
                                     <div className="relative h-32 overflow-hidden">
                                         <img
@@ -405,10 +405,8 @@ export default async function CourseDetailPage({
                     </div>
                 )}
 
-                {/* Certificate Section */}
-                <div className="mt-20 rounded-2xl border border-border bg-card overflow-hidden">
+                <div className="mt-20 brand-panel rounded-md overflow-hidden">
                     <div className="flex flex-col lg:flex-row items-center gap-0">
-                        {/* Left: Content */}
                         <div className="flex-1 p-8 md:p-12 lg:p-14">
                             <span
                                 className="inline-block font-mono text-xs font-bold tracking-[0.25em] uppercase text-primary border border-primary/40 px-3 py-1 mb-6"
@@ -456,10 +454,9 @@ export default async function CourseDetailPage({
                             </Link>
                         </div>
 
-                        {/* Right: Certificate Image */}
                         <div className="w-full lg:w-[480px] flex-shrink-0 bg-muted/30 flex items-center justify-center p-8 lg:p-10 lg:border-l border-t lg:border-t-0 border-border">
                             <div
-                                className="relative w-full rounded-xl overflow-hidden"
+                                className="relative w-full rounded-md overflow-hidden"
                                 style={{ boxShadow: "8px 8px 0px hsl(var(--border))" }}
                             >
                                 <img
@@ -468,7 +465,7 @@ export default async function CourseDetailPage({
                                     className="w-full h-auto object-contain"
                                 />
                                 <div
-                                    className="absolute inset-0 rounded-xl border-2 border-primary/20 pointer-events-none"
+                                    className="absolute inset-0 rounded-md border-2 border-primary/20 pointer-events-none"
                                     style={{ boxShadow: "inset 0 0 32px rgba(var(--primary-rgb, 234 88 12)/0.06)" }}
                                 />
                             </div>

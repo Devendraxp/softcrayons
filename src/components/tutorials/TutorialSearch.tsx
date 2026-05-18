@@ -64,9 +64,9 @@ export function TutorialSearch({ variant = "default" }: { variant?: "default" | 
           setError(data.error || "Search failed");
           setResults({ topics: [], lessons: [] });
         }
-      } catch (err: any) {
-        if (err.name === "AbortError") return;
-        setError(err.message || "Search failed");
+      } catch (err: unknown) {
+        if (err instanceof DOMException && err.name === "AbortError") return;
+        setError(err instanceof Error ? err.message : "Search failed");
         setResults({ topics: [], lessons: [] });
       } finally {
         setLoading(false);
@@ -91,8 +91,8 @@ export function TutorialSearch({ variant = "default" }: { variant?: "default" | 
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search tutorials, topics, or lessons"
           className={cn(
-            variant === "default" 
-              ? "pl-10 pr-10 border-0 bg-muted/40 shadow-none outline-none focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+            variant === "default"
+              ? "pl-10 pr-10 rounded-md border border-border bg-card shadow-sm focus-visible:ring-primary/20"
               : "bg-transparent border-0 outline-none focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:border-0 focus-visible:ring-0 focus-visible:ring-offset-0 px-0 shadow-none h-8 text-sm"
           )}
           autoFocus={variant === "navbar"}
@@ -114,7 +114,7 @@ export function TutorialSearch({ variant = "default" }: { variant?: "default" | 
 
       {(canSearch || loading || error) && (
         <div className={cn(
-          "absolute z-20 mt-2 w-full rounded-xl border border-border bg-card shadow-lg",
+          "absolute z-20 mt-2 w-full rounded-md border border-border bg-card shadow-[0_18px_45px_hsl(222_47%_11%/0.14)]",
           variant === "navbar" && "w-80 -right-4"
         )}>
           <div className="max-h-96 overflow-y-auto p-4 space-y-4">
@@ -130,7 +130,7 @@ export function TutorialSearch({ variant = "default" }: { variant?: "default" | 
             )}
 
             {!loading && !error && totalResults === 0 && canSearch && (
-              <p className="text-sm text-muted-foreground">No tutorials found for “{query}”.</p>
+              <p className="text-sm text-muted-foreground">No tutorials found for &quot;{query}&quot;.</p>
             )}
 
             {!loading && results.topics.length > 0 && (
@@ -143,7 +143,7 @@ export function TutorialSearch({ variant = "default" }: { variant?: "default" | 
                     <Link
                       key={`topic-${topic.id}`}
                       href={`/tutorials/${topic.slug}`}
-                      className="flex items-start gap-3 rounded-lg border border-transparent px-3 py-2 hover:border-border hover:bg-muted/60"
+                      className="flex items-start gap-3 rounded-md border border-transparent px-3 py-2 hover:border-border hover:bg-accent"
                     >
                       <div className="flex-1">
                         <p className="font-medium text-foreground">{topic.title}</p>
@@ -175,7 +175,7 @@ export function TutorialSearch({ variant = "default" }: { variant?: "default" | 
                       <Link
                         key={`lesson-${lesson.id}`}
                         href={`/tutorials/${topicSlug}/${lesson.slug}`}
-                        className="flex items-start gap-3 rounded-lg border border-transparent px-3 py-2 hover:border-border hover:bg-muted/60"
+                        className="flex items-start gap-3 rounded-md border border-transparent px-3 py-2 hover:border-border hover:bg-accent"
                       >
                         <div className="flex-1">
                           <p className="font-medium text-foreground">{lesson.title}</p>

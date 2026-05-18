@@ -93,10 +93,10 @@ export default function PlacementsPage() {
 	}
 
 	return (
-		<div className="min-h-screen bg-background pt-24 pb-16">
+		<div className="min-h-screen bg-background pt-24 pb-16 brand-section">
 			<div className="container">
-				<div className="max-w-3xl mb-12">
-					<span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
+				<div className="max-w-3xl mb-12 brand-panel rounded-md p-6 md:p-8">
+					<span className="brand-eyebrow mb-4">
 						Success Stories
 					</span>
 					<h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6">
@@ -104,7 +104,7 @@ export default function PlacementsPage() {
 						<span className="text-gradient">Placement Records</span>
 					</h1>
 					<p className="text-muted-foreground text-lg leading-relaxed">
-						We don't just teach; we build careers. Join thousands of students who
+						We don&apos;t just teach; we build careers. Join thousands of students who
 						have secured their dream jobs at top-tier product and service-based
 						companies.
 					</p>
@@ -119,7 +119,7 @@ export default function PlacementsPage() {
 					].map((stat, idx) => (
 						<div
 							key={idx}
-							className="bg-card border border-border rounded-xl p-5 text-center hover:border-primary/30 transition-colors"
+							className="brand-panel brand-card-hover rounded-md p-5 text-center"
 						>
 							<stat.icon className="w-6 h-6 text-primary mx-auto mb-3" />
 						<CountUpNumber value={stat.value} className="text-2xl font-bold text-foreground mb-1" />

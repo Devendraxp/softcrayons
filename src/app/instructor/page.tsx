@@ -88,7 +88,7 @@ export default function InstructorPage() {
           variant: "destructive",
         });
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Something went wrong. Please try again.",
@@ -101,7 +101,7 @@ export default function InstructorPage() {
 
   if (isSuccess) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-primary/10 pt-20 relative overflow-hidden">
+      <div className="min-h-screen brand-section pt-20 relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
@@ -131,7 +131,7 @@ export default function InstructorPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-primary/10 pt-20 relative overflow-hidden">
+    <div className="min-h-screen brand-section pt-20 relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
@@ -141,7 +141,7 @@ export default function InstructorPage() {
       <div className="container py-16 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div>
-            <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-6">
+            <span className="brand-eyebrow mb-6">
               Teach - Mentor - Inspire
             </span>
 
@@ -188,7 +188,7 @@ export default function InstructorPage() {
           </div>
 
           <div className="relative">
-            <div className="p-8">
+            <div className="brand-panel rounded-md p-6 md:p-8">
               <h2 className="text-2xl font-bold mb-2">
                 Apply as Instructor
               </h2>
@@ -209,7 +209,7 @@ export default function InstructorPage() {
                       placeholder="Enter your name"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full pl-11 pr-4 py-3 rounded-xl bg-muted/30 border-0 border-b border-border/50 focus:border-primary focus:ring-0 outline-none transition-all"
+                      className="w-full pl-11 pr-4 py-3 rounded-md bg-card border border-border focus:border-primary focus:ring-0 outline-none transition-all"
                       required
                     />
                   </div>
@@ -226,7 +226,7 @@ export default function InstructorPage() {
                       placeholder="Enter your email"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full pl-11 pr-4 py-3 rounded-xl bg-muted/30 border-0 border-b border-border/50 focus:border-primary focus:ring-0 outline-none transition-all"
+                      className="w-full pl-11 pr-4 py-3 rounded-md bg-card border border-border focus:border-primary focus:ring-0 outline-none transition-all"
                       required
                     />
                   </div>
@@ -243,7 +243,7 @@ export default function InstructorPage() {
                       placeholder="Enter your phone number"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full pl-11 pr-4 py-3 rounded-xl bg-muted/30 border-0 border-b border-border/50 focus:border-primary focus:ring-0 outline-none transition-all"
+                      className="w-full pl-11 pr-4 py-3 rounded-md bg-card border border-border focus:border-primary focus:ring-0 outline-none transition-all"
                       required
                       disabled={isSubmitting}
                     />
@@ -255,7 +255,7 @@ export default function InstructorPage() {
                     Upload Resume / CV / Portfolio
                   </label>
                   {formData.resume ? (
-                    <div className="flex items-center gap-3 w-full px-4 py-3 rounded-xl bg-muted/30 border-0 border-b border-border/50">
+                    <div className="flex items-center gap-3 w-full px-4 py-3 rounded-md bg-card border border-border">
                       <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center">
                         <FileText className="w-5 h-5 text-green-500" />
                       </div>
@@ -312,7 +312,7 @@ export default function InstructorPage() {
                             e.stopPropagation();
                             open();
                           }}
-                          className="flex items-center gap-3 w-full px-4 py-3 rounded-xl bg-muted/30 border-0 border-b border-border/50 border-dashed hover:border-primary cursor-pointer transition-all"
+                          className="flex items-center gap-3 w-full px-4 py-3 rounded-md bg-card border border-dashed border-border hover:border-primary cursor-pointer transition-all"
                           disabled={isSubmitting}
                         >
                           <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -338,7 +338,7 @@ export default function InstructorPage() {
                     <select
                       value={formData.availability}
                       onChange={(e) => setFormData({ ...formData, availability: e.target.value })}
-                      className="w-full pl-11 pr-4 py-3 rounded-xl bg-muted/30 border-0 border-b border-border/50 focus:border-primary focus:ring-0 outline-none transition-all appearance-none cursor-pointer"
+                      className="w-full pl-11 pr-4 py-3 rounded-md bg-card border border-border focus:border-primary focus:ring-0 outline-none transition-all appearance-none cursor-pointer"
                       required
                       disabled={isSubmitting}
                     >
@@ -361,7 +361,7 @@ export default function InstructorPage() {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     rows={4}
-                    className="w-full px-4 py-3 rounded-xl bg-muted/30 border-0 border-b border-border/50 focus:border-primary focus:ring-0 outline-none transition-all resize-none"
+                    className="w-full px-4 py-3 rounded-md bg-card border border-border focus:border-primary focus:ring-0 outline-none transition-all resize-none"
                     required
                     disabled={isSubmitting}
                   />

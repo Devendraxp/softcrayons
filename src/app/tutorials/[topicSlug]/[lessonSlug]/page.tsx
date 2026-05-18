@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { TutorialSidebar } from "@/components/tutorials/TutorialSidebar";
 import { TutorialContent } from "@/components/tutorials/TutorialContent";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, Home } from "lucide-react";
+import { ArrowLeft, ArrowRight, Home, Sparkles } from "lucide-react";
 import { fetchServerApi } from "@/lib/server-api";
 
 export const revalidate = 600;
@@ -69,6 +69,13 @@ type LessonResponse = {
   error?: string;
 };
 
+type NavTarget = { href: string; title: string };
+
+type NavComputation = {
+  previous?: NavTarget;
+  next?: NavTarget;
+};
+
 async function getLesson(slug: string) {
   try {
     const response = await fetchServerApi<LessonResponse>(`/api/tutorial-lessons/${encodeURIComponent(slug)}`, {
@@ -80,8 +87,8 @@ async function getLesson(slug: string) {
     }
 
     return response.data;
-  } catch (error: any) {
-    if (error?.status === 404) {
+  } catch (error: unknown) {
+    if (isNotFoundError(error)) {
       return null;
     }
     throw error;
@@ -107,27 +114,44 @@ async function getTopicWithNav(slug: string) {
           lessons: [...subtopic.lessons].sort((a, b) => (a.position ?? 0) - (b.position ?? 0)),
         })),
     };
-  } catch (error: any) {
-    if (error?.status === 404) {
+  } catch (error: unknown) {
+    if (isNotFoundError(error)) {
       return null;
     }
     throw error;
   }
 }
 
-function toTableOfContent(value: any): TocItem[] {
-  if (!value) return [];
-  const parsed = typeof value === "string" ? (() => { try { return JSON.parse(value); } catch { return []; } })() : value;
-  if (!Array.isArray(parsed)) return [];
-  return parsed
-    .map((item: any) => ({ id: String(item.id ?? "").trim(), text: String(item.text ?? "").trim() }))
-    .filter((item: TocItem) => item.id && item.text);
+function isNotFoundError(error: unknown) {
+  return typeof error === "object" && error !== null && "status" in error && error.status === 404;
 }
 
-function toKeywords(value: any): string[] | undefined {
+function toTableOfContent(value: unknown): TocItem[] {
+  if (!value) return [];
+
+  let parsed = value;
+  if (typeof value === "string") {
+    try {
+      parsed = JSON.parse(value);
+    } catch {
+      return [];
+    }
+  }
+
+  if (!Array.isArray(parsed)) return [];
+
+  return parsed
+    .map((item) => {
+      const record = typeof item === "object" && item !== null ? item as Record<string, unknown> : {};
+      return { id: String(record.id ?? "").trim(), text: String(record.text ?? "").trim() };
+    })
+    .filter((item) => item.id && item.text);
+}
+
+function toKeywords(value: unknown): string[] | undefined {
   if (!value) return undefined;
-  if (Array.isArray(value)) return value.map((k) => String(k));
-  if (typeof value === "string") return value.split(",").map((k) => k.trim()).filter(Boolean);
+  if (Array.isArray(value)) return value.map((keyword) => String(keyword));
+  if (typeof value === "string") return value.split(",").map((keyword) => keyword.trim()).filter(Boolean);
   return undefined;
 }
 
@@ -164,11 +188,11 @@ export default async function LessonPage({ params }: LessonPageParams) {
     notFound();
   }
 
-  const navSubtopics = topic.subtopics.map((sub) => ({
-    id: sub.id,
-    title: sub.title,
-    slug: sub.slug,
-    lessons: sub.lessons,
+  const navSubtopics = topic.subtopics.map((subtopic) => ({
+    id: subtopic.id,
+    title: subtopic.title,
+    slug: subtopic.slug,
+    lessons: subtopic.lessons,
   }));
 
   const toc = toTableOfContent(lesson.tableOfContent);
@@ -180,63 +204,71 @@ export default async function LessonPage({ params }: LessonPageParams) {
   const hasToc = toc.length > 0;
 
   return (
-    <div className="bg-background pt-20 md:pt-24 overflow-x-hidden">
+    <div className="brand-section pt-20 md:pt-24 overflow-x-hidden">
       <div className="flex min-h-[calc(100vh-5rem)] flex-col lg:h-[calc(100vh-6rem)] lg:min-h-[calc(100vh-6rem)] lg:flex-row lg:overflow-hidden">
         <TutorialSidebar topicSlug={topic.slug} subtopics={navSubtopics} currentLessonSlug={lesson.slug} />
 
         <main className="flex-1 min-w-0 lg:h-full lg:overflow-y-auto lg:overscroll-contain">
-          <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-10 pb-12 space-y-10">
-          <header className="space-y-5">
-            <div className={hasToc ? "grid gap-6 xl:grid-cols-[minmax(0,1fr)_260px]" : "space-y-5"}>
-              <div className="space-y-5">
-                <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                  <Link href="/tutorials" className="hover:text-foreground">Tutorials</Link>
-                  <span>•</span>
-                  <Link href={`/tutorials/${topic.slug}`} className="hover:text-foreground">{topic.title}</Link>
-                  <span>•</span>
-                  <span className="text-foreground">{lesson.subtopic.title}</span>
+          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-10 pb-12 pt-6 space-y-8">
+            <header className="space-y-5">
+              <div className={hasToc ? "grid gap-5 xl:grid-cols-[minmax(0,1fr)_280px]" : "space-y-5"}>
+                <div className="brand-panel rounded-md p-6 md:p-8">
+                  <div className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                    <Link href="/tutorials" className="hover:text-primary">Tutorials</Link>
+                    <span>/</span>
+                    <Link href={`/tutorials/${topic.slug}`} className="hover:text-primary">{topic.title}</Link>
+                    <span>/</span>
+                    <span className="text-secondary">{lesson.subtopic.title}</span>
+                  </div>
+                  <div className="mt-5 inline-flex items-center gap-2 rounded-md bg-secondary/10 px-3 py-1 text-xs font-black uppercase tracking-wide text-secondary">
+                    <Sparkles className="h-3.5 w-3.5" />
+                    Lesson
+                  </div>
+                  <div className="mt-4 space-y-3">
+                    <h1 className="text-4xl font-black leading-tight md:text-5xl">{lesson.title}</h1>
+                    {lesson.description && (
+                      <p className="max-w-3xl text-lg leading-8 text-muted-foreground">{lesson.description}</p>
+                    )}
+                  </div>
+                  <div className="mt-5 flex flex-wrap items-center gap-2 text-sm font-semibold text-muted-foreground">
+                    <span className="rounded-md bg-primary/10 px-3 py-1 text-primary">{lesson.subtopic.title}</span>
+                    <span>/</span>
+                    <span>{topic.title}</span>
+                  </div>
+                  <div className="mt-6">
+                    <NavButtons previousHref={previousHref} nextHref={nextHref} homeHref={homeHref} />
+                  </div>
                 </div>
-                <div className="space-y-3">
-                  <h1 className="text-4xl font-black leading-tight">{lesson.title}</h1>
-                  {lesson.description && (
-                    <p className="text-lg text-muted-foreground max-w-3xl">{lesson.description}</p>
-                  )}
-                </div>
-                <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-                  <span className="rounded-full bg-muted px-3 py-1">{lesson.subtopic.title}</span>
-                  <span>•</span>
-                  <span>{topic.title}</span>
-                </div>
+
+                {hasToc && (
+                  <aside className="brand-panel rounded-md p-4 text-sm xl:sticky xl:top-28 xl:max-h-[calc(100vh-8rem)] xl:overflow-y-auto">
+                    <p className="mb-3 text-xs font-black uppercase tracking-wide text-secondary">
+                      Contents
+                    </p>
+                    <ul className="space-y-1.5">
+                      {toc.map((item) => (
+                        <li key={item.id}>
+                          <a
+                            href={`#${item.id}`}
+                            className="block rounded-md px-3 py-2 font-semibold text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary"
+                          >
+                            {item.text}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </aside>
+                )}
               </div>
+            </header>
 
-              {hasToc && (
-                <aside className="rounded-xl bg-muted/30 p-4 text-sm xl:sticky xl:top-28 xl:max-h-[calc(100vh-8rem)] xl:overflow-y-auto">
-                  <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                    Contents
-                  </p>
-                  <ul className="space-y-2">
-                    {toc.map((item) => (
-                      <li key={item.id}>
-                        <a
-                          href={`#${item.id}`}
-                          className="block rounded-md px-2 py-1 text-foreground transition-colors hover:bg-primary/10"
-                        >
-                          {item.text}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </aside>
-              )}
+            <article className="brand-panel rounded-md p-5 md:p-8">
+              <TutorialContent content={lesson.content} />
+            </article>
+
+            <div className="brand-panel rounded-md p-4">
+              <NavButtons previousHref={previousHref} nextHref={nextHref} homeHref={homeHref} />
             </div>
-            <NavButtons previousHref={previousHref} nextHref={nextHref} homeHref={homeHref} />
-          </header>
-
-          <TutorialContent content={lesson.content} />
-
-          <div className="flex flex-wrap items-center gap-3">
-            <NavButtons previousHref={previousHref} nextHref={nextHref} homeHref={homeHref} />
-          </div>
           </div>
         </main>
       </div>
@@ -244,16 +276,9 @@ export default async function LessonPage({ params }: LessonPageParams) {
   );
 }
 
-type NavTarget = { href: string; title: string };
-
-type NavComputation = {
-  previous?: NavTarget;
-  next?: NavTarget;
-};
-
 function computePrevNext(subtopics: { lessons: { slug: string; title: string }[] }[], currentSlug: string, topicSlug: string): NavComputation {
   const sequence: NavTarget[] = subtopics
-    .flatMap((sub) => sub.lessons)
+    .flatMap((subtopic) => subtopic.lessons)
     .map((lesson) => ({ href: `/tutorials/${topicSlug}/${lesson.slug}`, title: lesson.title }));
 
   const currentIndex = sequence.findIndex((item) => item.href.endsWith(`/${currentSlug}`));
@@ -268,7 +293,7 @@ function computePrevNext(subtopics: { lessons: { slug: string; title: string }[]
 
 function NavButtons({ previousHref, nextHref, homeHref }: { previousHref?: string; nextHref?: string; homeHref?: string }) {
   return (
-    <div className="mt-6 flex flex-wrap items-center gap-3">
+    <div className="flex flex-wrap items-center gap-3">
       {previousHref && (
         <Button asChild variant="secondary">
           <Link href={previousHref} className="inline-flex items-center gap-2">
@@ -277,9 +302,9 @@ function NavButtons({ previousHref, nextHref, homeHref }: { previousHref?: strin
         </Button>
       )}
       {homeHref && (
-        <Button asChild variant="ghost">
+        <Button asChild variant="outline">
           <Link href={homeHref} className="inline-flex items-center gap-2">
-            <Home className="h-4 w-4" /> Home
+            <Home className="h-4 w-4" /> Tutorials
           </Link>
         </Button>
       )}

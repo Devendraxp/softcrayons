@@ -5,6 +5,7 @@ import { Button } from './ui/button';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { SectionLoader } from '@/components/ui/loader';
+import { SectionHeader } from '@/components/public-ui';
 
 interface Testimonial {
   id: number;
@@ -51,22 +52,23 @@ export function TestimonialsSection() {
   }
 
   return (
-    <section className="py-24">
+    <section className="py-24 brand-section">
       <div className="container">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
-            Success <span className="text-gradient">Stories</span>
-          </h2>
-          <p className="text-muted-foreground text-lg">
+        <SectionHeader
+          eyebrow="Student outcomes"
+          title={<>Success <span className="text-gradient">stories</span></>}
+          description={
+            <>
             Hear from our alumni who transformed their careers with SoftCrayons.
-          </p>
-        </div>
+            </>
+          }
+        />
 
         <div className="grid md:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
             <div
               key={testimonial.id}
-              className="group relative bg-card border border-border rounded-2xl p-8 hover:border-primary/30 transition-all duration-300 animate-fade-up"
+              className="group relative brand-panel brand-card-hover rounded-md p-8 animate-fade-up"
               style={{ animationDelay: `${index * 0.15}s` }}
             >
               <Quote className="absolute top-6 right-6 w-10 h-10 text-primary/10 group-hover:text-primary/20 transition-colors" />

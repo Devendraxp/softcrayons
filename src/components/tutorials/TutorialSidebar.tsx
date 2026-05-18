@@ -28,10 +28,10 @@ export function TutorialSidebar({ topicSlug, subtopics, currentLessonSlug }: Pro
   const [open, setOpen] = useState(false);
 
   const nav = (
-    <nav className="space-y-5">
+    <nav className="space-y-6">
       {subtopics.map((subtopic) => (
-        <div key={subtopic.slug} className="space-y-2.5">
-          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+        <div key={subtopic.slug} className="space-y-3">
+          <p className="text-xs font-black uppercase tracking-[0.16em] text-secondary">
             {subtopic.title}
           </p>
           <div className="space-y-1">
@@ -42,10 +42,10 @@ export function TutorialSidebar({ topicSlug, subtopics, currentLessonSlug }: Pro
                   key={lesson.slug}
                   href={`/tutorials/${topicSlug}/${lesson.slug}`}
                   onClick={() => setOpen(false)}
-                  className={`block rounded-md px-3 py-2 text-sm leading-snug transition-colors ${
+                  className={`block rounded-md px-3 py-2.5 text-sm leading-snug transition-colors ${
                     active
-                      ? "bg-primary/10 font-semibold text-foreground"
-                      : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
+                      ? "bg-primary text-primary-foreground font-bold shadow-[0_8px_18px_hsl(var(--primary)/0.18)]"
+                      : "text-muted-foreground hover:bg-accent hover:text-foreground"
                   }`}
                 >
                   <span className="line-clamp-2">{lesson.title}</span>
@@ -59,13 +59,13 @@ export function TutorialSidebar({ topicSlug, subtopics, currentLessonSlug }: Pro
   );
 
   return (
-    <aside className="w-full bg-background lg:h-full lg:w-[280px] lg:flex-none lg:overflow-y-auto lg:overscroll-contain lg:border-r lg:border-border/60 lg:px-4 lg:py-5">
+    <aside className="w-full bg-background lg:h-full lg:w-[300px] lg:flex-none lg:overflow-y-auto lg:overscroll-contain lg:border-r lg:border-border/70 lg:bg-card/70 lg:px-4 lg:py-5">
       <div className="px-4 pt-3 pb-2 lg:hidden">
         <div className="flex items-center justify-start">
           <button
             type="button"
             onClick={() => setOpen((prev) => !prev)}
-            className="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-muted transition-colors"
+            className="w-10 h-10 rounded-md flex items-center justify-center hover:bg-muted transition-colors"
             aria-label="Toggle lessons menu"
             aria-expanded={open}
           >
@@ -75,7 +75,7 @@ export function TutorialSidebar({ topicSlug, subtopics, currentLessonSlug }: Pro
 
         <div
           className={cn(
-            "transition-all duration-300 overflow-hidden rounded-xl border border-border bg-background",
+            "transition-all duration-300 overflow-hidden rounded-md border border-border bg-background shadow-lg",
             open ? "mt-2 max-h-[60dvh] overflow-y-auto opacity-100" : "max-h-0 border-transparent opacity-0"
           )}
         >
@@ -83,7 +83,7 @@ export function TutorialSidebar({ topicSlug, subtopics, currentLessonSlug }: Pro
             {subtopics.length ? (
               nav
             ) : (
-              <p className="text-sm text-muted-foreground">Lessons will appear here.</p>
+              <p className="rounded-md border border-dashed border-border p-4 text-sm text-muted-foreground">Lessons will appear here.</p>
             )}
           </div>
         </div>
@@ -93,7 +93,7 @@ export function TutorialSidebar({ topicSlug, subtopics, currentLessonSlug }: Pro
         {subtopics.length ? (
           nav
         ) : (
-          <p className="text-sm text-muted-foreground">Lessons will appear here.</p>
+          <p className="rounded-md border border-dashed border-border p-4 text-sm text-muted-foreground">Lessons will appear here.</p>
         )}
       </div>
     </aside>

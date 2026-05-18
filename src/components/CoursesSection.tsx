@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { SectionLoader } from '@/components/ui/loader';
+import { SectionHeader } from '@/components/public-ui';
 
 interface Course {
     id: number;
@@ -99,17 +100,18 @@ export function CoursesSection() {
     }
 
     return (
-        <section id="courses" className="py-24">
+        <section id="courses" className="py-24 brand-section">
             <div className="container">
-                <div className="text-center max-w-2xl mx-auto mb-16">
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
-                        Industry-Ready <span className="text-gradient">Curriculum</span>
-                    </h2>
-                    <p className="text-muted-foreground text-lg">
+                <SectionHeader
+                    eyebrow="Top programs"
+                    title={<>Industry-ready <span className="text-gradient">curriculum</span></>}
+                    description={
+                        <>
                         Hands-on courses designed by industry experts to get you job-ready in
                         weeks, not years.
-                    </p>
-                </div>
+                        </>
+                    }
+                />
 
                 {courses.length > 0 && (
                 <div
@@ -132,7 +134,7 @@ export function CoursesSection() {
                                         .map((course) => (
                                             <div
                                                 key={course.id}
-                                                className="bg-gradient-to-b from-card to-background/60 border border-primary/25 rounded-2xl overflow-hidden shadow-[0_10px_30px_hsl(var(--primary)/0.16),inset_0_1px_0_hsl(var(--primary)/0.35)] transition-all duration-300 hover:border-primary/45 hover:shadow-[0_14px_36px_hsl(var(--primary)/0.22),inset_0_1px_0_hsl(var(--primary)/0.5)] flex flex-col h-full"
+                                                className="brand-panel brand-card-hover overflow-hidden rounded-md flex flex-col h-full"
                                             >
                                                 <div className="relative aspect-[4/3] overflow-hidden flex-shrink-0">
                                                     <img
@@ -163,7 +165,7 @@ export function CoursesSection() {
                                                     </p>
 
                                                     <Link href={`/courses/${course.slug}`}>
-                                                        <Button className="w-full group/btn border border-primary/60 bg-primary text-primary-foreground hover:bg-primary/90 hover:border-primary/80 shadow-[0_8px_20px_hsl(var(--primary)/0.3)]">
+                                                        <Button className="w-full group/btn">
                                                         View Course
                                                         <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                                                     </Button>
@@ -182,7 +184,7 @@ export function CoursesSection() {
                             variant="outline"
                             size="icon"
                             onClick={prevSlide}
-                            className="rounded-full"
+                            className="rounded-md"
                         >
                             <ArrowLeft className="w-5 h-5" />
                         </Button>
@@ -205,7 +207,7 @@ export function CoursesSection() {
                             variant="outline"
                             size="icon"
                             onClick={nextSlide}
-                            className="rounded-full"
+                            className="rounded-md"
                         >
                             <ArrowRight className="w-5 h-5" />
                         </Button>

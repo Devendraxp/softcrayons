@@ -78,7 +78,7 @@ export default function ReviewsPage() {
 
 	if (loading) {
 		return (
-			<main className="min-h-screen bg-white dark:bg-black pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+			<main className="min-h-screen bg-background pt-32 pb-20 px-4 sm:px-6 lg:px-8">
 				<div className="max-w-7xl mx-auto">
 					<Loader text="reviews" size="lg" />
 				</div>
@@ -87,14 +87,15 @@ export default function ReviewsPage() {
 	}
 
 	return (
-		<main className="min-h-screen bg-white dark:bg-black pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+		<main className="min-h-screen bg-background brand-section pt-32 pb-20 px-4 sm:px-6 lg:px-8">
 			<div className="max-w-7xl mx-auto">
-				<div className="text-center mb-16">
-					<h1 className="text-4xl sm:text-7xl font-extrabold text-gray-900 dark:text-white mb-4">
-						Wall of{" "}
-						<span className="text-gradient font-black">Love</span>
+				<div className="text-center mb-16 brand-panel rounded-md p-6 md:p-10">
+					<span className="brand-eyebrow mb-4">Reviews</span>
+					<h1 className="text-4xl sm:text-6xl font-black text-foreground mb-4">
+						Student{" "}
+						<span className="text-gradient">success voices</span>
 					</h1>
-					<p className="text-gray-600 dark:text-zinc-400 text-lg max-w-2xl mx-auto mb-6">
+					<p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-6">
 						Hear from our community of learners who have transformed their
 						careers with SoftCrayons
 					</p>

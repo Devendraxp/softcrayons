@@ -18,11 +18,9 @@ interface SearchResult {
 	thumbnailImage: string | null;
 	category: { title: string; slug: string };
 	type: string;
-	// course-specific
 	bannerImage?: string | null;
 	duration?: string | null;
 	difficulty?: string;
-	// blog-specific
 	author?: { name: string };
 	readTime?: number;
 }
@@ -51,7 +49,6 @@ export function Navbar() {
 	const router = useRouter();
 	const { data: session } = useSession();
 
-	// Search state
 	const [searchOpen, setSearchOpen] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [searchResults, setSearchResults] = useState<{ blogs: SearchResult[]; courses: SearchResult[] }>({ blogs: [], courses: [] });
@@ -77,14 +74,12 @@ export function Navbar() {
 		setTheme(theme === "dark" ? "light" : "dark");
 	};
 
-	// Close search when navigating
 	useEffect(() => {
 		setSearchOpen(false);
 		setSearchQuery("");
 		setShowResults(false);
 	}, [pathname]);
 
-	// Search API call
 	const performSearch = useCallback(async (query: string) => {
 		if (query.trim().length < 2) {
 			setSearchResults({ blogs: [], courses: [] });
@@ -143,7 +138,6 @@ export function Navbar() {
 		};
 	}, []);
 
-	// Focus desktop search input when opened
 	useEffect(() => {
 		if (searchOpen && searchInputRef.current) {
 			searchInputRef.current.focus();
@@ -209,8 +203,8 @@ export function Navbar() {
 	);
 
 	return (
-		<nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50">
-			<div className="mx-auto w-full px-2 sm:px-3 lg:px-4 2xl:px-6">
+		<nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/70 bg-background/90 shadow-[0_8px_30px_hsl(222_47%_11%/0.06)] backdrop-blur-xl">
+			<div className="mx-auto w-full max-w-[1500px] px-3 sm:px-5 lg:px-6 2xl:px-8">
 				<div className="flex items-center justify-between h-16 md:h-20">
 					<Link href="/" className="flex items-center shrink-0">
 						<div className="h-10 md:h-14">
@@ -225,13 +219,13 @@ export function Navbar() {
 						</div>
 					</Link>
 
-					<div className="hidden md:flex items-center gap-5 lg:gap-7 xl:gap-9 ml-8 lg:ml-12">
+					<div className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-8 ml-8 lg:ml-12">
 						{visibleLinks.map((link) => (
 							<Link
 								key={link.name}
 								href={link.href}
 								className={cn(
-									"transition-colors duration-200 font-medium text-sm",
+									"transition-colors duration-200 font-bold text-sm",
 									isActive(link.href)
 										? "text-primary font-semibold"
 										: "text-muted-foreground hover:text-foreground"
@@ -245,14 +239,14 @@ export function Navbar() {
 							<div className="relative" ref={dropdownRef}>
 								<button
 									onClick={() => setIsMoreOpen(!isMoreOpen)}
-									className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium text-sm"
+									className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors duration-200 font-bold text-sm"
 								>
 									More
 									<ChevronDown className={cn("w-4 h-4 transition-transform duration-200", isMoreOpen ? "rotate-180" : "")} />
 								</button>
 
 								{isMoreOpen && (
-									<div className="absolute top-full right-0 mt-2 w-48 rounded-md shadow-lg bg-popover ring-1 ring-black ring-opacity-5 focus:outline-none p-1 border border-border">
+									<div className="absolute top-full right-0 mt-2 w-56 rounded-md border border-border bg-popover p-2 shadow-[0_18px_45px_hsl(222_47%_11%/0.14)]">
 										<div className="py-1">
 											{moreLinks.map((link) => (
 												<Link
@@ -260,7 +254,7 @@ export function Navbar() {
 													href={link.href}
 													onClick={() => setIsMoreOpen(false)}
 													className={cn(
-														"block px-4 py-2 text-sm rounded-sm",
+														"block px-4 py-2.5 text-sm rounded-md font-semibold",
 														isActive(link.href)
 															? "text-primary bg-primary/10 font-semibold"
 															: "text-popover-foreground hover:bg-accent hover:text-accent-foreground"
@@ -277,12 +271,11 @@ export function Navbar() {
 					</div>
 
 					<div className="hidden md:flex items-center gap-3">
-						{/* Desktop search */}
 						<div ref={searchRef} className="relative">
 							<div className={cn(
-								"flex items-center transition-all duration-300 rounded-full border",
+								"flex items-center transition-all duration-300 rounded-md border",
 								searchOpen
-									? "w-64 lg:w-72 bg-muted/50 border-border px-3"
+									? "w-64 lg:w-72 bg-card border-border px-3"
 									: "w-10 border-transparent"
 							)}>
 								<button
@@ -290,7 +283,7 @@ export function Navbar() {
 										if (searchOpen && !searchQuery) setSearchOpen(false);
 										else setSearchOpen(true);
 									}}
-									className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-muted transition-colors shrink-0"
+									className="w-10 h-10 rounded-md flex items-center justify-center hover:bg-muted transition-colors shrink-0"
 									aria-label="Search"
 								>
 									<Search className="w-5 h-5" />
@@ -328,7 +321,7 @@ export function Navbar() {
 							)}
 						</button>
 						<Link href="/query" passHref>
-							<Button variant="default" size="lg">
+							<Button variant="secondary" size="lg">
 								Take Admission
 							</Button>
 						</Link>
@@ -360,12 +353,12 @@ export function Navbar() {
 						)}
 						<Link
 							href="/tutorials"
-							className="flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 hover:bg-primary/15 transition-colors"
+							className="flex items-center gap-2 rounded-md border border-primary/15 bg-primary/10 px-4 py-2 text-primary hover:bg-primary/15 transition-colors"
 						>
 							<span className="text-base font-semibold tracking-tight">
 								Tutorials
 							</span>
-							<span className="text-[9px] uppercase text-muted-foreground">Beta v0.3</span>
+							<span className="text-[9px] uppercase text-muted-foreground">v1.0</span>
 						</Link>
 					</div>
 
@@ -394,14 +387,13 @@ export function Navbar() {
 
 			<div
 				className={cn(
-					"md:hidden absolute top-full left-0 right-0 bg-background border-b border-border transition-all duration-300 overflow-hidden",
+					"md:hidden absolute top-full left-0 right-0 bg-background border-b border-border shadow-[0_18px_45px_hsl(222_47%_11%/0.12)] transition-all duration-300 overflow-hidden",
 					isOpen ? "max-h-[calc(100dvh-4rem)] opacity-100 overflow-y-auto" : "max-h-0 opacity-0"
 				)}
 			>
 				<div className="container py-4 space-y-2">
-					{/* Mobile search bar */}
 					<div className="relative px-1 pb-3">
-						<div className="relative flex items-center bg-muted/50 border border-border rounded-xl px-3">
+						<div className="relative flex items-center bg-card border border-border rounded-md px-3">
 							<Search className="w-5 h-5 text-muted-foreground shrink-0" />
 							<input
 								ref={mobileSearchInputRef}
@@ -419,7 +411,6 @@ export function Navbar() {
 								</button>
 							)}
 						</div>
-						{/* Mobile search results */}
 						{showResults && (searchResults.courses.length > 0 || searchResults.blogs.length > 0) && (
 							<div className="mt-2 bg-card border border-border rounded-xl shadow-lg max-h-64 overflow-y-auto">
 								{searchResults.courses.length > 0 && (
@@ -491,7 +482,7 @@ export function Navbar() {
 					))}
 					<div className="px-4 pt-3 flex flex-col gap-2">
 						<Link href="/query" passHref onClick={() => setIsOpen(false)}>
-							<Button variant="default" size="lg" className="w-full">
+							<Button variant="secondary" size="lg" className="w-full">
 								Take Admission
 							</Button>
 						</Link>
@@ -527,7 +518,7 @@ export function Navbar() {
 							className="flex items-center justify-between rounded-lg border border-primary bg-primary/5 px-4 py-3"
 						>
 							<span className="text-base font-semibold tracking-tight">Tutorials</span>
-							<span className="text-[11px] uppercase text-muted-foreground">Beta v0.3</span>
+							<span className="text-[11px] uppercase text-muted-foreground">v1.0</span>
 						</Link>
 					</div>
 				</div>

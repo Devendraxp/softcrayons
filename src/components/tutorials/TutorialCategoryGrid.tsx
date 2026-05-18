@@ -21,7 +21,11 @@ export type TutorialCategoryWithTopics = {
 
 export function TutorialCategoryGrid({ categories }: { categories: TutorialCategoryWithTopics[] }) {
   if (!categories.length) {
-    return <p className="text-muted-foreground">No categories found.</p>;
+    return (
+      <div className="rounded-md border border-dashed border-border bg-muted/45 p-6 text-sm font-semibold text-muted-foreground">
+        No categories found.
+      </div>
+    );
   }
 
   return (
@@ -29,27 +33,29 @@ export function TutorialCategoryGrid({ categories }: { categories: TutorialCateg
       {categories.map((category) => (
         <div
           key={category.id}
-          className="group flex h-full flex-col rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg"
+          className="brand-panel brand-card-hover group flex h-full flex-col rounded-md p-6"
         >
           <div className="mb-4 flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary font-semibold">
+            <div className="flex h-11 w-11 items-center justify-center rounded-md bg-primary text-primary-foreground font-black">
               {category.title.slice(0, 2).toUpperCase()}
             </div>
             <div>
-              <h3 className="text-lg font-semibold">{category.title}</h3>
+              <h3 className="text-lg font-black">{category.title}</h3>
               {category.description && (
-                <p className="text-sm text-muted-foreground line-clamp-2">{category.description}</p>
+                <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">{category.description}</p>
               )}
             </div>
           </div>
 
           <div className="flex flex-wrap gap-2">
             {category.topics.length === 0 && (
-              <p className="text-sm text-muted-foreground">Topics coming soon</p>
+              <p className="rounded-md border border-dashed border-border bg-muted/45 px-4 py-3 text-sm font-semibold text-muted-foreground">
+                Topics coming soon
+              </p>
             )}
             {category.topics.map((topic) => (
               <Link key={topic.id} href={`/tutorials/${topic.slug}`}>
-                <Badge variant="outline" className="gap-1 px-3 py-1 text-xs font-medium hover:bg-primary/10">
+                <Badge variant="outline" className="gap-1 rounded-md px-3 py-1 text-xs font-bold hover:bg-secondary/10 hover:text-secondary">
                   {topic.title}
                 </Badge>
               </Link>
@@ -57,10 +63,10 @@ export function TutorialCategoryGrid({ categories }: { categories: TutorialCateg
           </div>
 
           {category.topics.length > 0 && (
-            <div className="mt-auto pt-6 text-sm font-medium text-primary">
+            <div className="mt-auto pt-6 text-sm font-bold text-primary">
               <Link
                 href={`/tutorials/${category.topics[0].slug}`}
-                className="inline-flex items-center gap-2 hover:underline"
+                className="inline-flex items-center gap-2 rounded-md transition-colors hover:text-secondary"
               >
                 Explore topics
                 <ArrowRight className="h-4 w-4" />

@@ -26,7 +26,7 @@ export function FacultyCard({ faculty }: FacultyCardProps) {
   const skills = Array.isArray(faculty.technologies) ? faculty.technologies : [];
 
   return (
-    <Card className="group bg-card border border-border hover:border-primary/30 hover:shadow-xl transition-all duration-300 h-full">
+    <Card className="group brand-card-hover h-full">
       <CardContent className="p-6 flex flex-col items-center">
         <div className="mb-4">
           <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-border group-hover:border-primary/30 transition-colors duration-300">
@@ -60,7 +60,7 @@ export function FacultyCard({ faculty }: FacultyCardProps) {
               {skills.slice(0, 3).map((skill, index) => (
                 <span 
                   key={index} 
-                  className="px-2.5 py-1 rounded-md bg-muted text-muted-foreground text-xs font-medium border border-border"
+              className="px-2.5 py-1 rounded-md bg-secondary/10 text-secondary text-xs font-bold border border-secondary/15"
                 >
                   {skill}
                 </span>
@@ -69,7 +69,7 @@ export function FacultyCard({ faculty }: FacultyCardProps) {
           )}
 
           {faculty.experience && (
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/5 text-primary text-sm font-semibold border border-primary/10">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-primary/10 text-primary text-sm font-bold border border-primary/10">
               <Award className="w-4 h-4" />
               {faculty.experience} Exp.
             </div>

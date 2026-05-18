@@ -1,62 +1,54 @@
 "use client";
 
-import { ArrowRight, PhoneCall, CheckCircle2, Zap } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { ArrowRight, CheckCircle2, PhoneCall } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+
+const points = ["Live projects", "Expert trainers", "Placement support"];
 
 export function CTASection() {
   return (
-    <section className="py-24 relative overflow-hidden bg-background">
-      <div className="container relative z-10">        
-          {/* Subtle Background Glows & Grid Pattern strictly using CSS variables */}
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.3)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.3)_1px,transparent_1px)] bg-[size:2rem_2rem] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black_20%,transparent_80%)] opacity-30 pointer-events-none" />
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/10 rounded-full blur-[100px] pointer-events-none" />
-          <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[80px] pointer-events-none" />
-
-          <div className="relative px-6 py-20 md:py-24 text-center max-w-4xl mx-auto flex flex-col items-center">
-
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-black mb-6 text-foreground tracking-tight">
-              Don't Just Learn. <br className="hidden sm:block" />
-              <span className="text-gradient">Get Hired.</span>
+    <section className="py-24">
+      <div className="container">
+        <div className="relative overflow-hidden rounded-lg bg-[hsl(var(--brand-navy))] px-6 py-16 text-center text-white shadow-[0_24px_70px_hsl(222_47%_11%/0.22)] md:px-12 md:py-20">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,hsl(var(--secondary)/0.22),transparent_24rem),radial-gradient(circle_at_80%_30%,hsl(var(--primary)/0.24),transparent_26rem)]" />
+          <div className="relative mx-auto max-w-4xl">
+            <span className="inline-flex rounded-full border border-white/10 bg-white/10 px-4 py-1 text-xs font-bold uppercase tracking-[0.18em] text-white/75">
+              Start with guidance
+            </span>
+            <h2 className="mt-5 text-4xl font-black leading-tight tracking-tight sm:text-5xl md:text-6xl">
+              Do not just learn. Build a career path.
             </h2>
-
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
-              Join thousands of successful alumni who have transformed their careers. Get hands-on experience, expert mentorship, and dedicated placement assistance.
+            <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-white/72">
+              Talk to our counsellors, choose the right course, and join a practical program built around projects, mentorship, and hiring readiness.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <Link href="/query" className="w-full sm:w-auto">
-                <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-base group">
-                  Start Learning for Free
-                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <Button size="lg" className="w-full bg-secondary hover:bg-secondary/90">
+                  Get Free Guidance
+                  <ArrowRight className="h-5 w-5" />
                 </Button>
               </Link>
-              <Link href="/query" className="w-full sm:w-auto">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto h-14 px-8 text-base bg-background/50 hover:bg-primary/5 hover:text-primary transition-all">
-                  <PhoneCall className="mr-2 w-5 h-5" />
-                  Talk to a Counselor
+              <Link href="tel:+918545012345" className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="w-full border-white/20 bg-white/10 text-white hover:bg-white hover:text-primary">
+                  <PhoneCall className="h-5 w-5" />
+                  Call Now
                 </Button>
               </Link>
             </div>
 
-            {/* Institute Trust Markers (Replaces the generic SaaS text) */}
-            <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-sm font-medium text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4.5 h-4.5 text-primary" />
-                <span>Live Projects</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4.5 h-4.5 text-primary" />
-                <span>Industry Expert Trainers</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4.5 h-4.5 text-primary" />
-                <span>100% Placement Support</span>
-              </div>
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-4 text-sm font-bold text-white/72">
+              {points.map((point) => (
+                <div key={point} className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-secondary" />
+                  {point}
+                </div>
+              ))}
             </div>
-
           </div>
         </div>
+      </div>
     </section>
   );
 }

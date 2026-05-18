@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { BlogCard } from "@/components/blogs/BlogCard";
 import { FeaturedBlogCard } from "@/components/blogs/FeaturedBlogCard";
 import { BlogSidebar } from "@/components/blogs/BlogSidebar";
-import { Search, TrendingUp, Loader2, X } from "lucide-react";
+import { Search, Loader2, X } from "lucide-react";
 import Link from "next/link";
 import { Loader } from "@/components/ui/loader";
 
@@ -74,8 +74,6 @@ interface SearchResult {
     type: string;
 }
 
-const popularTags = ["React", "JavaScript", "Python", "DevOps", "UI/UX", "Mobile", "AI"];
-
 function formatDate(dateString: string): string {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -83,14 +81,6 @@ function formatDate(dateString: string): string {
         month: 'long',
         day: 'numeric'
     });
-}
-
-function estimateReadTime(content: string | null): string {
-    if (!content) return "5 min read";
-    const wordsPerMinute = 200;
-    const wordCount = content.split(/\s+/).length;
-    const minutes = Math.ceil(wordCount / wordsPerMinute);
-    return `${minutes} min read`;
 }
 
 function transformBlog(blog: ApiBlog): BlogData {
@@ -287,9 +277,9 @@ export default function BlogsPage() {
         );
     }
     return (
-        <div className="min-h-screen bg-background pt-24 pb-16">
+        <div className="min-h-screen bg-background pt-24 pb-16 brand-section">
             <div className="container">
-                <div className="mb-12">
+                <div className="mb-12 brand-panel rounded-md p-6 md:p-8">
                     <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
                         <div>
                             <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
@@ -307,7 +297,7 @@ export default function BlogsPage() {
                                 placeholder="Search articles..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="pl-12 pr-10 py-6 rounded-2xl bg-card border border-primary ring-1 ring-primary/30 focus:border-primary focus:ring-2 focus:ring-primary/60"
+                                className="pl-12 pr-10 py-6 rounded-md bg-card border border-primary/30 ring-1 ring-primary/15 focus:border-primary focus:ring-2 focus:ring-primary/30"
                             />
                             {searchQuery && (
                                 <button
@@ -324,7 +314,7 @@ export default function BlogsPage() {
                             )}
 
                             {showSearchResults && searchResults.length > 0 && (
-                                <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-lg z-50 max-h-96 overflow-y-auto">
+                                <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-md shadow-lg z-50 max-h-96 overflow-y-auto">
                                     <div className="p-2">
                                         <p className="text-xs text-muted-foreground px-3 py-2">
                                             Found {searchResults.length} article{searchResults.length !== 1 ? 's' : ''}
@@ -358,8 +348,8 @@ export default function BlogsPage() {
                             )}
 
                             {showSearchResults && searchResults.length === 0 && searchQuery.length >= 2 && !isSearching && (
-                                <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-lg z-50 p-6 text-center">
-                                    <p className="text-muted-foreground">No articles found for "{searchQuery}"</p>
+                                <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-md shadow-lg z-50 p-6 text-center">
+                                    <p className="text-muted-foreground">No articles found for &quot;{searchQuery}&quot;</p>
                                 </div>
                             )}
                         </div>
@@ -436,7 +426,7 @@ export default function BlogsPage() {
                         </div>
 
                         {blogs.length === 0 && (
-                            <div className="text-center py-16 bg-card border border-border rounded-2xl">
+                            <div className="text-center py-16 brand-panel rounded-md">
                                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
                                     <Search className="w-8 h-8 text-muted-foreground" />
                                 </div>
