@@ -13,7 +13,7 @@ export default function AppleCardsCarouselDemo() {
       <div className="container mb-2">
         <div className="text-center max-w-3xl mx-auto mb-4">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
-            Campus <span className="text-gradient">Gallary</span>
+            Campus <span className="text-gradient">Gallery</span>
           </h2>
         </div>
       </div>

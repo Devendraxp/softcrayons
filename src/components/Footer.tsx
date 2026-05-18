@@ -134,8 +134,8 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="pointer-events-none select-none mt-20 overflow-hidden sm:mt-24">
-          <p className="font-heading text-center text-[clamp(7rem,13vw,14rem)] leading-none font-black tracking-[-0.01em] text-transparent bg-clip-text bg-gradient-to-b from-secondary-foreground/[0.22] via-secondary-foreground/[0.12] to-secondary-foreground/[0.03]">
+        <div className="pointer-events-none select-none mt-14 overflow-hidden sm:mt-24">
+          <p className="font-heading text-center text-[clamp(2.75rem,12vw,14rem)] leading-none font-black tracking-normal text-transparent bg-clip-text bg-gradient-to-b from-secondary-foreground/[0.22] via-secondary-foreground/[0.12] to-secondary-foreground/[0.03]">
             SOFTCRAYONS
           </p>
         </div>

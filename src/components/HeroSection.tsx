@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, BookOpen, CheckCircle2, PhoneCall, Sparkles, Star } from "lucide-react";
+import { ArrowRight, BookOpen, CheckCircle2, PhoneCall, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Marquee } from "@/components/ui/marquee";
 import Link from "next/link";
@@ -77,8 +77,8 @@ export function HeroSection() {
                   className="h-full w-full object-cover object-center"
                 />
               </div>
-              <div className="absolute left-6 right-6 bottom-6 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-md border border-white/40 bg-white/90 p-4 shadow-lg backdrop-blur">
+              <div className="mt-3 grid gap-3 sm:absolute sm:left-6 sm:right-6 sm:bottom-6 sm:mt-0 sm:grid-cols-2">
+                <div className="rounded-md border border-white/40 bg-white/90 p-3 shadow-lg backdrop-blur sm:p-4">
                   <div className="flex items-center gap-1 text-secondary">
                     {[...Array(5)].map((_, index) => (
                       <Star key={index} className="h-4 w-4 fill-current" />
@@ -86,12 +86,12 @@ export function HeroSection() {
                   </div>
                   <p className="mt-2 text-sm font-black text-primary">Best Rated Teachers in Noida & Ghaziabad</p>
                 </div>
-                <Link href="tel:+918545012345" className="rounded-md border border-white/40 bg-primary p-4 text-primary-foreground shadow-lg transition hover:bg-primary/90">
+                <Link href="tel:+918545012345" className="rounded-md border border-white/40 bg-primary p-3 text-primary-foreground shadow-lg transition hover:bg-primary/90 sm:p-4">
                   <div className="flex items-center gap-2 text-sm font-bold">
                     <PhoneCall className="h-4 w-4" />
                     Call for admission
                   </div>
-                  <p className="mt-1 text-lg font-black">+91 85450 12345</p>
+                  <p className="mt-1 text-base font-black sm:text-lg">+91 85450 12345</p>
                 </Link>
               </div>
             </div>
